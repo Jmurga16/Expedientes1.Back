@@ -14,6 +14,7 @@ public class UserEntity extends EntityId {
     private String address;
     private String email;
     private String username;
+    private String password;
     private List<RoleEnum> roles;
     private int status;
 
@@ -21,7 +22,8 @@ public class UserEntity extends EntityId {
     public UserEntity() {
     }
 
-    public UserEntity(String name, String lastname, String dni, String address, String email, String username, String password, List<RoleEnum> roles, int status) {
+    public UserEntity(int id, String name, String lastname, String dni, String address, String email, String username, String password, List<RoleEnum> roles, int status) {
+        this.id = id;
         this.name = name;
         this.lastname = lastname;
         this.dni = dni;
@@ -104,5 +106,7 @@ public class UserEntity extends EntityId {
     public void setStatus(int price) {
         this.status = status;
     }
+
+    public void setPassword(String password){ this.password = password;}
 
 }

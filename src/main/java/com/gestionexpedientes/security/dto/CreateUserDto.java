@@ -13,7 +13,7 @@ public class CreateUserDto {
     @NotBlank(message = "email is mandatory")
     @Email(message = "invalid email")
     private String email;
-    @NotBlank(message = "username is mandatory")
+    @NotBlank(message = "password is mandatory")
     private String password;
     // @NotEmpty(message = "roles are mandatory")
     List<String> roles = new ArrayList<>();
