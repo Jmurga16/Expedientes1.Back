@@ -43,7 +43,7 @@ public class UserController {
     @PostMapping
     public ResponseEntity<MessageDto> save(@Valid @RequestBody UserDto dto) throws AttributeException {
         UserEntity user = userService.save(dto);
-        String message = "Usuario " + user.getName() + " ha sido guardado";
+        String message = "Usuario " + user.getUsername() + " ha sido guardado";
         return ResponseEntity.ok(new MessageDto(HttpStatus.OK, message));
     }
 
@@ -51,7 +51,7 @@ public class UserController {
     @PutMapping("/{id}")
     public ResponseEntity<MessageDto> update(@PathVariable("id") int id, @Valid @RequestBody UserDto dto) throws ResourceNotFoundException, AttributeException {
         UserEntity user = userService.update(id, dto);
-        String message = "user " + user.getName() + " ha sido actualizado";
+        String message = "Usuario " + user.getUsername() + " ha sido actualizado";
         return ResponseEntity.ok(new MessageDto(HttpStatus.OK, message));
     }
 
@@ -59,7 +59,7 @@ public class UserController {
     @DeleteMapping("/{id}")
     public ResponseEntity<MessageDto> delete(@PathVariable("id") int id) throws ResourceNotFoundException {
         UserEntity user = userService.delete(id);
-        String message = "Usuario " + user.getName() + " ha sido eliminado";
+        String message = "Usuario " + user.getUsername() + " ha sido eliminado";
         return ResponseEntity.ok(new MessageDto(HttpStatus.OK, message));
     }
 }

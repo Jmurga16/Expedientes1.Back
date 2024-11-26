@@ -30,6 +30,7 @@ public class UserEntity extends EntityId {
         this.address = address;
         this.email = email;
         this.username = username;
+        this.password = password;
         this.roles = roles;
         this.status = status;
     }
@@ -108,5 +109,6 @@ public class UserEntity extends EntityId {
     }
 
     public void setPassword(String password){ this.password = password;}
+
 
 }
