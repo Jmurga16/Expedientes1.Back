@@ -104,7 +104,7 @@ public class UserEntity extends EntityId {
         return status;
     }
 
-    public void setStatus(int price) {
+    public void setStatus(int status) {
         this.status = status;
     }
 

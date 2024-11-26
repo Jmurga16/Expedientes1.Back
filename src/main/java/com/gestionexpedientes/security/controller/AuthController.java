@@ -38,7 +38,7 @@ public class AuthController {
     @PostMapping("/create-user")
     public ResponseEntity<MessageDto> createUser(@Valid @RequestBody CreateUserDto dto) throws AttributeException {
         UserEntity userEntity = userEntityService.createUser(dto);
-        return ResponseEntity.ok(new MessageDto(HttpStatus.OK, "user " + userEntity.getUsername() + " have been created"));
+        return ResponseEntity.ok(new MessageDto(HttpStatus.OK, "Usuario " + userEntity.getUsername() + " ha sido creado con éxito."));
     }
 
     @PostMapping("/login")

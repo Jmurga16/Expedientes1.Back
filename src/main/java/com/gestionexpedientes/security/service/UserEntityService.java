@@ -58,10 +58,12 @@ public class UserEntityService {
     }
 
     public UserEntity createUser(CreateUserDto dto) throws AttributeException {
+
         if(userEntityRepository.existsByUsername(dto.getUsername()))
-            throw new AttributeException("username already in use");
+            throw new AttributeException("Usuario en uso.");
         if(userEntityRepository.existsByEmail(dto.getEmail()))
-            throw new AttributeException("email already in use");
+            throw new AttributeException("El correo está en uso.");
+
         List<String> roles = Arrays.asList("ROLE_USER");
         dto.setRoles(roles);
         return userEntityRepository.save(mapUserFromDto(dto));
@@ -82,6 +84,6 @@ public class UserEntityService {
         String password = passwordEncoder.encode(dto.getPassword());
         List<RoleEnum> roles =
                 dto.getRoles().stream().map(rol -> RoleEnum.valueOf(rol)).collect(Collectors.toList());
-        return new UserEntity(id, dto.getUsername(), dto.getEmail(), password, roles);
+        return new UserEntity(id, dto.getName(), dto.getLastname(), dto.getDni(),dto.getAddress(),dto.getEmail(), dto.getEmail(), password,roles,1);
     }
 }

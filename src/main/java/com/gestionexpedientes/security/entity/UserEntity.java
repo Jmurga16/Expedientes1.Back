@@ -9,20 +9,31 @@ import java.util.List;
 @Document(collection = "users")
 public class UserEntity extends EntityId {
 
-    private String username;
+    private String name;
+    private String lastname;
+    private String dni;
+    private String address;
     private String email;
+    private String username;
     private String password;
-    List<RoleEnum> roles;
+    private List<RoleEnum> roles;
+    private int status;
+
 
     public UserEntity() {
     }
 
-    public UserEntity(int id, String username, String email, String password, List<RoleEnum> roles) {
+    public UserEntity(int id, String name, String lastname, String dni, String address, String email, String username, String password, List<RoleEnum> roles, int status) {
         this.id = id;
-        this.username = username;
+        this.name = name;
+        this.lastname = lastname;
+        this.dni = dni;
+        this.address = address;
         this.email = email;
+        this.username = username;
         this.password = password;
         this.roles = roles;
+        this.status = status;
     }
 
     @Override
@@ -66,4 +77,45 @@ public class UserEntity extends EntityId {
     public void setRoles(List<RoleEnum> roles) {
         this.roles = roles;
     }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getLastname() {
+        return lastname;
+    }
+
+    public void setLastname(String lastname) {
+        this.lastname = lastname;
+    }
+
+    public String getDni() {
+        return dni;
+    }
+
+    public void setDni(String dni) {
+        this.dni = dni;
+    }
+
+    public String getAddress() {
+        return address;
+    }
+
+    public void setAddress(String address) {
+        this.address = address;
+    }
+    public int getStatus() {
+        return status;
+    }
+
+    public void setStatus(int status) {
+        this.status = status;
+    }
+
+
 }
