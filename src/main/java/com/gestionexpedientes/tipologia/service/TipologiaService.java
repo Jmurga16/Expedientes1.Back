@@ -27,6 +27,13 @@ public class TipologiaService {
         return tipologia;
     }
 
+    public List<TipologiaEntity> getActives()  {
+
+        List<TipologiaEntity> actives = tipologiaRepository.findByEstado(1);
+
+        return actives;
+    }
+
     public TipologiaEntity save(TipologiaDto dto) throws AttributeException {
         if(tipologiaRepository.existsByNombre(dto.getNombre()))
             throw new AttributeException("El registro ya existe.");

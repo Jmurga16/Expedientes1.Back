@@ -29,6 +29,12 @@ public class TipologiaController {
     }
 
     @PreAuthorize("hasAnyRole('ADMIN')")
+    @GetMapping("/activos")
+    public ResponseEntity<List<TipologiaEntity>> getActives(){
+        return ResponseEntity.ok(tipologiaService.getActives());
+    }
+
+    @PreAuthorize("hasAnyRole('ADMIN')")
     @GetMapping("/{id}")
     public ResponseEntity<TipologiaEntity> getOne(@PathVariable("id") int id) throws ResourceNotFoundException {
         return ResponseEntity.ok(tipologiaService.getOne(id));
