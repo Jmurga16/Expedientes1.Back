@@ -35,6 +35,14 @@ public class UserService {
         return user;
     }
 
+    public UserEntity getByEmail(String email) throws ResourceNotFoundException {
+
+        UserEntity user = userRepository.findByEmail(email)
+                .orElseThrow(()-> new ResourceNotFoundException("Usuario no encontrado."));
+
+        return user;
+    }
+
     public UserEntity save(UserDto dto) throws AttributeException {
         if(userRepository.existsByEmail(dto.getEmail()))
             throw new AttributeException("El correo ya existe.");
@@ -64,6 +72,8 @@ public class UserService {
         user.setUsername(dto.getEmail());
         user.setPassword(passwordEncoder.encode(dto.getPassword()));
         user.setRoles(dto.getRoles());
+
+        user.setStatus(dto.getIdArea());
         user.setStatus(dto.getStatus());
 
         return userRepository.save(user);
@@ -79,7 +89,7 @@ public class UserService {
     private UserEntity mapUserFromDto(UserDto dto) {
         int id = Operations.autoIncrement(userRepository.findAll());
         String password = passwordEncoder.encode(dto.getPassword());
-        return new UserEntity(id, dto.getName(), dto.getLastname(), dto.getDni(),dto.getAddress(),dto.getEmail(), dto.getEmail(), password,dto.getRoles(),dto.getStatus());
+        return new UserEntity(id, dto.getName(), dto.getLastname(), dto.getDni(), dto.getAddress(), dto.getEmail(), dto.getEmail(), password, dto.getRoles(), dto.getIdArea(),dto.getStatus());
     }
 
 }

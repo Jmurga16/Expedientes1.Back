@@ -8,7 +8,7 @@ import java.util.List;
 import java.util.Optional;
 
 @Repository
-public interface SubITipologiaRepository extends MongoRepository<SubTipologiaEntity, Integer> {
+public interface ISubTipologiaRepository extends MongoRepository<SubTipologiaEntity, Integer> {
     boolean existsByNombre(String nombre);
     Optional<SubTipologiaEntity> findByNombre(String nombre);
     List<SubTipologiaEntity> findByEstado(int status);

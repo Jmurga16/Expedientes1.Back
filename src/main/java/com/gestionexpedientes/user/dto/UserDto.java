@@ -22,12 +22,13 @@ public class UserDto {
     @NotBlank(message = "Contraseña es Obligatorio")
     private String password;
     List<RoleEnum> roles;
+    private Integer idArea;
     private Integer status;
 
     public UserDto() {
     }
 
-    public UserDto(String name, String lastname, String dni, String address, String username, String email, String password, List<RoleEnum> roles, Integer status) {
+    public UserDto(String name, String lastname, String dni, String address, String username, String email, String password, List<RoleEnum> roles, Integer idArea, Integer status) {
         this.name = name;
         this.lastname = lastname;
         this.dni = dni;
@@ -36,6 +37,7 @@ public class UserDto {
         this.email = email;
         this.password = password;
         this.roles = roles;
+        this.idArea = idArea;
         this.status = status;
     }
 
@@ -103,6 +105,13 @@ public class UserDto {
         this.roles = roles;
     }
 
+    public Integer getIdArea() {
+        return idArea;
+    }
+
+    public void setIdArea(Integer idArea) {
+        this.idArea = idArea;
+    }
     public Integer getStatus() {
         return status;
     }

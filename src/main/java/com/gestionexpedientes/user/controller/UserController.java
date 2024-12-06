@@ -39,6 +39,11 @@ public class UserController {
         return ResponseEntity.ok(userService.getOne(id));
     }
 
+    @GetMapping("/email/{email}")
+    public ResponseEntity<UserEntity> getByEmail(@PathVariable("email") String email) throws ResourceNotFoundException {
+        return ResponseEntity.ok(userService.getByEmail(email));
+    }
+
     @PreAuthorize("hasRole('ADMIN')")
     @PostMapping
     public ResponseEntity<MessageDto> save(@Valid @RequestBody UserDto dto) throws AttributeException {

@@ -16,13 +16,14 @@ public class UserEntity extends EntityId {
     private String username;
     private String password;
     private List<RoleEnum> roles;
+    private Integer idArea;
     private int status;
 
 
     public UserEntity() {
     }
 
-    public UserEntity(int id, String name, String lastname, String dni, String address, String email, String username, String password, List<RoleEnum> roles, int status) {
+    public UserEntity(int id, String name, String lastname, String dni, String address, String email, String username, String password, List<RoleEnum> roles,Integer idArea, int status) {
         this.id = id;
         this.name = name;
         this.lastname = lastname;
@@ -32,6 +33,7 @@ public class UserEntity extends EntityId {
         this.username = username;
         this.password = password;
         this.roles = roles;
+        this.idArea = idArea;
         this.status = status;
     }
 
@@ -106,6 +108,13 @@ public class UserEntity extends EntityId {
 
     public void setStatus(int status) {
         this.status = status;
+    }
+    public Integer getIdArea() {
+        return idArea;
+    }
+
+    public void setIdArea(int idArea) {
+        this.idArea = idArea;
     }
 
     public void setPassword(String password){ this.password = password;}

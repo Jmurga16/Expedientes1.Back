@@ -5,7 +5,7 @@ import com.gestionexpedientes.global.exceptions.ResourceNotFoundException;
 import com.gestionexpedientes.global.utils.Operations;
 import com.gestionexpedientes.subtipologia.dto.SubTipologiaDto;
 import com.gestionexpedientes.subtipologia.entity.SubTipologiaEntity;
-import com.gestionexpedientes.subtipologia.repository.SubITipologiaRepository;
+import com.gestionexpedientes.subtipologia.repository.ISubTipologiaRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -14,7 +14,7 @@ import java.util.List;
 @Service
 public class SubTipologiaService {
     @Autowired
-    SubITipologiaRepository subtipologiaRepository;
+    ISubTipologiaRepository subtipologiaRepository;
     public List<SubTipologiaEntity> getAll() {
         return subtipologiaRepository.findAll();
     }

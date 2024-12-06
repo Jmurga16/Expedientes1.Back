@@ -35,8 +35,9 @@ public class JwtProvider {
                 .setSubject(userPrincipal.getUsername())
                 .setIssuedAt(new Date())
                 .setExpiration(new Date(new Date().getTime() + expiration * 1000))
+                .claim("email", userPrincipal.getEmail())
                 .claim("roles", getRoles(userPrincipal))
-                .claim("cara", "feísima")
+                .claim("area", "A")
                 .compact();
     }
 
