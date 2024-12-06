@@ -1,5 +1,6 @@
 package com.gestionexpedientes.user.repository;
 
+import com.gestionexpedientes.security.enums.RoleEnum;
 import com.gestionexpedientes.user.entity.UserEntity;
 import org.springframework.data.mongodb.repository.MongoRepository;
 
@@ -12,5 +13,7 @@ public interface IUserRepository extends MongoRepository<UserEntity, Integer> {
     Optional<UserEntity> findByEmail(String email);
     boolean existsByDni(String dni);
     Optional<UserEntity> findByDni(String dni);
+
+    boolean existsByIdAreaAndRoles(Integer idArea, RoleEnum role);
 
 }

@@ -49,6 +49,17 @@ public class UserService {
         if(userRepository.existsByDni(dto.getDni()))
             throw new AttributeException("El DNI está en uso.");
 
+        //Validar la existencia de cuando sea Rol "ROLE_AREA", exista un usuario con esa area y ese rol
+        if (dto.getRoles() != null && dto.getRoles().contains(RoleEnum.ROLE_AREA)) {
+            Integer idArea = dto.getIdArea();
+            if (idArea == null) {
+                throw new AttributeException("El área no puede ser nula para un rol 'Referente de Area'.");
+            }
+            if (userRepository.existsByIdAreaAndRoles(idArea, RoleEnum.ROLE_AREA)) {
+                throw new AttributeException("Ya existe un usuario con el rol 'Referente de Área' y el área especificada.");
+            }
+        }
+
         UserEntity user = mapUserFromDto(dto);
 
         return userRepository.save(user);
@@ -73,7 +84,10 @@ public class UserService {
         user.setPassword(passwordEncoder.encode(dto.getPassword()));
         user.setRoles(dto.getRoles());
 
-        user.setStatus(dto.getIdArea());
+        if(dto.getIdArea()!=null){
+            user.setStatus(dto.getIdArea());
+        }
+
         user.setStatus(dto.getStatus());
 
         return userRepository.save(user);
