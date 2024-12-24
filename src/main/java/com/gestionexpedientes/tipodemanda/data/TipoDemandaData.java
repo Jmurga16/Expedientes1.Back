@@ -5,7 +5,6 @@ import java.util.List;
 
 public class TipoDemandaData {
 
-    // Clase interna que representa un Tipo de Demanda
     public static class TipoDemanda {
         private int id;
         private String codigo;
@@ -17,7 +16,6 @@ public class TipoDemandaData {
             this.nombre = nombre;
         }
 
-        // Getters
         public int getId() {
             return id;
         }
@@ -40,7 +38,6 @@ public class TipoDemandaData {
         }
     }
 
-    // Método que devuelve una lista de datos estáticos
     public static List<TipoDemanda> getTipoDemandaList() {
         List<TipoDemanda> list = new ArrayList<>();
         list.add(new TipoDemanda(1, "PT", "Petición"));
