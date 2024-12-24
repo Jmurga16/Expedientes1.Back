@@ -74,12 +74,10 @@ public class DemandaService {
         dto.setCaratula(demanda.getCaratula());
 
         Optional<UserEntity> optionalUser = userRepository.findById(demanda.getIdUsuario());
-
         optionalUser.ifPresent(user -> dto.setDemandante(user.getName()));
         optionalUser.ifPresent(user -> dto.setDni(user.getDni()));
 
         Optional<TipologiaEntity> optionalTipologia = tipologiaRepository.findById(demanda.getIdTipologia());
-
         optionalTipologia.ifPresent(element -> dto.setDescripcion(element.getDescripcion()));
 
         dto.setTipoDemanda(
