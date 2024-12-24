@@ -83,7 +83,7 @@ public class DemandaService {
         dto.setTipoDemanda(
                 TipoDemandaData.getTipoDemandaList().stream()
                         .filter(td -> td.getId() == demanda.getIdTipoDemanda())
-                        .map(TipoDemandaData.TipoDemanda::getNombre)
+                        .map(TipoDemandaData.TipoDemanda::getCodigo)
                         .findFirst()
                         .orElse(null)
         );
@@ -171,7 +171,7 @@ public class DemandaService {
 
         String tipoDemanda = TipoDemandaData.getTipoDemandaList().stream()
                 .filter(td -> td.getId() == dto.getIdTipoDemanda())
-                .map(TipoDemandaData.TipoDemanda::getNombre)
+                .map(TipoDemandaData.TipoDemanda::getCodigo)
                 .findFirst()
                 .orElse(null);
 
