@@ -13,10 +13,11 @@ public class DemandaEntity extends EntityId {
     private int idTipologia;
     private int idSubtipologia;
     private String domicilio;
+    private String rutaImagen;
     private Date fechaCreacion;
     private int estado;
 
-    public DemandaEntity(int id, int idUsuario, String caratula, int idTipoDemanda, int idTipologia, int idSubtipologia, String domicilio, Date fechaCreacion, int estado) {
+    public DemandaEntity(int id, int idUsuario, String caratula, int idTipoDemanda, int idTipologia, int idSubtipologia, String domicilio, String rutaImagen, Date fechaCreacion, int estado) {
         this.id = id;
         this.idUsuario = idUsuario;
         this.caratula = caratula;
@@ -24,6 +25,7 @@ public class DemandaEntity extends EntityId {
         this.idTipologia = idTipologia;
         this.idSubtipologia = idSubtipologia;
         this.domicilio = domicilio;
+        this.rutaImagen = rutaImagen;
         this.fechaCreacion = fechaCreacion;
         this.estado = estado;
     }
@@ -84,6 +86,14 @@ public class DemandaEntity extends EntityId {
 
     public void setDomicilio(String domicilio) {
         this.domicilio = domicilio;
+    }
+
+    public String getRutaImagen() {
+        return rutaImagen;
+    }
+
+    public void setRutaImagen(String rutaImagen) {
+        this.rutaImagen = rutaImagen;
     }
 
     public Date getFechaCreacion() {

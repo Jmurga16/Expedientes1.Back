@@ -140,6 +140,7 @@ public class DemandaService {
         demanda.setIdTipologia(dto.getIdTipologia());
         demanda.setIdSubtipologia(dto.getIdSubtipologia());
         demanda.setDomicilio(dto.getDomicilio());
+        demanda.setRutaImagen(dto.getRutaImagen());
         demanda.setEstado(dto.getEstado());
 
         return demandaRepository.save(demanda);
@@ -160,7 +161,7 @@ public class DemandaService {
 
         String caratula = setCaratula(dto);
 
-        return new DemandaEntity(id, dto.getIdUsuario(), caratula, dto.getIdTipoDemanda(), dto.getIdTipologia(), dto.getIdSubtipologia(), dto.getDomicilio(), fechaCreacion, dto.getEstado());
+        return new DemandaEntity(id, dto.getIdUsuario(), caratula, dto.getIdTipoDemanda(), dto.getIdTipologia(), dto.getIdSubtipologia(), dto.getDomicilio(),dto.getRutaImagen(), fechaCreacion, dto.getEstado());
     }
 
     private String setCaratula(DemandaRequestDto dto) {

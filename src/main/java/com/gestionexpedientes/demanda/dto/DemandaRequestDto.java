@@ -11,15 +11,18 @@ public class DemandaRequestDto {
     private int idTipologia;
     private int idSubtipologia;
     private String domicilio;
+    private String rutaImagen;
+
     private int estado;
 
-    public DemandaRequestDto(int idUsuario, String caratula, int idTipoDemanda, int idTipologia, int idSubtipologia, String domicilio, int estado) {
+    public DemandaRequestDto(int idUsuario, String caratula, int idTipoDemanda, int idTipologia, int idSubtipologia, String domicilio, String rutaImagen, int estado) {
         this.idUsuario = idUsuario;
         this.caratula = caratula;
         this.idTipoDemanda = idTipoDemanda;
         this.idTipologia = idTipologia;
         this.idSubtipologia = idSubtipologia;
         this.domicilio = domicilio;
+        this.rutaImagen = rutaImagen;
         this.estado = estado;
     }
 
@@ -70,6 +73,14 @@ public class DemandaRequestDto {
 
     public void setDomicilio(String domicilio) {
         this.domicilio = domicilio;
+    }
+
+    public String getRutaImagen() {
+        return rutaImagen;
+    }
+
+    public void setRutaImagen(String rutaImagen) {
+        this.rutaImagen = rutaImagen;
     }
 
     public int getEstado() {
