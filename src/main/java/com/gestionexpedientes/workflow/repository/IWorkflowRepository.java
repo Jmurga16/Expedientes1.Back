@@ -13,6 +13,5 @@ public interface IWorkflowRepository extends MongoRepository<WorkflowEntity, Int
     boolean existsByNombre(String nombre);
     Optional<WorkflowEntity> findByNombre(String nombre);
     List<WorkflowEntity> findByEstado(int estado);
-
     boolean existsByIdTipoDemandaAndIdTipologiaAndIdSubtipologia(Integer idTipoDemanda, Integer Tipologia, Integer Subtipologia);
 }
