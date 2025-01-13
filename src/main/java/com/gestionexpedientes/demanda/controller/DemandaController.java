@@ -11,9 +11,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.util.Collection;
 import java.util.List;
 
 @RestController
@@ -25,8 +29,26 @@ public class DemandaController {
 
 
     @GetMapping
-    public ResponseEntity<List<DemandaListDto>> getAll() {
-        return ResponseEntity.ok(demandaService.getDatatable());
+
+    public ResponseEntity<List<DemandaListDto>> getAll( @RequestParam(required = false) String search) {
+
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        Collection<? extends GrantedAuthority> authorities = authentication.getAuthorities();
+
+        boolean isAdmin = authorities.stream().anyMatch(auth -> auth.getAuthority().equals("ROLE_ADMIN"));
+        boolean isUser = authorities.stream().anyMatch(auth -> auth.getAuthority().equals("ROLE_USER"));
+
+        String username = authentication.getName();
+
+        List<DemandaListDto> data;
+
+        if (isAdmin) {
+            data = demandaService.getDatatable(search);
+        } else {
+            data =demandaService.getDatatableForUser(search,username);
+        }
+
+        return ResponseEntity.ok(data);
     }
 
     @GetMapping("/activos")

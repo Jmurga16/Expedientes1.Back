@@ -22,19 +22,16 @@ public class TipologiaController {
     @Autowired
     TipologiaService tipologiaService;
 
-    @PreAuthorize("hasAnyRole('ADMIN')")
     @GetMapping
     public ResponseEntity<List<TipologiaEntity>> getAll() {
         return ResponseEntity.ok(tipologiaService.getAll());
     }
 
-    @PreAuthorize("hasAnyRole('ADMIN')")
     @GetMapping("/activos")
     public ResponseEntity<List<TipologiaEntity>> getActives(){
         return ResponseEntity.ok(tipologiaService.getActives());
     }
 
-    @PreAuthorize("hasAnyRole('ADMIN')")
     @GetMapping("/{id}")
     public ResponseEntity<TipologiaEntity> getOne(@PathVariable("id") int id) throws ResourceNotFoundException {
         return ResponseEntity.ok(tipologiaService.getOne(id));

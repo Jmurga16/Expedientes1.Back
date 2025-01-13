@@ -22,19 +22,17 @@ public class SubTipologiaController {
     @Autowired
     SubTipologiaService subtipologiaService;
 
-    @PreAuthorize("hasAnyRole('ADMIN')")
     @GetMapping
     public ResponseEntity<List<SubTipologiaEntity>> getAll() {
         return ResponseEntity.ok(subtipologiaService.getAll());
     }
 
-    @PreAuthorize("hasAnyRole('ADMIN')")
+
     @GetMapping("/activos")
     public ResponseEntity<List<SubTipologiaEntity>> getActives() {
         return ResponseEntity.ok(subtipologiaService.getActives());
     }
 
-    @PreAuthorize("hasAnyRole('ADMIN')")
     @GetMapping("/tipologia/{idTipologia}")
     public ResponseEntity<List<SubTipologiaEntity>> getByIdTipologia(@PathVariable("idTipologia") int idTipologia) {
         return ResponseEntity.ok(subtipologiaService.getByIdTipologia(idTipologia));

@@ -12,5 +12,6 @@ public interface IDemandaRepository extends MongoRepository<DemandaEntity, Integ
     boolean existsByCaratula(String caratula);
     Optional<DemandaEntity> findByCaratula(String caratula);
     List<DemandaEntity> findByEstado(int estado);
+    List<DemandaEntity> findByIdUsuario(int idUsuario);
     boolean existsByIdTipoDemandaAndIdTipologiaAndIdSubtipologia(Integer idTipoDemanda, Integer Tipologia, Integer Subtipologia);
 }

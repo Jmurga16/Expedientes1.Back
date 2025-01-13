@@ -42,11 +42,58 @@ public class DemandaService {
         return demandaRepository.findAll();
     }
 
-    public List<DemandaListDto> getDatatable() {
+    public List<DemandaListDto> getDatatable(String search) {
         List<DemandaEntity> demandas = demandaRepository.findAll();
-        return demandas.stream().map(this::mapToResponseDto).collect(Collectors.toList());
+
+        return demandas.stream()
+                .filter(demanda -> matchesSearch(demanda, search))
+                .map(this::mapToResponseDto)
+                .collect(Collectors.toList());
     }
 
+    public List<DemandaListDto> getDatatableForUser(String search, String username) {
+
+        Optional<UserEntity> optionalUser = userRepository.findByEmail(username);
+
+        int idUsuario = optionalUser.get().getId();
+
+        List<DemandaEntity> demandas = demandaRepository.findByIdUsuario(idUsuario);
+        //return demandas.stream().map(this::mapToResponseDto).collect(Collectors.toList());
+        return demandas.stream()
+                .filter(demanda -> matchesSearch(demanda, search))
+                .map(this::mapToResponseDto)
+                .collect(Collectors.toList());
+    }
+
+    private boolean matchesSearch(DemandaEntity demanda, String search) {
+        if (search == null || search.isEmpty()) {
+            return true;
+        }
+
+        String lowerSearch = search.toLowerCase();
+
+        boolean matchesStringFields = (demanda.getCaratula() != null && demanda.getCaratula().toLowerCase().contains(lowerSearch)) ||
+                (demanda.getDomicilio() != null && demanda.getDomicilio().toLowerCase().contains(lowerSearch)) ||
+                (demanda.getRutaImagen() != null && demanda.getRutaImagen().toLowerCase().contains(lowerSearch));
+
+        boolean matchesTipoDemanda = TipoDemandaData.getTipoDemandaList().stream()
+                .filter(td -> td.getId() == demanda.getIdTipoDemanda())
+                .map(TipoDemandaData.TipoDemanda::getCodigo)
+                .anyMatch(codigo -> codigo != null && codigo.toLowerCase().contains(lowerSearch));
+
+        boolean matchesTipologia = tipologiaRepository.findNombreById(demanda.getIdTipologia())
+                .map(this::extractNombre)
+                .map(nombre -> nombre.toLowerCase().contains(lowerSearch))
+                .orElse(false);
+
+        boolean matchesSubtipologia = subtipologiaRepository.findNombreById(demanda.getIdSubtipologia())
+                .map(this::extractNombre)
+                .map(nombre -> nombre.toLowerCase().contains(lowerSearch))
+                .orElse(false);
+
+
+        return matchesStringFields || matchesTipoDemanda || matchesTipologia || matchesSubtipologia;
+    }
 
     private String extractNombre(String jsonString) {
         try {
@@ -56,16 +103,6 @@ public class DemandaService {
             return null;
         }
     }
-
-    private String extractValueFromJson(String jsonString,String value) {
-        try {
-            JsonNode node = objectMapper.readTree(jsonString);
-            return node.get(value).asText();
-        } catch (Exception e) {
-            return null;
-        }
-    }
-
 
     private DemandaListDto mapToResponseDto(DemandaEntity demanda) {
         DemandaListDto dto = new DemandaListDto();
