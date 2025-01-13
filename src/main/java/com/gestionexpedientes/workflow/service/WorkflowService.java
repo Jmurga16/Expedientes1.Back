@@ -49,6 +49,7 @@ public class WorkflowService {
         dto.setId(workflow.getId());
         dto.setNombre(workflow.getNombre());
         dto.setDescripcion(workflow.getDescripcion());
+
         dto.setTipoDemanda(
                 TipoDemandaData.getTipoDemandaList().stream()
                         .filter(td -> td.getId() == workflow.getIdTipoDemanda())
@@ -66,6 +67,13 @@ public class WorkflowService {
         dto.setEstado(workflow.getEstado());
         return dto;
     }
+
+    private WorkflowEntity mapWorkflowFromDto(WorkflowDto dto) {
+        int id = Operations.autoIncrement(workflowRepository.findAll());
+
+        return new WorkflowEntity(id, dto.getNombre(), dto.getDescripcion(), dto.getIdTipoDemanda(), dto.getIdTipologia(), dto.getIdSubtipologia(), dto.getBpmn(), dto.getEstado());
+    }
+
     public List<WorkflowEntity> getAll() {
         return workflowRepository.findAll();
     }
@@ -73,12 +81,12 @@ public class WorkflowService {
     public WorkflowEntity getOne(int id) throws ResourceNotFoundException {
 
         WorkflowEntity workflow = workflowRepository.findById(id)
-                .orElseThrow(()-> new ResourceNotFoundException("Registro no encontrado."));
+                .orElseThrow(() -> new ResourceNotFoundException("Registro no encontrado."));
 
         return workflow;
     }
 
-    public List<WorkflowEntity> getActives()  {
+    public List<WorkflowEntity> getActives() {
 
         List<WorkflowEntity> actives = workflowRepository.findByEstado(1);
 
@@ -86,24 +94,23 @@ public class WorkflowService {
     }
 
     public WorkflowEntity save(WorkflowDto dto) throws AttributeException {
-        if(workflowRepository.existsByNombre(dto.getNombre()))
+        if (workflowRepository.existsByNombre(dto.getNombre()))
             throw new AttributeException("El registro ya existe.");
 
         if (workflowRepository.existsByIdTipoDemandaAndIdTipologiaAndIdSubtipologia(dto.getIdTipoDemanda(), dto.getIdTipologia(), dto.getIdSubtipologia())) {
             throw new AttributeException("Ya existe un flujo con la misma combinación de Tipo de Demanda, Tipologia y Subtipologia.");
         }
 
-
-        WorkflowEntity workflow = mapTipologiaFromDto(dto);
+        WorkflowEntity workflow = mapWorkflowFromDto(dto);
 
         return workflowRepository.save(workflow);
     }
 
     public WorkflowEntity update(int id, WorkflowDto dto) throws ResourceNotFoundException, AttributeException {
         WorkflowEntity workflow = workflowRepository.findById(id)
-                .orElseThrow(()-> new ResourceNotFoundException("Registro no encontrado."));
+                .orElseThrow(() -> new ResourceNotFoundException("Registro no encontrado."));
 
-        if(workflowRepository.existsByNombre(dto.getNombre()) && workflowRepository.findByNombre(dto.getNombre()).get().getId() != id)
+        if (workflowRepository.existsByNombre(dto.getNombre()) && workflowRepository.findByNombre(dto.getNombre()).get().getId() != id)
             throw new AttributeException("El registro ya existe");
 
         workflow.setNombre(dto.getNombre());
@@ -111,6 +118,7 @@ public class WorkflowService {
         workflow.setIdTipoDemanda(dto.getIdTipoDemanda());
         workflow.setIdTipologia(dto.getIdTipologia());
         workflow.setIdSubtipologia(dto.getIdSubtipologia());
+        workflow.setBpmn(dto.getBpmn());
         workflow.setEstado(dto.getEstado());
 
         return workflowRepository.save(workflow);
@@ -118,15 +126,11 @@ public class WorkflowService {
 
     public WorkflowEntity delete(int id) throws ResourceNotFoundException {
         WorkflowEntity workflow = workflowRepository.findById(id)
-                .orElseThrow(()-> new ResourceNotFoundException("Registro no encontrado."));;
+                .orElseThrow(() -> new ResourceNotFoundException("Registro no encontrado."));
 
         workflow.setEstado(0);
         return workflowRepository.save(workflow);
     }
 
-    private WorkflowEntity mapTipologiaFromDto(WorkflowDto dto) {
-        int id = Operations.autoIncrement(workflowRepository.findAll());
 
-        return new WorkflowEntity(id, dto.getNombre(), dto.getDescripcion(), dto.getIdTipoDemanda(), dto.getIdTipologia(), dto.getIdSubtipologia(), dto.getEstado());
-    }
 }

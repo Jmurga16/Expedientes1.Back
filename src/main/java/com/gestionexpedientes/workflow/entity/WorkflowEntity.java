@@ -10,15 +10,17 @@ public class WorkflowEntity extends EntityId {
     private int idTipoDemanda;
     private int idTipologia;
     private int idSubtipologia;
+    private String bpmn;
     private int estado;
 
-    public WorkflowEntity(int id, String nombre, String descripcion, int idTipoDemanda, int idTipologia, int idSubtipologia, int estado) {
+    public WorkflowEntity(int id, String nombre, String descripcion, int idTipoDemanda, int idTipologia, int idSubtipologia, String bpmn, int estado) {
         this.id = id;
         this.nombre = nombre;
         this.descripcion = descripcion;
         this.idTipoDemanda = idTipoDemanda;
         this.idTipologia = idTipologia;
         this.idSubtipologia = idSubtipologia;
+        this.bpmn = bpmn;
         this.estado = estado;
     }
 
@@ -70,6 +72,14 @@ public class WorkflowEntity extends EntityId {
 
     public void setIdSubtipologia(int idSubtipologia) {
         this.idSubtipologia = idSubtipologia;
+    }
+
+    public String getBpmn() {
+        return bpmn;
+    }
+
+    public void setBpmn(String bpmn) {
+        this.bpmn = bpmn;
     }
 
     public int getEstado() {
