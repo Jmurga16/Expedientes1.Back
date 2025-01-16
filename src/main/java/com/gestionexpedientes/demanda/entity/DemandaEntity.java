@@ -15,9 +15,13 @@ public class DemandaEntity extends EntityId {
     private String domicilio;
     private String rutaImagen;
     private Date fechaCreacion;
+    private String informacionAdicional;
+    private String paso;
+    private String urlBpmn;
     private int estado;
 
-    public DemandaEntity(int id, int idUsuario, String caratula, int idTipoDemanda, int idTipologia, int idSubtipologia, String domicilio, String rutaImagen, Date fechaCreacion, int estado) {
+    public DemandaEntity(int id, int idUsuario, String caratula, int idTipoDemanda, int idTipologia, int idSubtipologia, String domicilio, String rutaImagen,
+                         String informacionAdicional, String paso, String urlBpmn, Date fechaCreacion, int estado) {
         this.id = id;
         this.idUsuario = idUsuario;
         this.caratula = caratula;
@@ -26,6 +30,9 @@ public class DemandaEntity extends EntityId {
         this.idSubtipologia = idSubtipologia;
         this.domicilio = domicilio;
         this.rutaImagen = rutaImagen;
+        this.informacionAdicional = informacionAdicional;
+        this.paso = paso;
+        this.urlBpmn = urlBpmn;
         this.fechaCreacion = fechaCreacion;
         this.estado = estado;
     }
@@ -94,6 +101,30 @@ public class DemandaEntity extends EntityId {
 
     public void setRutaImagen(String rutaImagen) {
         this.rutaImagen = rutaImagen;
+    }
+
+    public String getInformacionAdicional() {
+        return informacionAdicional;
+    }
+
+    public void setInformacionAdicional(String informacionAdicional) {
+        this.informacionAdicional = informacionAdicional;
+    }
+
+    public String getPaso() {
+        return paso;
+    }
+
+    public void setPaso(String paso) {
+        this.paso = paso;
+    }
+
+    public String getUrlBpmn() {
+        return urlBpmn;
+    }
+
+    public void setUrlBpmn(String urlBpmn) {
+        this.urlBpmn = urlBpmn;
     }
 
     public Date getFechaCreacion() {

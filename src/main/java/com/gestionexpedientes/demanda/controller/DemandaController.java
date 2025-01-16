@@ -30,13 +30,13 @@ public class DemandaController {
 
     @GetMapping
 
-    public ResponseEntity<List<DemandaListDto>> getAll( @RequestParam(required = false) String search) {
+    public ResponseEntity<List<DemandaListDto>> getAll(@RequestParam(required = false) String search) {
 
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         Collection<? extends GrantedAuthority> authorities = authentication.getAuthorities();
 
         boolean isAdmin = authorities.stream().anyMatch(auth -> auth.getAuthority().equals("ROLE_ADMIN"));
-        boolean isUser = authorities.stream().anyMatch(auth -> auth.getAuthority().equals("ROLE_USER"));
+        //boolean isUser = authorities.stream().anyMatch(auth -> auth.getAuthority().equals("ROLE_USER"));
 
         String username = authentication.getName();
 
@@ -45,7 +45,7 @@ public class DemandaController {
         if (isAdmin) {
             data = demandaService.getDatatable(search);
         } else {
-            data =demandaService.getDatatableForUser(search,username);
+            data = demandaService.getDatatableForUser(search, username);
         }
 
         return ResponseEntity.ok(data);
@@ -62,7 +62,7 @@ public class DemandaController {
     }
 
     @PostMapping
-    public ResponseEntity<MessageDto> save(@Valid @RequestBody DemandaRequestDto dto) throws AttributeException {
+    public ResponseEntity<MessageDto> save(@Valid @RequestBody DemandaRequestDto dto) throws Exception {
         DemandaEntity demanda = demandaService.save(dto);
         String message = demanda.getCaratula() + " ha sido guardado";
         return ResponseEntity.ok(new MessageDto(HttpStatus.OK, message));

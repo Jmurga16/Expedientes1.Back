@@ -12,10 +12,13 @@ public class DemandaRequestDto {
     private int idSubtipologia;
     private String domicilio;
     private String rutaImagen;
-
+    private String informacionAdicional;
+    private String paso;
+    private String urlBpmn;
     private int estado;
 
-    public DemandaRequestDto(int idUsuario, String caratula, int idTipoDemanda, int idTipologia, int idSubtipologia, String domicilio, String rutaImagen, int estado) {
+    public DemandaRequestDto(int idUsuario, String caratula, int idTipoDemanda, int idTipologia, int idSubtipologia, String domicilio,
+                             String rutaImagen, String informacionAdicional, String paso, String urlBpmn, int estado) {
         this.idUsuario = idUsuario;
         this.caratula = caratula;
         this.idTipoDemanda = idTipoDemanda;
@@ -23,6 +26,9 @@ public class DemandaRequestDto {
         this.idSubtipologia = idSubtipologia;
         this.domicilio = domicilio;
         this.rutaImagen = rutaImagen;
+        this.informacionAdicional = informacionAdicional;
+        this.paso = paso;
+        this.urlBpmn = urlBpmn;
         this.estado = estado;
     }
 
@@ -81,6 +87,30 @@ public class DemandaRequestDto {
 
     public void setRutaImagen(String rutaImagen) {
         this.rutaImagen = rutaImagen;
+    }
+
+    public String getInformacionAdicional() {
+        return informacionAdicional;
+    }
+
+    public void setInformacionAdicional(String informacionAdicional) {
+        this.informacionAdicional = informacionAdicional;
+    }
+
+    public String getPaso() {
+        return paso;
+    }
+
+    public void setPaso(String paso) {
+        this.paso = paso;
+    }
+
+    public String getUrlBpmn() {
+        return urlBpmn;
+    }
+
+    public void setUrlBpmn(String urlBpmn) {
+        this.urlBpmn = urlBpmn;
     }
 
     public int getEstado() {

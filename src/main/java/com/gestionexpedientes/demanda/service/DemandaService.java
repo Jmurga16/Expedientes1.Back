@@ -4,6 +4,9 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.gestionexpedientes.demanda.dto.DemandaRequestDto;
 import com.gestionexpedientes.demanda.dto.DemandaListDto;
+import com.gestionexpedientes.file.service.FileService;
+import com.gestionexpedientes.global.dto.BpmnDto;
+import com.gestionexpedientes.workflow.entity.WorkflowEntity;
 import com.gestionexpedientes.demanda.entity.DemandaEntity;
 import com.gestionexpedientes.demanda.repository.IDemandaRepository;
 import com.gestionexpedientes.global.exceptions.AttributeException;
@@ -15,6 +18,7 @@ import com.gestionexpedientes.tipologia.entity.TipologiaEntity;
 import com.gestionexpedientes.tipologia.repository.ITipologiaRepository;
 import com.gestionexpedientes.user.entity.UserEntity;
 import com.gestionexpedientes.user.repository.IUserRepository;
+import com.gestionexpedientes.workflow.repository.IWorkflowRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -35,6 +39,10 @@ public class DemandaService {
     ISubTipologiaRepository subtipologiaRepository;
     @Autowired
     IUserRepository userRepository;
+    @Autowired
+    IWorkflowRepository workflowRepository;
+    @Autowired
+    FileService fileService;
     @Autowired
     private ObjectMapper objectMapper;
 
@@ -81,18 +89,11 @@ public class DemandaService {
                 .map(TipoDemandaData.TipoDemanda::getCodigo)
                 .anyMatch(codigo -> codigo != null && codigo.toLowerCase().contains(lowerSearch));
 
-        boolean matchesTipologia = tipologiaRepository.findNombreById(demanda.getIdTipologia())
-                .map(this::extractNombre)
-                .map(nombre -> nombre.toLowerCase().contains(lowerSearch))
+        boolean matchesDescripcionTipologia = tipologiaRepository.findDescripcionById(demanda.getIdTipologia())
+                .map(descripcion -> descripcion.toLowerCase().contains(lowerSearch))
                 .orElse(false);
 
-        boolean matchesSubtipologia = subtipologiaRepository.findNombreById(demanda.getIdSubtipologia())
-                .map(this::extractNombre)
-                .map(nombre -> nombre.toLowerCase().contains(lowerSearch))
-                .orElse(false);
-
-
-        return matchesStringFields || matchesTipoDemanda || matchesTipologia || matchesSubtipologia;
+        return matchesStringFields || matchesTipoDemanda || matchesDescripcionTipologia;
     }
 
     private String extractNombre(String jsonString) {
@@ -135,7 +136,6 @@ public class DemandaService {
         return dto;
     }
 
-
     public DemandaEntity getOne(int id) throws ResourceNotFoundException {
 
         DemandaEntity demanda = demandaRepository.findById(id)
@@ -151,13 +151,9 @@ public class DemandaService {
         return actives;
     }
 
-    public DemandaEntity save(DemandaRequestDto dto) throws AttributeException {
+    public DemandaEntity save(DemandaRequestDto dto) throws Exception {
         if (demandaRepository.existsByCaratula(dto.getCaratula()))
             throw new AttributeException("El registro ya existe.");
-
-        //if (demandaRepository.existsByIdTipoDemandaAndIdTipologiaAndIdSubtipologia(dto.getIdTipoDemanda(), dto.getIdTipologia(), dto.getIdSubtipologia())) {
-        //    throw new AttributeException("Ya existe un flujo con la misma combinación de Tipo de Demanda, Tipologia y Subtipologia.");
-        //}
 
         DemandaEntity demanda = mapTipologiaFromDto(dto);
 
@@ -178,6 +174,9 @@ public class DemandaService {
         demanda.setIdSubtipologia(dto.getIdSubtipologia());
         demanda.setDomicilio(dto.getDomicilio());
         demanda.setRutaImagen(dto.getRutaImagen());
+        demanda.setInformacionAdicional(dto.getInformacionAdicional());
+        demanda.setPaso(dto.getPaso());
+        demanda.setUrlBpmn(dto.getUrlBpmn());
         demanda.setEstado(dto.getEstado());
 
         return demandaRepository.save(demanda);
@@ -192,13 +191,27 @@ public class DemandaService {
         return demandaRepository.save(demanda);
     }
 
-    private DemandaEntity mapTipologiaFromDto(DemandaRequestDto dto) {
+    private DemandaEntity mapTipologiaFromDto(DemandaRequestDto dto) throws Exception {
         int id = Operations.autoIncrement(demandaRepository.findAll());
         Date fechaCreacion = new Date();
 
         String caratula = setCaratula(dto);
 
-        return new DemandaEntity(id, dto.getIdUsuario(), caratula, dto.getIdTipoDemanda(), dto.getIdTipologia(), dto.getIdSubtipologia(), dto.getDomicilio(),dto.getRutaImagen(), fechaCreacion, dto.getEstado());
+        // Buscar idWorkflow y bpmn
+
+
+        String urlBPMN = workflowRepository.findBpmnByIdTipoDemandaAndIdTipologiaAndIdSubtipologia(
+                        dto.getIdTipoDemanda(), dto.getIdTipologia(), dto.getIdSubtipologia()
+                ).map(BpmnDto::getBpmn)
+                .orElseThrow(() -> new IllegalArgumentException("No se encontró un Workflow con los valores proporcionados"));
+
+
+        String newNameBpmn = "demanda" + id + ".bpmn";
+        String container = "demanda-bpmn";
+
+        String bpmnDemanda = fileService.copyFileWithNewName(urlBPMN, container, newNameBpmn);
+
+        return new DemandaEntity(id, dto.getIdUsuario(), caratula, dto.getIdTipoDemanda(), dto.getIdTipologia(), dto.getIdSubtipologia(), dto.getDomicilio(), dto.getRutaImagen(), dto.getInformacionAdicional(), dto.getPaso(), bpmnDemanda, fechaCreacion, dto.getEstado());
     }
 
     private String setCaratula(DemandaRequestDto dto) {
