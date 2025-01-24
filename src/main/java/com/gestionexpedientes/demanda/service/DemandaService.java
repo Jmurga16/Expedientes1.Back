@@ -110,6 +110,7 @@ public class DemandaService {
 
         dto.setId(demanda.getId());
         dto.setCaratula(demanda.getCaratula());
+        dto.setInformacionAdicional(demanda.getInformacionAdicional());
 
         Optional<UserEntity> optionalUser = userRepository.findById(demanda.getIdUsuario());
         optionalUser.ifPresent(user -> dto.setDemandante(user.getName()));

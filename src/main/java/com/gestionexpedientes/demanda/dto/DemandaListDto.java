@@ -6,6 +6,7 @@ public class DemandaListDto {
     private String demandante;
     private String dni;
     private String descripcion;
+    private String informacionAdicional;
     private String tipoDemanda;
     private String tipologia;
     private String subtipologia;
@@ -49,6 +50,14 @@ public class DemandaListDto {
 
     public void setDescripcion(String descripcion) {
         this.descripcion = descripcion;
+    }
+
+    public String getInformacionAdicional() {
+        return informacionAdicional;
+    }
+
+    public void setInformacionAdicional(String informacionAdicional) {
+        this.informacionAdicional = informacionAdicional;
     }
 
     public String getTipoDemanda() {
