@@ -80,20 +80,27 @@ public class DemandaService {
 
         String lowerSearch = search.toLowerCase();
 
+        // Filtrar por los campos de texto de la demanda
         boolean matchesStringFields = (demanda.getCaratula() != null && demanda.getCaratula().toLowerCase().contains(lowerSearch)) ||
                 (demanda.getDomicilio() != null && demanda.getDomicilio().toLowerCase().contains(lowerSearch)) ||
-                (demanda.getRutaImagen() != null && demanda.getRutaImagen().toLowerCase().contains(lowerSearch));
+                (demanda.getRutaImagen() != null && demanda.getRutaImagen().toLowerCase().contains(lowerSearch)) ||
+                (demanda.getInformacionAdicional() != null && demanda.getInformacionAdicional().toLowerCase().contains(lowerSearch)) ||
+                (demanda.getPaso() != null && demanda.getPaso().toLowerCase().contains(lowerSearch));
 
-        boolean matchesTipoDemanda = TipoDemandaData.getTipoDemandaList().stream()
-                .filter(td -> td.getId() == demanda.getIdTipoDemanda())
-                .map(TipoDemandaData.TipoDemanda::getCodigo)
-                .anyMatch(codigo -> codigo != null && codigo.toLowerCase().contains(lowerSearch));
+        // Filtrar por el estado de la demanda
+        boolean matchesEstado = Integer.toString(demanda.getEstado()).contains(lowerSearch);
 
-        boolean matchesDescripcionTipologia = tipologiaRepository.findDescripcionById(demanda.getIdTipologia())
-                .map(descripcion -> descripcion.toLowerCase().contains(lowerSearch))
+        // Filtrar por el DNI del usuario asociado a la demanda
+        boolean matchesDni = userRepository.findById(demanda.getIdUsuario())
+                .map(user -> user.getDni().toLowerCase().contains(lowerSearch))
                 .orElse(false);
 
-        return matchesStringFields || matchesTipoDemanda || matchesDescripcionTipologia;
+        // Filtrar por el nombre o apellido del usuario asociado a la demanda
+        boolean matchesUsuario = userRepository.findById(demanda.getIdUsuario())
+                .map(user -> (user.getName().toLowerCase().contains(lowerSearch) || user.getLastname().toLowerCase().contains(lowerSearch)))
+                .orElse(false);
+
+        return matchesStringFields || matchesEstado || matchesDni || matchesUsuario;
     }
 
     private String extractNombre(String jsonString) {
@@ -111,9 +118,10 @@ public class DemandaService {
         dto.setId(demanda.getId());
         dto.setCaratula(demanda.getCaratula());
         dto.setInformacionAdicional(demanda.getInformacionAdicional());
+        dto.setPaso(demanda.getPaso());
 
         Optional<UserEntity> optionalUser = userRepository.findById(demanda.getIdUsuario());
-        optionalUser.ifPresent(user -> dto.setDemandante(user.getName()));
+        optionalUser.ifPresent(user -> dto.setDemandante(user.getName() + " " +user.getLastname()));
         optionalUser.ifPresent(user -> dto.setDni(user.getDni()));
 
         Optional<TipologiaEntity> optionalTipologia = tipologiaRepository.findById(demanda.getIdTipologia());

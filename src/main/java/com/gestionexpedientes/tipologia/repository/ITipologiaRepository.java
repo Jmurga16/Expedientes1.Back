@@ -18,6 +18,6 @@ public interface ITipologiaRepository extends MongoRepository<TipologiaEntity, I
     @Query(value = "{ '_id': ?0 }", fields = "{ 'nombre': 1, '_id': 0 }")
     Optional<String> findNombreById(int id);
 
-    @Query("SELECT t.descripcion FROM TipologiaEntity t WHERE t.id = :id")
-    Optional<String> findDescripcionById(@Param("id") int id);
+    @Query(value = "{ '_id': ?0 }", fields = "{ 'descripcion': 1, '_id': 0 }")
+    Optional<String> findDescripcionById(int id);
 }
