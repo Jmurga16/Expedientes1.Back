@@ -28,7 +28,6 @@ public class AreaController {
         return ResponseEntity.ok(areaService.getAll());
     }
 
-    @PreAuthorize("hasAnyRole('ADMIN')")
     @GetMapping("/activos")
     public ResponseEntity<List<AreaEntity>> getActives() {
         return ResponseEntity.ok(areaService.getActives());

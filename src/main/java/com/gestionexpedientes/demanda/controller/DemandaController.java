@@ -18,7 +18,9 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.util.Collection;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/demanda")
@@ -62,10 +64,16 @@ public class DemandaController {
     }
 
     @PostMapping
-    public ResponseEntity<MessageDto> save(@Valid @RequestBody DemandaRequestDto dto) throws Exception {
+    public ResponseEntity<Map<String, Object>> save(@Valid @RequestBody DemandaRequestDto dto) throws Exception {
         DemandaEntity demanda = demandaService.save(dto);
         String message = demanda.getCaratula() + " ha sido guardado";
-        return ResponseEntity.ok(new MessageDto(HttpStatus.OK, message));
+
+        Map<String, Object> response = new HashMap<>();
+        response.put("status", HttpStatus.OK);
+        response.put("message", message);
+        response.put("id", demanda.getId());
+
+        return ResponseEntity.ok(response);
     }
 
     @PutMapping("/{id}")
