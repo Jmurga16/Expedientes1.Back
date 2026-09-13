@@ -1,11 +1,16 @@
 package com.gestionexpedientes.file.controller;
 
-import com.azure.storage.blob.BlobClientBuilder;
+import com.gestionexpedientes.file.FileContainer;
 import com.gestionexpedientes.file.service.FileService;
-import org.springframework.beans.factory.annotation.Value;
+import com.gestionexpedientes.global.exceptions.AttributeException;
+import com.gestionexpedientes.security.service.CurrentUser;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.AccessDeniedException;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
+
+import java.util.Collections;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/file")
@@ -19,13 +24,15 @@ public class FileController {
     }
 
     @PostMapping("{container}")
-    public ResponseEntity<?> uploadFile(@PathVariable("container") String containerName, @RequestParam("file") MultipartFile file) {
-        try {
-            String fileUrl = fileService.uploadFile(containerName, file);
-            return ResponseEntity.ok().body("{\"fileUrl\": \"" + fileUrl + "\"}");
-        } catch (Exception e) {
-            e.printStackTrace();
-            return ResponseEntity.status(500).body("Error uploading file: " + e.getMessage());
-        }
+    public ResponseEntity<Map<String, String>> uploadFile(@PathVariable("container") String containerName,
+                                                          @RequestParam("file") MultipartFile file) throws Exception {
+        FileContainer container = FileContainer.fromName(containerName)
+                .orElseThrow(() -> new AttributeException("Contenedor no permitido."));
+
+        if (container.isAdminOnly() && !CurrentUser.get().isAdmin())
+            throw new AccessDeniedException("Solo un administrador puede subir a " + containerName);
+
+        String fileUrl = fileService.uploadFile(container, file);
+        return ResponseEntity.ok(Collections.singletonMap("fileUrl", fileUrl));
     }
 }
