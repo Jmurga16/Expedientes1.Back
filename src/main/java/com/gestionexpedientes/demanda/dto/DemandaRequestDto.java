@@ -1,11 +1,14 @@
 package com.gestionexpedientes.demanda.dto;
 
-import javax.validation.constraints.NotBlank;
-import java.util.Date;
+import javax.validation.constraints.NotNull;
 
+/**
+ * Datos que envia el cliente. idUsuario, caratula y urlBpmn se aceptan por compatibilidad con el front
+ * pero el servidor los ignora: el demandante es el usuario autenticado y los otros dos los genera el backend.
+ */
 public class DemandaRequestDto {
 
-    private int idUsuario;
+    private Integer idUsuario;
     private String caratula;
     private int idTipoDemanda;
     private int idTipologia;
@@ -15,29 +18,18 @@ public class DemandaRequestDto {
     private String informacionAdicional;
     private String paso;
     private String urlBpmn;
-    private int estado;
+    @NotNull(message = "Estado es obligatorio")
+    private Integer estado;
+    private String observaciones;
 
-    public DemandaRequestDto(int idUsuario, String caratula, int idTipoDemanda, int idTipologia, int idSubtipologia, String domicilio,
-                             String rutaImagen, String informacionAdicional, String paso, String urlBpmn, int estado) {
-        this.idUsuario = idUsuario;
-        this.caratula = caratula;
-        this.idTipoDemanda = idTipoDemanda;
-        this.idTipologia = idTipologia;
-        this.idSubtipologia = idSubtipologia;
-        this.domicilio = domicilio;
-        this.rutaImagen = rutaImagen;
-        this.informacionAdicional = informacionAdicional;
-        this.paso = paso;
-        this.urlBpmn = urlBpmn;
-        this.estado = estado;
+    public DemandaRequestDto() {
     }
 
-
-    public int getIdUsuario() {
+    public Integer getIdUsuario() {
         return idUsuario;
     }
 
-    public void setIdUsuario(int idUsuario) {
+    public void setIdUsuario(Integer idUsuario) {
         this.idUsuario = idUsuario;
     }
 
@@ -113,11 +105,19 @@ public class DemandaRequestDto {
         this.urlBpmn = urlBpmn;
     }
 
-    public int getEstado() {
+    public Integer getEstado() {
         return estado;
     }
 
-    public void setEstado(int estado) {
+    public void setEstado(Integer estado) {
         this.estado = estado;
+    }
+
+    public String getObservaciones() {
+        return observaciones;
+    }
+
+    public void setObservaciones(String observaciones) {
+        this.observaciones = observaciones;
     }
 }

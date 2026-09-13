@@ -12,6 +12,8 @@ import com.gestionexpedientes.demanda.repository.IDemandaRepository;
 import com.gestionexpedientes.global.exceptions.AttributeException;
 import com.gestionexpedientes.global.exceptions.ResourceNotFoundException;
 import com.gestionexpedientes.global.utils.Operations;
+import com.gestionexpedientes.historial_demanda.service.HistorialDemandaService;
+import com.gestionexpedientes.security.service.UserPrincipal;
 import com.gestionexpedientes.subtipologia.repository.ISubTipologiaRepository;
 import com.gestionexpedientes.tipodemanda.data.TipoDemandaData;
 import com.gestionexpedientes.tipologia.entity.TipologiaEntity;
@@ -44,7 +46,14 @@ public class DemandaService {
     @Autowired
     FileService fileService;
     @Autowired
+    DemandaAccessService demandaAccessService;
+    @Autowired
+    HistorialDemandaService historialDemandaService;
+    @Autowired
     private ObjectMapper objectMapper;
+
+    private static final String PASO_INICIAL = "Inicio";
+    private static final int ESTADO_RECEPTADA = 1;
 
     public List<DemandaEntity> getAll() {
         return demandaRepository.findAll();
@@ -59,14 +68,13 @@ public class DemandaService {
                 .collect(Collectors.toList());
     }
 
-    public List<DemandaListDto> getDatatableForUser(String search, String username) {
+    public List<DemandaListDto> getDatatableForUser(String search, UserPrincipal user) {
 
-        Optional<UserEntity> optionalUser = userRepository.findByEmail(username);
+        // Referentes y colaboradores ven tambien los expedientes cuyo flujo pasa por su area.
+        List<DemandaEntity> demandas = user.isAreaStaff()
+                ? demandaRepository.findAll().stream().filter(demanda -> canAccessQuietly(demanda, user)).collect(Collectors.toList())
+                : demandaRepository.findByIdUsuario(user.getId());
 
-        int idUsuario = optionalUser.get().getId();
-
-        List<DemandaEntity> demandas = demandaRepository.findByIdUsuario(idUsuario);
-        //return demandas.stream().map(this::mapToResponseDto).collect(Collectors.toList());
         return demandas.stream()
                 .filter(demanda -> matchesSearch(demanda, search))
                 .map(this::mapToResponseDto)
@@ -145,11 +153,12 @@ public class DemandaService {
         return dto;
     }
 
-    public DemandaEntity getOne(int id) throws ResourceNotFoundException {
+    public DemandaEntity getOne(int id, UserPrincipal user) throws ResourceNotFoundException {
 
         DemandaEntity demanda = demandaRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Registro no encontrado."));
 
+        demandaAccessService.checkAccess(demanda, user);
         return demanda;
     }
 
@@ -160,47 +169,50 @@ public class DemandaService {
         return actives;
     }
 
-    public DemandaEntity save(DemandaRequestDto dto) throws Exception {
-        if (demandaRepository.existsByCaratula(dto.getCaratula()))
-            throw new AttributeException("El registro ya existe.");
+    public DemandaEntity save(DemandaRequestDto dto, UserPrincipal user) throws Exception {
+        DemandaEntity demanda = demandaRepository.save(mapTipologiaFromDto(dto, user));
 
-        DemandaEntity demanda = mapTipologiaFromDto(dto);
-
-        return demandaRepository.save(demanda);
+        historialDemandaService.registrar(demanda, user.getId(), null);
+        return demanda;
     }
 
-    public DemandaEntity update(int id, DemandaRequestDto dto) throws ResourceNotFoundException, AttributeException {
-        DemandaEntity demanda = demandaRepository.findById(id)
-                .orElseThrow(() -> new ResourceNotFoundException("Registro no encontrado."));
+    public DemandaEntity update(int id, DemandaRequestDto dto, UserPrincipal user) throws ResourceNotFoundException {
+        DemandaEntity demanda = getOne(id, user);
 
-        if (demandaRepository.existsByCaratula(dto.getCaratula()) && demandaRepository.findByCaratula(dto.getCaratula()).get().getId() != id)
-            throw new AttributeException("El registro ya existe");
-
-        demanda.setIdUsuario(dto.getIdUsuario());
-        demanda.setCaratula(dto.getCaratula());
+        // Demandante, caratula y BPMN no se modifican desde el cliente.
         demanda.setIdTipoDemanda(dto.getIdTipoDemanda());
         demanda.setIdTipologia(dto.getIdTipologia());
         demanda.setIdSubtipologia(dto.getIdSubtipologia());
         demanda.setDomicilio(dto.getDomicilio());
         demanda.setRutaImagen(dto.getRutaImagen());
         demanda.setInformacionAdicional(dto.getInformacionAdicional());
-        demanda.setPaso(dto.getPaso());
-        demanda.setUrlBpmn(dto.getUrlBpmn());
-        demanda.setEstado(dto.getEstado());
 
-        return demandaRepository.save(demanda);
+        if (demandaAccessService.canAdvance(demanda, user)) {
+            demanda.setPaso(dto.getPaso());
+            demanda.setEstado(dto.getEstado());
+        }
+
+        DemandaEntity saved = demandaRepository.save(demanda);
+        historialDemandaService.registrar(saved, user.getId(), dto.getObservaciones());
+        return saved;
     }
 
-    public DemandaEntity delete(int id) throws ResourceNotFoundException {
-        DemandaEntity demanda = demandaRepository.findById(id)
-                .orElseThrow(() -> new ResourceNotFoundException("Registro no encontrado."));
-        ;
+    public DemandaEntity delete(int id, UserPrincipal user) throws ResourceNotFoundException {
+        DemandaEntity demanda = getOne(id, user);
 
         demanda.setEstado(0);
         return demandaRepository.save(demanda);
     }
 
-    private DemandaEntity mapTipologiaFromDto(DemandaRequestDto dto) throws Exception {
+    private boolean canAccessQuietly(DemandaEntity demanda, UserPrincipal user) {
+        try {
+            return demandaAccessService.canAccess(demanda, user);
+        } catch (RuntimeException e) {
+            return false;
+        }
+    }
+
+    private DemandaEntity mapTipologiaFromDto(DemandaRequestDto dto, UserPrincipal user) throws Exception {
         int id = Operations.autoIncrement(demandaRepository.findAll());
         Date fechaCreacion = new Date();
 
@@ -220,7 +232,8 @@ public class DemandaService {
 
         String bpmnDemanda = fileService.copyFileWithNewName(urlBPMN, container, newNameBpmn);
 
-        return new DemandaEntity(id, dto.getIdUsuario(), caratula, dto.getIdTipoDemanda(), dto.getIdTipologia(), dto.getIdSubtipologia(), dto.getDomicilio(), dto.getRutaImagen(), dto.getInformacionAdicional(), dto.getPaso(), bpmnDemanda, fechaCreacion, dto.getEstado());
+        // Todo expediente nace en el paso inicial y receptado, lo cree quien lo cree.
+        return new DemandaEntity(id, user.getId(), caratula, dto.getIdTipoDemanda(), dto.getIdTipologia(), dto.getIdSubtipologia(), dto.getDomicilio(), dto.getRutaImagen(), dto.getInformacionAdicional(), PASO_INICIAL, bpmnDemanda, fechaCreacion, ESTADO_RECEPTADA);
     }
 
     private String setCaratula(DemandaRequestDto dto) {

@@ -1,10 +1,7 @@
 package com.gestionexpedientes.historial_demanda.service;
 
-import com.gestionexpedientes.demanda.repository.IDemandaRepository;
-import com.gestionexpedientes.global.exceptions.AttributeException;
-import com.gestionexpedientes.global.exceptions.ResourceNotFoundException;
+import com.gestionexpedientes.demanda.entity.DemandaEntity;
 import com.gestionexpedientes.global.utils.Operations;
-import com.gestionexpedientes.historial_demanda.dto.HistorialDemandaFormDto;
 import com.gestionexpedientes.historial_demanda.dto.HistorialDemandaListDto;
 import com.gestionexpedientes.historial_demanda.entity.HistorialDemandaEntity;
 import com.gestionexpedientes.historial_demanda.repository.IHistorialDemandaRepository;
@@ -18,18 +15,13 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
+
 @Service
 public class HistorialDemandaService {
     @Autowired
     IHistorialDemandaRepository historialDemandaRepository;
     @Autowired
-    IDemandaRepository demandaRepository;
-    @Autowired
     IUserRepository userRepository;
-
-    public List<HistorialDemandaEntity> getAll() {
-        return historialDemandaRepository.findAll();
-    }
 
     public List<HistorialDemandaListDto> getDatatable(int idDemanda) {
         List<HistorialDemandaEntity> entity = historialDemandaRepository.findByIdDemanda(idDemanda);
@@ -39,26 +31,11 @@ public class HistorialDemandaService {
                 .collect(Collectors.toList());
     }
 
-    public HistorialDemandaEntity save(HistorialDemandaFormDto dto) throws Exception {
-        //if (historialDemandaRepository.existsByIdUsuarioAndIdDemandaAndPasoAndEstado(dto.getIdUsuario(), dto.getIdDemanda(),dto.getPaso(),dto.getEstado()))
-        //    throw new AttributeException("El registro ya existe.");
+    public HistorialDemandaEntity registrar(DemandaEntity demanda, int idUsuario, String observaciones) {
+        int id = Operations.autoIncrement(historialDemandaRepository.findAll());
 
-        HistorialDemandaEntity entity = mapToFormDto(dto);
-
-        return historialDemandaRepository.save(entity);
-    }
-
-    public HistorialDemandaEntity update(int id, HistorialDemandaFormDto dto) throws ResourceNotFoundException, AttributeException {
-        HistorialDemandaEntity entity = historialDemandaRepository.findById(id)
-                .orElseThrow(() -> new ResourceNotFoundException("Registro no encontrado."));
-
-        entity.setIdUsuario(dto.getIdUsuario());
-        entity.setIdDemanda(dto.getIdDemanda());
-        entity.setPaso(dto.getPaso());
-        entity.setEstado(dto.getEstado());
-        entity.setObservaciones(dto.getObservaciones());
-
-        return historialDemandaRepository.save(entity);
+        return historialDemandaRepository.save(new HistorialDemandaEntity(
+                id, idUsuario, demanda.getId(), demanda.getPaso(), demanda.getEstado(), observaciones, new Date()));
     }
 
     private HistorialDemandaListDto mapToListDto(HistorialDemandaEntity historialDemanda) {
@@ -74,11 +51,5 @@ public class HistorialDemandaService {
         optionalUser.ifPresent(user -> dto.setUsuario(user.getName() + " " +user.getLastname()));
 
         return dto;
-    }
-    private HistorialDemandaEntity mapToFormDto(HistorialDemandaFormDto dto) throws Exception {
-        int id = Operations.autoIncrement(historialDemandaRepository.findAll());
-        Date fecha = new Date();
-
-        return new HistorialDemandaEntity(id, dto.getIdUsuario(), dto.getIdDemanda(), dto.getPaso(), dto.getEstado(), dto.getObservaciones(), fecha);
     }
 }
