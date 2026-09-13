@@ -4,9 +4,9 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.gestionexpedientes.demanda.dto.DemandaRequestDto;
 import com.gestionexpedientes.demanda.dto.DemandaListDto;
+import com.gestionexpedientes.counter.service.CounterService;
 import com.gestionexpedientes.file.service.FileService;
 import com.gestionexpedientes.global.dto.BpmnDto;
-import com.gestionexpedientes.workflow.entity.WorkflowEntity;
 import com.gestionexpedientes.demanda.entity.DemandaEntity;
 import com.gestionexpedientes.demanda.repository.IDemandaRepository;
 import com.gestionexpedientes.global.exceptions.AttributeException;
@@ -21,7 +21,6 @@ import com.gestionexpedientes.tipologia.repository.ITipologiaRepository;
 import com.gestionexpedientes.user.entity.UserEntity;
 import com.gestionexpedientes.user.repository.IUserRepository;
 import com.gestionexpedientes.workflow.repository.IWorkflowRepository;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.text.SimpleDateFormat;
@@ -29,31 +28,45 @@ import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
-import java.util.Random;
 
 @Service
 public class DemandaService {
-    @Autowired
-    IDemandaRepository demandaRepository;
-    @Autowired
-    ITipologiaRepository tipologiaRepository;
-    @Autowired
-    ISubTipologiaRepository subtipologiaRepository;
-    @Autowired
-    IUserRepository userRepository;
-    @Autowired
-    IWorkflowRepository workflowRepository;
-    @Autowired
-    FileService fileService;
-    @Autowired
-    DemandaAccessService demandaAccessService;
-    @Autowired
-    HistorialDemandaService historialDemandaService;
-    @Autowired
-    private ObjectMapper objectMapper;
 
     private static final String PASO_INICIAL = "Inicio";
     private static final int ESTADO_RECEPTADA = 1;
+
+    private final IDemandaRepository demandaRepository;
+    private final ITipologiaRepository tipologiaRepository;
+    private final ISubTipologiaRepository subtipologiaRepository;
+    private final IUserRepository userRepository;
+    private final IWorkflowRepository workflowRepository;
+    private final FileService fileService;
+    private final DemandaAccessService demandaAccessService;
+    private final HistorialDemandaService historialDemandaService;
+    private final CounterService counterService;
+    private final ObjectMapper objectMapper;
+
+    public DemandaService(IDemandaRepository demandaRepository,
+                          ITipologiaRepository tipologiaRepository,
+                          ISubTipologiaRepository subtipologiaRepository,
+                          IUserRepository userRepository,
+                          IWorkflowRepository workflowRepository,
+                          FileService fileService,
+                          DemandaAccessService demandaAccessService,
+                          HistorialDemandaService historialDemandaService,
+                          CounterService counterService,
+                          ObjectMapper objectMapper) {
+        this.demandaRepository = demandaRepository;
+        this.tipologiaRepository = tipologiaRepository;
+        this.subtipologiaRepository = subtipologiaRepository;
+        this.userRepository = userRepository;
+        this.workflowRepository = workflowRepository;
+        this.fileService = fileService;
+        this.demandaAccessService = demandaAccessService;
+        this.historialDemandaService = historialDemandaService;
+        this.counterService = counterService;
+        this.objectMapper = objectMapper;
+    }
 
     public List<DemandaEntity> getAll() {
         return demandaRepository.findAll();
@@ -233,29 +246,19 @@ public class DemandaService {
         return new DemandaEntity(id, user.getId(), caratula, dto.getIdTipoDemanda(), dto.getIdTipologia(), dto.getIdSubtipologia(), dto.getDomicilio(), dto.getRutaImagen(), dto.getInformacionAdicional(), PASO_INICIAL, bpmnDemanda, fechaCreacion, ESTADO_RECEPTADA);
     }
 
-    private String setCaratula(DemandaRequestDto dto) {
-        String caratula = "";
-
-        int idTipologia = dto.getIdTipologia();
-        String codigoTipologia = String.format("%03d", idTipologia);
+    private String setCaratula(DemandaRequestDto dto) throws AttributeException {
+        String codigoTipologia = String.format("%03d", dto.getIdTipologia());
 
         String tipoDemanda = TipoDemandaData.getTipoDemandaList().stream()
                 .filter(td -> td.getId() == dto.getIdTipoDemanda())
                 .map(TipoDemandaData.TipoDemanda::getCodigo)
                 .findFirst()
-                .orElse(null);
+                .orElseThrow(() -> new AttributeException("El tipo de demanda no existe."));
 
-        SimpleDateFormat formato = new SimpleDateFormat("yyMMdd");
+        String anio = new SimpleDateFormat("yyyy").format(new Date());
 
-        String fechaCreacion = formato.format(new Date());
+        long secuencia = counterService.next(anio + "-" + codigoTipologia + "-" + tipoDemanda);
 
-        Random random = new Random();
-
-        int aleatorio = random.nextInt(101);
-        String numeral = String.format("%03d", aleatorio);
-
-        caratula = codigoTipologia + "-" + tipoDemanda + "-" + fechaCreacion + "-" + numeral;
-
-        return caratula;
+        return codigoTipologia + "-" + tipoDemanda + "-" + anio + "-" + String.format("%05d", secuencia);
     }
 }
