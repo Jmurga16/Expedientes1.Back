@@ -1,0 +1,32 @@
+[
+  {
+    "_id": 1,
+    "nombre": "Servicios Públicos",
+    "descripcion": "Actividades relacionadas con la prestación y mantenimiento de servicios esenciales.\n-Mantenimiento Urbano\n-Alumbrado Público\n-Infraestructura y Obras\n-Espacios Verdes",
+    "estado": 1
+  },
+  {
+    "_id": 2,
+    "nombre": "Trámites Administrativos y Legales",
+    "descripcion": "Procesos administrativos que requieren solicitudes o aprobación formal.\n-Solicitudes Generales\n-Habilitaciones y Licencias\n-Expedientes y Notificaciones",
+    "estado": 1
+  },
+  {
+    "_id": 3,
+    "nombre": "Control y Seguridad",
+    "descripcion": "Actividades enfocadas en el bienestar y la regulación.\n-Control Sanitario\n-Seguridad Vial\n-Regulación Animal",
+    "estado": 1
+  },
+  {
+    "_id": 4,
+    "nombre": "Legislación y Normativa",
+    "descripcion": "Gestión y creación de normas locales o deliberaciones municipales.\n-Proyectos y Ordenanzas\n-Sesiones y Resoluciones",
+    "estado": 1
+  },
+  {
+    "_id": 5,
+    "nombre": "Programas y Actividades Sociales",
+    "descripcion": "Fomentar el desarrollo social y la participación ciudadana.\n-Actividades Comunitarias\n-Beneficios Sociales\n-Cultura y Turismo",
+    "estado": 1
+  }
+]

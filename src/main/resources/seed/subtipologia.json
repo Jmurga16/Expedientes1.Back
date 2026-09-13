@@ -1,0 +1,242 @@
+[
+  {
+    "_id": 1,
+    "nombre": "Mantenimiento Urbano >> Limpieza de zanjas, cordones, y calles",
+    "idTipologia": 1,
+    "estado": 1
+  },
+  {
+    "_id": 2,
+    "nombre": "Solicitudes Generales >> Subsidios (económicos, sociales, deportivos)",
+    "idTipologia": 2,
+    "estado": 1
+  },
+  {
+    "_id": 3,
+    "nombre": "Mantenimiento Urbano >> Arreglo y apertura de calles",
+    "idTipologia": 1,
+    "estado": 1
+  },
+  {
+    "_id": 4,
+    "nombre": "Mantenimiento Urbano >> Colocación de alcantarillas",
+    "idTipologia": 1,
+    "estado": 1
+  },
+  {
+    "_id": 5,
+    "nombre": "Mantenimiento Urbano >> Recolección de residuos y escombros",
+    "idTipologia": 1,
+    "estado": 1
+  },
+  {
+    "_id": 6,
+    "nombre": "Alumbrado Público >> Incorporar Alumbrado",
+    "idTipologia": 1,
+    "estado": 1
+  },
+  {
+    "_id": 7,
+    "nombre": "Alumbrado Público >> Reparar cableado",
+    "idTipologia": 1,
+    "estado": 1
+  },
+  {
+    "_id": 8,
+    "nombre": "Alumbrado Público >> Reparar / Cambiar luminaria",
+    "idTipologia": 1,
+    "estado": 1
+  },
+  {
+    "_id": 9,
+    "nombre": "Infraestructura y Obras >> Reductores de velocidad (instalación/retiro)",
+    "idTipologia": 1,
+    "estado": 1
+  },
+  {
+    "_id": 10,
+    "nombre": "Infraestructura y Obras >> Reparación pavimento",
+    "idTipologia": 1,
+    "estado": 1
+  },
+  {
+    "_id": 11,
+    "nombre": "Infraestructura y Obras >> Reparación bache",
+    "idTipologia": 1,
+    "estado": 1
+  },
+  {
+    "_id": 12,
+    "nombre": "Infraestructura y Obras >> Reparación vereda",
+    "idTipologia": 1,
+    "estado": 1
+  },
+  {
+    "_id": 13,
+    "nombre": "Espacios Verdes >> Poda ramas árbol",
+    "idTipologia": 1,
+    "estado": 1
+  },
+  {
+    "_id": 14,
+    "nombre": "Espacios Verdes >> Retiro árbol / ramas",
+    "idTipologia": 1,
+    "estado": 1
+  },
+  {
+    "_id": 15,
+    "nombre": "Espacios Verdes >> Barrido espacio público",
+    "idTipologia": 1,
+    "estado": 1
+  },
+  {
+    "_id": 16,
+    "nombre": "Solicitudes Generales >> Terrenos y vivienda",
+    "idTipologia": 2,
+    "estado": 1
+  },
+  {
+    "_id": 17,
+    "nombre": "Solicitudes Generales >> Reconocimiento oficial o informes",
+    "idTipologia": 2,
+    "estado": 1
+  },
+  {
+    "_id": 18,
+    "nombre": "Habilitaciones y Licencias >> Libreta sanitaria, ReBA, RENAPA",
+    "idTipologia": 2,
+    "estado": 1
+  },
+  {
+    "_id": 19,
+    "nombre": "Habilitaciones y Licencias >> Habilitación y renovación comercial",
+    "idTipologia": 2,
+    "estado": 1
+  },
+  {
+    "_id": 20,
+    "nombre": "Habilitaciones y Licencias >> Cambio de titularidad o rubro comercial",
+    "idTipologia": 2,
+    "estado": 1
+  },
+  {
+    "_id": 21,
+    "nombre": "Expedientes y Notificaciones >> Inicio de expediente, sumarios administrativos",
+    "idTipologia": 2,
+    "estado": 1
+  },
+  {
+    "_id": 22,
+    "nombre": "Expedientes y Notificaciones >> Certificados catastrales y planos visados",
+    "idTipologia": 2,
+    "estado": 1
+  },
+  {
+    "_id": 23,
+    "nombre": "Control Sanitario >> Presencia de roedores",
+    "idTipologia": 3,
+    "estado": 1
+  },
+  {
+    "_id": 24,
+    "nombre": "Control Sanitario >> Solicitudes de anticonceptivos",
+    "idTipologia": 3,
+    "estado": 1
+  },
+  {
+    "_id": 25,
+    "nombre": "Seguridad Vial >> Pedido de señales de tránsito",
+    "idTipologia": 3,
+    "estado": 1
+  },
+  {
+    "_id": 26,
+    "nombre": "Seguridad Vial >> Reductores de velocidad y lomos de burro",
+    "idTipologia": 3,
+    "estado": 1
+  },
+  {
+    "_id": 27,
+    "nombre": "Seguridad Vial >> Señales de transito",
+    "idTipologia": 3,
+    "estado": 1
+  },
+  {
+    "_id": 28,
+    "nombre": "Regulación Animal >> Animal suelto en vía pública",
+    "idTipologia": 3,
+    "estado": 1
+  },
+  {
+    "_id": 29,
+    "nombre": "Proyectos y Ordenanzas >> Redacción de ordenanzas nuevas",
+    "idTipologia": 4,
+    "estado": 1
+  },
+  {
+    "_id": 30,
+    "nombre": "Proyectos y Ordenanzas >> Protocolos y normativas de seguridad e higiene",
+    "idTipologia": 4,
+    "estado": 1
+  },
+  {
+    "_id": 31,
+    "nombre": "Sesiones y Resoluciones >> Sesiones ordinarias y extraordinarias",
+    "idTipologia": 4,
+    "estado": 1
+  },
+  {
+    "_id": 32,
+    "nombre": "Sesiones y Resoluciones >> Comunicados y elevaciones legislativas",
+    "idTipologia": 4,
+    "estado": 1
+  },
+  {
+    "_id": 33,
+    "nombre": "Actividades Comunitarias >> Talleres y programas educativos",
+    "idTipologia": 5,
+    "estado": 1
+  },
+  {
+    "_id": 34,
+    "nombre": "Actividades Comunitarias >> Eventos en lugares públicos",
+    "idTipologia": 5,
+    "estado": 1
+  },
+  {
+    "_id": 35,
+    "nombre": "Actividades Comunitarias >> Promotores de salud en escuelas",
+    "idTipologia": 5,
+    "estado": 1
+  },
+  {
+    "_id": 36,
+    "nombre": "Beneficios Sociales >> Becas deportivas y académicas",
+    "idTipologia": 5,
+    "estado": 1
+  },
+  {
+    "_id": 37,
+    "nombre": "Beneficios Sociales >> Renovación de contratos en programas sociales",
+    "idTipologia": 5,
+    "estado": 1
+  },
+  {
+    "_id": 38,
+    "nombre": "Cultura y Turismo >> Inscripción en el registro extra hotelero",
+    "idTipologia": 5,
+    "estado": 1
+  },
+  {
+    "_id": 39,
+    "nombre": "Cultura y Turismo >> Factibilidad de alojamiento turístico",
+    "idTipologia": 5,
+    "estado": 1
+  },
+  {
+    "_id": 40,
+    "nombre": "Cultura y Turismo >> Festividades (eventos locales)",
+    "idTipologia": 5,
+    "estado": 1
+  }
+]

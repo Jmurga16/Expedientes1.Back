@@ -1,0 +1,100 @@
+[
+  {
+    "_id": 1,
+    "name": "Administrador",
+    "lastname": "Demo",
+    "dni": "99000001",
+    "address": "Calle Ficticia 100",
+    "email": "admin@example.com",
+    "roles": [
+      "ROLE_ADMIN"
+    ],
+    "idArea": null,
+    "status": 1,
+    "password": "Demo2026$"
+  },
+  {
+    "_id": 2,
+    "name": "Vecino",
+    "lastname": "Demo",
+    "dni": "99000002",
+    "address": "Calle Ficticia 200",
+    "email": "vecino@example.com",
+    "roles": [
+      "ROLE_USER"
+    ],
+    "idArea": null,
+    "status": 1,
+    "password": "Demo2026$"
+  },
+  {
+    "_id": 3,
+    "name": "Referente",
+    "lastname": "Obras Publicas",
+    "dni": "99000003",
+    "address": "Calle Ficticia 300",
+    "email": "referente.obras@example.com",
+    "roles": [
+      "ROLE_AREA"
+    ],
+    "idArea": 5,
+    "status": 1,
+    "password": "Demo2026$"
+  },
+  {
+    "_id": 4,
+    "name": "Colaborador",
+    "lastname": "Obras Publicas",
+    "dni": "99000004",
+    "address": "Calle Ficticia 400",
+    "email": "colaborador.obras@example.com",
+    "roles": [
+      "ROLE_COLAB"
+    ],
+    "idArea": 5,
+    "status": 1,
+    "password": "Demo2026$"
+  },
+  {
+    "_id": 5,
+    "name": "Referente",
+    "lastname": "Servicios Publicos",
+    "dni": "99000005",
+    "address": "Calle Ficticia 500",
+    "email": "referente.servicios@example.com",
+    "roles": [
+      "ROLE_AREA"
+    ],
+    "idArea": 4,
+    "status": 1,
+    "password": "Demo2026$"
+  },
+  {
+    "_id": 6,
+    "name": "Test",
+    "lastname": "Hoy",
+    "dni": "99000006",
+    "address": "Calle Ficticia 600",
+    "email": "test02hoy@yopmail.com",
+    "roles": [
+      "ROLE_USER"
+    ],
+    "idArea": null,
+    "status": 1,
+    "password": "123456Az$"
+  },
+  {
+    "_id": 7,
+    "name": "Administrador",
+    "lastname": "Demo 2",
+    "dni": "99000007",
+    "address": "Calle Ficticia 700",
+    "email": "admin@demo.com",
+    "roles": [
+      "ROLE_ADMIN"
+    ],
+    "idArea": null,
+    "status": 1,
+    "password": "Demo2026$"
+  }
+]

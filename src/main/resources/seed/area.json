@@ -1,0 +1,62 @@
+[
+  {
+    "_id": 1,
+    "nombre": "Intendencia",
+    "estado": 1
+  },
+  {
+    "_id": 2,
+    "nombre": "Secretaría de Gobierno",
+    "estado": 1
+  },
+  {
+    "_id": 3,
+    "nombre": "Secretaría de Hacienda",
+    "estado": 1
+  },
+  {
+    "_id": 4,
+    "nombre": "Secretaría de Servicios Públicos",
+    "estado": 1
+  },
+  {
+    "_id": 5,
+    "nombre": "Secretaría de Obras Públicas",
+    "estado": 1
+  },
+  {
+    "_id": 6,
+    "nombre": "Secretaría de Cultura y Educación",
+    "estado": 1
+  },
+  {
+    "_id": 7,
+    "nombre": "Secretaría de Seguridad",
+    "estado": 1
+  },
+  {
+    "_id": 8,
+    "nombre": "Secretaría de Producción",
+    "estado": 1
+  },
+  {
+    "_id": 9,
+    "nombre": "Salud y Desarrollo",
+    "estado": 1
+  },
+  {
+    "_id": 10,
+    "nombre": "Juzgado de Faltas",
+    "estado": 1
+  },
+  {
+    "_id": 11,
+    "nombre": "Tribunal de Cuentas",
+    "estado": 1
+  },
+  {
+    "_id": 12,
+    "nombre": "Recursos Humanos",
+    "estado": 1
+  }
+]
