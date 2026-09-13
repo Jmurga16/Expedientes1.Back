@@ -10,6 +10,7 @@ import com.gestionexpedientes.global.dto.BpmnDto;
 import com.gestionexpedientes.demanda.entity.DemandaEntity;
 import com.gestionexpedientes.demanda.repository.IDemandaRepository;
 import com.gestionexpedientes.global.exceptions.AttributeException;
+import com.gestionexpedientes.global.exceptions.WorkflowNotConfiguredException;
 import com.gestionexpedientes.global.exceptions.ResourceNotFoundException;
 import com.gestionexpedientes.global.utils.Operations;
 import com.gestionexpedientes.historial_demanda.service.HistorialDemandaService;
@@ -34,6 +35,8 @@ public class DemandaService {
 
     private static final String PASO_INICIAL = "Inicio";
     private static final int ESTADO_RECEPTADA = 1;
+    private static final String WORKFLOW_NO_CONFIGURADO =
+            "No hay un flujo de trabajo definido para esa combinación de Tipo de Demanda, Tipología y Subtipología.";
 
     private final IDemandaRepository demandaRepository;
     private final ITipologiaRepository tipologiaRepository;
@@ -229,13 +232,10 @@ public class DemandaService {
 
         String caratula = setCaratula(dto);
 
-        // Buscar idWorkflow y bpmn
-
-
         String urlBPMN = workflowRepository.findBpmnByIdTipoDemandaAndIdTipologiaAndIdSubtipologia(
                         dto.getIdTipoDemanda(), dto.getIdTipologia(), dto.getIdSubtipologia()
                 ).map(BpmnDto::getBpmn)
-                .orElseThrow(() -> new IllegalArgumentException("No se encontró un Workflow con los valores proporcionados"));
+                .orElseThrow(() -> new WorkflowNotConfiguredException(WORKFLOW_NO_CONFIGURADO));
 
 
         String newNameBpmn = "demanda" + id + ".bpmn";

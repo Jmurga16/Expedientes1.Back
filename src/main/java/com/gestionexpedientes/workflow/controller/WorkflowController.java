@@ -7,7 +7,6 @@ import com.gestionexpedientes.workflow.dto.WorkflowDto;
 import com.gestionexpedientes.workflow.dto.WorkflowListDto;
 import com.gestionexpedientes.workflow.entity.WorkflowEntity;
 import com.gestionexpedientes.workflow.service.WorkflowService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -19,8 +18,11 @@ import java.util.List;
 @RestController
 @RequestMapping("/workflow")
 public class WorkflowController {
-    @Autowired
-    WorkflowService workflowService;
+    private final WorkflowService workflowService;
+
+    public WorkflowController(WorkflowService workflowService) {
+        this.workflowService = workflowService;
+    }
 
     @PreAuthorize("hasAnyRole('ADMIN')")
     @GetMapping
@@ -32,6 +34,14 @@ public class WorkflowController {
     @GetMapping("/activos")
     public ResponseEntity<List<WorkflowEntity>> getActives(){
         return ResponseEntity.ok(workflowService.getActives());
+    }
+
+    @PreAuthorize("isAuthenticated()")
+    @GetMapping("/exists")
+    public ResponseEntity<Boolean> exists(@RequestParam int idTipoDemanda,
+                                          @RequestParam int idTipologia,
+                                          @RequestParam int idSubtipologia) {
+        return ResponseEntity.ok(workflowService.exists(idTipoDemanda, idTipologia, idSubtipologia));
     }
 
     @PreAuthorize("hasAnyRole('ADMIN')")

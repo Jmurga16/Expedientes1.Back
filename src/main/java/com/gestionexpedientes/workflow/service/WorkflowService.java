@@ -13,7 +13,6 @@ import com.gestionexpedientes.workflow.dto.WorkflowDto;
 import com.gestionexpedientes.workflow.dto.WorkflowListDto;
 import com.gestionexpedientes.workflow.entity.WorkflowEntity;
 import com.gestionexpedientes.workflow.repository.IWorkflowRepository;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -21,14 +20,20 @@ import java.util.stream.Collectors;
 
 @Service
 public class WorkflowService {
-    @Autowired
-    IWorkflowRepository workflowRepository;
-    @Autowired
-    ITipologiaRepository tipologiaRepository;
-    @Autowired
-    ISubTipologiaRepository subtipologiaRepository;
-    @Autowired
-    private ObjectMapper objectMapper;
+    private final IWorkflowRepository workflowRepository;
+    private final ITipologiaRepository tipologiaRepository;
+    private final ISubTipologiaRepository subtipologiaRepository;
+    private final ObjectMapper objectMapper;
+
+    public WorkflowService(IWorkflowRepository workflowRepository,
+                           ITipologiaRepository tipologiaRepository,
+                           ISubTipologiaRepository subtipologiaRepository,
+                           ObjectMapper objectMapper) {
+        this.workflowRepository = workflowRepository;
+        this.tipologiaRepository = tipologiaRepository;
+        this.subtipologiaRepository = subtipologiaRepository;
+        this.objectMapper = objectMapper;
+    }
 
     private String extractNombre(String jsonString) {
         try {
@@ -91,6 +96,11 @@ public class WorkflowService {
         List<WorkflowEntity> actives = workflowRepository.findByEstado(1);
 
         return actives;
+    }
+
+    public boolean exists(int idTipoDemanda, int idTipologia, int idSubtipologia) {
+        return workflowRepository.existsByIdTipoDemandaAndIdTipologiaAndIdSubtipologia(
+                idTipoDemanda, idTipologia, idSubtipologia);
     }
 
     public WorkflowEntity save(WorkflowDto dto) throws AttributeException {
