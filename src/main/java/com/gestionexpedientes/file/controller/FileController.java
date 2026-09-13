@@ -14,7 +14,6 @@ import java.util.Map;
 
 @RestController
 @RequestMapping("/file")
-@CrossOrigin
 public class FileController {
 
     private final FileService fileService;

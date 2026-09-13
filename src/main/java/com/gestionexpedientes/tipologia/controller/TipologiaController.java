@@ -17,7 +17,6 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/tipologia")
-@CrossOrigin
 public class TipologiaController {
     @Autowired
     TipologiaService tipologiaService;

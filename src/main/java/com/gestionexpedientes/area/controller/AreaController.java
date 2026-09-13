@@ -17,7 +17,6 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/area")
-@CrossOrigin
 public class AreaController {
     @Autowired
     AreaService areaService;

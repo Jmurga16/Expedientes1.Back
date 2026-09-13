@@ -13,7 +13,6 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/historial-demanda")
-@CrossOrigin
 public class HistorialDemandaController {
     @Autowired
     HistorialDemandaService historialDemandaService;

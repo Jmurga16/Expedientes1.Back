@@ -21,7 +21,6 @@ import java.util.Map;
 
 @RestController
 @RequestMapping("/demanda")
-@CrossOrigin
 public class DemandaController {
     @Autowired
     DemandaService demandaService;
