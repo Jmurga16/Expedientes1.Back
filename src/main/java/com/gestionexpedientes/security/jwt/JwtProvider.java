@@ -20,13 +20,16 @@ import java.util.stream.Collectors;
 @Component
 public class JwtProvider {
 
-    private static final Logger logger = LoggerFactory.getLogger(JwtEntryPoint.class);
+    private static final Logger logger = LoggerFactory.getLogger(JwtProvider.class);
 
-    @Value("${jwt.secret}")
-    private String secret;
+    private final String secret;
+    private final int expiration;
 
-    @Value("${jwt.expiration}")
-    private int expiration;
+    public JwtProvider(@Value("${jwt.secret}") String secret,
+                       @Value("${jwt.expiration}") int expiration) {
+        this.secret = secret;
+        this.expiration = expiration;
+    }
 
     public String generateToken(Authentication authentication) {
         UserPrincipal userPrincipal = (UserPrincipal) authentication.getPrincipal();
@@ -58,7 +61,7 @@ public class JwtProvider {
         } catch (SignatureException e) {
             logger.error("bad signature");
         } catch (IllegalArgumentException e) {
-            e.printStackTrace();
+            logger.error("empty or invalid token");
         } catch (Exception e) {
             logger.error("fail token");
         }

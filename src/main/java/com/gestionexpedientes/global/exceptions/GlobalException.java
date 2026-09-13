@@ -2,6 +2,8 @@ package com.gestionexpedientes.global.exceptions;
 
 import com.gestionexpedientes.global.dto.MessageDto;
 import com.gestionexpedientes.global.utils.Operations;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.AccessDeniedException;
@@ -12,9 +14,12 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 @RestControllerAdvice
 public class GlobalException {
+
+    private static final Logger logger = LoggerFactory.getLogger(GlobalException.class);
 
     @ExceptionHandler(ResourceNotFoundException.class)
     public ResponseEntity<MessageDto> throwNotFoundException(ResourceNotFoundException e) {
@@ -28,10 +33,19 @@ public class GlobalException {
                 .body(new MessageDto(HttpStatus.BAD_REQUEST, e.getMessage()));
     }
 
+    @ExceptionHandler(WorkflowNotConfiguredException.class)
+    public ResponseEntity<MessageDto> workflowNotConfiguredException(WorkflowNotConfiguredException e) {
+        return ResponseEntity.badRequest()
+                .body(new MessageDto(HttpStatus.BAD_REQUEST, e.getMessage(), WorkflowNotConfiguredException.CODE));
+    }
+
     @ExceptionHandler(Exception.class)
     public ResponseEntity<MessageDto> generalException(Exception e) {
+        String errorId = UUID.randomUUID().toString().substring(0, 8);
+        logger.error("[{}] error no controlado", errorId, e);
         return ResponseEntity.internalServerError()
-                .body(new MessageDto(HttpStatus.INTERNAL_SERVER_ERROR, e.getMessage()));
+                .body(new MessageDto(HttpStatus.INTERNAL_SERVER_ERROR,
+                        "Ocurrió un error inesperado. Código de referencia: " + errorId));
     }
 
     @ExceptionHandler(MethodArgumentNotValidException.class)
@@ -46,8 +60,8 @@ public class GlobalException {
 
     @ExceptionHandler(BadCredentialsException.class)
     public ResponseEntity<MessageDto> badCredentialsException(BadCredentialsException e) {
-        return ResponseEntity.status(HttpStatus.NOT_FOUND)
-                .body(new MessageDto(HttpStatus.NOT_FOUND, "bad credentials"));
+        return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
+                .body(new MessageDto(HttpStatus.UNAUTHORIZED, "Usuario o contraseña incorrectos."));
     }
 
     @ExceptionHandler(AccessDeniedException.class)
