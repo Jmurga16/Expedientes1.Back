@@ -9,11 +9,11 @@
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
 
-	<groupId>com.tutorial</groupId>
+	<groupId>com.gestionexpedientes</groupId>
 	<artifactId>gestion-expedientes-back</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<name>gestion-expedientes-back</name>
-	<description>Demo project for Spring Boot</description>
+	<description>API de gestion de expedientes con flujos BPMN</description>
 	<properties>
 		<java.version>11</java.version>
 	</properties>
