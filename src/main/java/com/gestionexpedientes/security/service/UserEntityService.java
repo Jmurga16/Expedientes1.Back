@@ -37,26 +37,6 @@ public class UserEntityService {
     AuthenticationManager authenticationManager;
 
 
-    public UserEntity create(CreateUserDto dto) throws AttributeException {
-        if(userEntityRepository.existsByUsername(dto.getUsername()))
-            throw new AttributeException("username already in use");
-        if(userEntityRepository.existsByEmail(dto.getEmail()))
-            throw new AttributeException("email already in use");
-        if(dto.getRoles().isEmpty())
-            throw new AttributeException("roles are mandatory");
-        return userEntityRepository.save(mapUserFromDto(dto));
-    }
-
-    public UserEntity createAdmin(CreateUserDto dto) throws AttributeException {
-        if(userEntityRepository.existsByUsername(dto.getUsername()))
-            throw new AttributeException("username already in use");
-        if(userEntityRepository.existsByEmail(dto.getEmail()))
-            throw new AttributeException("email already in use");
-        List<String> roles = Arrays.asList("ROLE_ADMIN", "ROLE_USER");
-        dto.setRoles(roles);
-        return userEntityRepository.save(mapUserFromDto(dto));
-    }
-
     public UserEntity createUser(CreateUserDto dto) throws AttributeException {
 
         if(userEntityRepository.existsByUsername(dto.getUsername()))

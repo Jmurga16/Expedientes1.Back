@@ -36,7 +36,7 @@ public class JwtFilter extends OncePerRequestFilter {
                 String username = jwtProvider.getUsernameFromToken(token);
                 UserDetails userDetails = userDetailsServiceImpl.loadUserByUsername(username);
                 UsernamePasswordAuthenticationToken authenticationToken =
-                        new UsernamePasswordAuthenticationToken(userDetails.getUsername(), null, userDetails.getAuthorities());
+                        new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
                 SecurityContextHolder.getContext().setAuthentication(authenticationToken);
             }
         } catch (UsernameNotFoundException e) {

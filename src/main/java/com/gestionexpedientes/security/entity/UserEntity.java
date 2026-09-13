@@ -17,6 +17,7 @@ public class UserEntity extends EntityId {
     private String username;
     private String password;
     private List<RoleEnum> roles;
+    private Integer idArea;
     private int status;
 
 
@@ -109,6 +110,14 @@ public class UserEntity extends EntityId {
     public void setAddress(String address) {
         this.address = address;
     }
+    public Integer getIdArea() {
+        return idArea;
+    }
+
+    public void setIdArea(Integer idArea) {
+        this.idArea = idArea;
+    }
+
     public int getStatus() {
         return status;
     }
