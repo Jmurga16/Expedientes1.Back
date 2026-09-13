@@ -22,7 +22,6 @@ public class JwtEntryPoint implements AuthenticationEntryPoint {
     @Override
     public void commence(HttpServletRequest req, HttpServletResponse res, AuthenticationException e) throws IOException, ServletException {
         logger.error("token not found or invalid");
-        // res.sendError(HttpServletResponse.SC_UNAUTHORIZED, "unauthorized");
         MessageDto dto = new MessageDto(HttpStatus.UNAUTHORIZED, "token not found or invalid");
         res.setContentType("application/json");
         res.setStatus(dto.getStatus().value());

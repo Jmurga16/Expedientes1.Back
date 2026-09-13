@@ -2,10 +2,6 @@ package com.gestionexpedientes.demanda.dto;
 
 import javax.validation.constraints.NotNull;
 
-/**
- * Datos que envia el cliente. idUsuario, caratula y urlBpmn se aceptan por compatibilidad con el front
- * pero el servidor los ignora: el demandante es el usuario autenticado y los otros dos los genera el backend.
- */
 public class DemandaRequestDto {
 
     private Integer idUsuario;

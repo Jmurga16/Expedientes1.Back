@@ -70,7 +70,6 @@ public class DemandaService {
 
     public List<DemandaListDto> getDatatableForUser(String search, UserPrincipal user) {
 
-        // Referentes y colaboradores ven tambien los expedientes cuyo flujo pasa por su area.
         List<DemandaEntity> demandas = user.isAreaStaff()
                 ? demandaRepository.findAll().stream().filter(demanda -> canAccessQuietly(demanda, user)).collect(Collectors.toList())
                 : demandaRepository.findByIdUsuario(user.getId());
@@ -179,7 +178,6 @@ public class DemandaService {
     public DemandaEntity update(int id, DemandaRequestDto dto, UserPrincipal user) throws ResourceNotFoundException {
         DemandaEntity demanda = getOne(id, user);
 
-        // Demandante, caratula y BPMN no se modifican desde el cliente.
         demanda.setIdTipoDemanda(dto.getIdTipoDemanda());
         demanda.setIdTipologia(dto.getIdTipologia());
         demanda.setIdSubtipologia(dto.getIdSubtipologia());
@@ -232,7 +230,6 @@ public class DemandaService {
 
         String bpmnDemanda = fileService.copyFileWithNewName(urlBPMN, container, newNameBpmn);
 
-        // Todo expediente nace en el paso inicial y receptado, lo cree quien lo cree.
         return new DemandaEntity(id, user.getId(), caratula, dto.getIdTipoDemanda(), dto.getIdTipologia(), dto.getIdSubtipologia(), dto.getDomicilio(), dto.getRutaImagen(), dto.getInformacionAdicional(), PASO_INICIAL, bpmnDemanda, fechaCreacion, ESTADO_RECEPTADA);
     }
 
