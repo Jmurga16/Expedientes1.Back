@@ -7,7 +7,6 @@ import com.gestionexpedientes.historial_demanda.entity.HistorialDemandaEntity;
 import com.gestionexpedientes.historial_demanda.repository.IHistorialDemandaRepository;
 import com.gestionexpedientes.user.entity.UserEntity;
 import com.gestionexpedientes.user.repository.IUserRepository;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.Date;
@@ -18,10 +17,13 @@ import java.util.stream.Collectors;
 
 @Service
 public class HistorialDemandaService {
-    @Autowired
-    IHistorialDemandaRepository historialDemandaRepository;
-    @Autowired
-    IUserRepository userRepository;
+    private final IHistorialDemandaRepository historialDemandaRepository;
+    private final IUserRepository userRepository;
+
+    public HistorialDemandaService(IHistorialDemandaRepository historialDemandaRepository, IUserRepository userRepository) {
+        this.historialDemandaRepository = historialDemandaRepository;
+        this.userRepository = userRepository;
+    }
 
     public List<HistorialDemandaListDto> getDatatable(int idDemanda) {
         List<HistorialDemandaEntity> entity = historialDemandaRepository.findByIdDemanda(idDemanda);

@@ -9,7 +9,6 @@ import com.gestionexpedientes.security.entity.UserEntity;
 import com.gestionexpedientes.security.enums.RoleEnum;
 import com.gestionexpedientes.security.jwt.JwtProvider;
 import com.gestionexpedientes.security.repository.UserEntityRepository;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -24,18 +23,20 @@ import java.util.stream.Collectors;
 @Service
 public class UserEntityService {
 
-    @Autowired
-    UserEntityRepository userEntityRepository;
+    private final UserEntityRepository userEntityRepository;
+    private final PasswordEncoder passwordEncoder;
+    private final JwtProvider jwtProvider;
+    private final AuthenticationManager authenticationManager;
 
-    @Autowired
-    PasswordEncoder passwordEncoder;
-
-    @Autowired
-    JwtProvider jwtProvider;
-
-    @Autowired
-    AuthenticationManager authenticationManager;
-
+    public UserEntityService(UserEntityRepository userEntityRepository,
+                             PasswordEncoder passwordEncoder,
+                             JwtProvider jwtProvider,
+                             AuthenticationManager authenticationManager) {
+        this.userEntityRepository = userEntityRepository;
+        this.passwordEncoder = passwordEncoder;
+        this.jwtProvider = jwtProvider;
+        this.authenticationManager = authenticationManager;
+    }
 
     public UserEntity createUser(CreateUserDto dto) throws AttributeException {
 

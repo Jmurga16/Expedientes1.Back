@@ -6,7 +6,6 @@ import com.gestionexpedientes.area.service.AreaService;
 import com.gestionexpedientes.global.dto.MessageDto;
 import com.gestionexpedientes.global.exceptions.AttributeException;
 import com.gestionexpedientes.global.exceptions.ResourceNotFoundException;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -18,8 +17,11 @@ import java.util.List;
 @RestController
 @RequestMapping("/area")
 public class AreaController {
-    @Autowired
-    AreaService areaService;
+    private final AreaService areaService;
+
+    public AreaController(AreaService areaService) {
+        this.areaService = areaService;
+    }
 
     @PreAuthorize("hasAnyRole('ADMIN')")
     @GetMapping

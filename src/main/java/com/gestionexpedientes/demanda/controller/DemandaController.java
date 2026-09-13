@@ -8,7 +8,6 @@ import com.gestionexpedientes.global.dto.MessageDto;
 import com.gestionexpedientes.global.exceptions.ResourceNotFoundException;
 import com.gestionexpedientes.security.service.CurrentUser;
 import com.gestionexpedientes.security.service.UserPrincipal;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -22,9 +21,11 @@ import java.util.Map;
 @RestController
 @RequestMapping("/demanda")
 public class DemandaController {
-    @Autowired
-    DemandaService demandaService;
+    private final DemandaService demandaService;
 
+    public DemandaController(DemandaService demandaService) {
+        this.demandaService = demandaService;
+    }
 
     @GetMapping
     public ResponseEntity<List<DemandaListDto>> getAll(@RequestParam(required = false) String search) {

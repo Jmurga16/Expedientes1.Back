@@ -7,7 +7,6 @@ import com.gestionexpedientes.security.dto.CreateUserDto;
 import com.gestionexpedientes.security.dto.JwtTokenDto;
 import com.gestionexpedientes.security.dto.LoginUserDto;
 import com.gestionexpedientes.security.entity.UserEntity;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -18,9 +17,11 @@ import javax.validation.Valid;
 @RequestMapping("/auth")
 public class AuthController {
 
-    @Autowired
-    UserEntityService userEntityService;
+    private final UserEntityService userEntityService;
 
+    public AuthController(UserEntityService userEntityService) {
+        this.userEntityService = userEntityService;
+    }
 
     // Registro publico: siempre ROLE_USER. Los admins se siembran (perfil seed) o los crea otro admin en /user.
     @PostMapping("/create-user")

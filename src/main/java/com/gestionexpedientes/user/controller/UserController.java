@@ -7,7 +7,6 @@ import com.gestionexpedientes.global.exceptions.ResourceNotFoundException;
 import com.gestionexpedientes.user.dto.UserDto;
 import com.gestionexpedientes.user.entity.UserEntity;
 import com.gestionexpedientes.user.service.UserService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -20,8 +19,11 @@ import java.util.List;
 @RequestMapping("/user")
 public class UserController {
 
-    @Autowired
-    UserService userService;
+    private final UserService userService;
+
+    public UserController(UserService userService) {
+        this.userService = userService;
+    }
 
     @PreAuthorize("hasAnyRole('ADMIN')")
     @GetMapping

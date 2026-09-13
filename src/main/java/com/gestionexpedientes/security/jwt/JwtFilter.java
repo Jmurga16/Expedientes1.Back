@@ -3,7 +3,6 @@ package com.gestionexpedientes.security.jwt;
 import com.gestionexpedientes.security.service.UserDetailsServiceImpl;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -22,11 +21,13 @@ public class JwtFilter extends OncePerRequestFilter {
 
     private static final Logger logger = LoggerFactory.getLogger(JwtFilter.class);
 
-    @Autowired
-    JwtProvider jwtProvider;
+    private final JwtProvider jwtProvider;
+    private final UserDetailsServiceImpl userDetailsServiceImpl;
 
-    @Autowired
-    UserDetailsServiceImpl userDetailsServiceImpl;
+    public JwtFilter(JwtProvider jwtProvider, UserDetailsServiceImpl userDetailsServiceImpl) {
+        this.jwtProvider = jwtProvider;
+        this.userDetailsServiceImpl = userDetailsServiceImpl;
+    }
 
     @Override
     protected void doFilterInternal(HttpServletRequest req, HttpServletResponse res, FilterChain chain) throws ServletException, IOException {

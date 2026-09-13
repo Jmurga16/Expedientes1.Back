@@ -2,7 +2,6 @@ package com.gestionexpedientes.security.service;
 
 import com.gestionexpedientes.security.entity.UserEntity;
 import com.gestionexpedientes.security.repository.UserEntityRepository;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -13,8 +12,11 @@ import java.util.Optional;
 @Service
 public class UserDetailsServiceImpl implements UserDetailsService {
 
-    @Autowired
-    UserEntityRepository userEntityRepository;
+    private final UserEntityRepository userEntityRepository;
+
+    public UserDetailsServiceImpl(UserEntityRepository userEntityRepository) {
+        this.userEntityRepository = userEntityRepository;
+    }
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {

@@ -8,7 +8,6 @@ import com.gestionexpedientes.user.repository.IUserRepository;
 import com.gestionexpedientes.global.exceptions.AttributeException;
 import com.gestionexpedientes.global.exceptions.ResourceNotFoundException;
 import com.gestionexpedientes.global.utils.Operations;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -17,11 +16,14 @@ import java.util.stream.Collectors;
 
 @Service
 public class UserService {
-    @Autowired
-    IUserRepository userRepository;
 
-    @Autowired
-    PasswordEncoder passwordEncoder;
+    private final IUserRepository userRepository;
+    private final PasswordEncoder passwordEncoder;
+
+    public UserService(IUserRepository userRepository, PasswordEncoder passwordEncoder) {
+        this.userRepository = userRepository;
+        this.passwordEncoder = passwordEncoder;
+    }
 
     public List<UserEntity> getAll() {
         return userRepository.findAll();

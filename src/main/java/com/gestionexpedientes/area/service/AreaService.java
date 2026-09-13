@@ -6,15 +6,18 @@ import com.gestionexpedientes.area.repository.IAreaRepository;
 import com.gestionexpedientes.global.exceptions.AttributeException;
 import com.gestionexpedientes.global.exceptions.ResourceNotFoundException;
 import com.gestionexpedientes.global.utils.Operations;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
 @Service
 public class AreaService {
-    @Autowired
-    IAreaRepository areaRepository;
+    private final IAreaRepository areaRepository;
+
+    public AreaService(IAreaRepository areaRepository) {
+        this.areaRepository = areaRepository;
+    }
+
     public List<AreaEntity> getAll() {
         return areaRepository.findAll();
     }

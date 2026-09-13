@@ -6,15 +6,18 @@ import com.gestionexpedientes.global.utils.Operations;
 import com.gestionexpedientes.subtipologia.dto.SubTipologiaDto;
 import com.gestionexpedientes.subtipologia.entity.SubTipologiaEntity;
 import com.gestionexpedientes.subtipologia.repository.ISubTipologiaRepository;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
 @Service
 public class SubTipologiaService {
-    @Autowired
-    ISubTipologiaRepository subtipologiaRepository;
+    private final ISubTipologiaRepository subtipologiaRepository;
+
+    public SubTipologiaService(ISubTipologiaRepository subtipologiaRepository) {
+        this.subtipologiaRepository = subtipologiaRepository;
+    }
+
     public List<SubTipologiaEntity> getAll() {
         return subtipologiaRepository.findAll();
     }
