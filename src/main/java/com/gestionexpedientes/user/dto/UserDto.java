@@ -19,7 +19,6 @@ public class UserDto {
     private String username;
     @NotBlank(message = "Email es Obligatorio")
     private String email;
-    @NotBlank(message = "Contraseña es Obligatorio")
     private String password;
     List<RoleEnum> roles;
     private Integer idArea;

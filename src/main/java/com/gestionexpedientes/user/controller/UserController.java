@@ -1,9 +1,6 @@
 package com.gestionexpedientes.user.controller;
 
-import com.gestionexpedientes.user.dto.UserDto;
-import com.gestionexpedientes.user.entity.UserEntity;
-import com.gestionexpedientes.user.service.UserService;
-
+import com.gestionexpedientes.security.service.CurrentUser;
 import com.gestionexpedientes.global.dto.MessageDto;
 import com.gestionexpedientes.global.exceptions.AttributeException;
 import com.gestionexpedientes.global.exceptions.ResourceNotFoundException;
@@ -39,9 +36,9 @@ public class UserController {
         return ResponseEntity.ok(userService.getOne(id));
     }
 
-    @GetMapping("/email/{email}")
-    public ResponseEntity<UserEntity> getByEmail(@PathVariable("email") String email) throws ResourceNotFoundException {
-        return ResponseEntity.ok(userService.getByEmail(email));
+    @GetMapping("/me")
+    public ResponseEntity<UserEntity> getMe() throws ResourceNotFoundException {
+        return ResponseEntity.ok(userService.getOne(CurrentUser.get().getId()));
     }
 
     @PreAuthorize("hasRole('ADMIN')")

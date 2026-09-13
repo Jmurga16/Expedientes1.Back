@@ -113,7 +113,7 @@ public class UserEntity extends EntityId {
         return idArea;
     }
 
-    public void setIdArea(int idArea) {
+    public void setIdArea(Integer idArea) {
         this.idArea = idArea;
     }
 

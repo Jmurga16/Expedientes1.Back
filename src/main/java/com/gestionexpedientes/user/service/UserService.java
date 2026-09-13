@@ -35,15 +35,9 @@ public class UserService {
         return user;
     }
 
-    public UserEntity getByEmail(String email) throws ResourceNotFoundException {
-
-        UserEntity user = userRepository.findByEmail(email)
-                .orElseThrow(()-> new ResourceNotFoundException("Usuario no encontrado."));
-
-        return user;
-    }
-
     public UserEntity save(UserDto dto) throws AttributeException {
+        if(dto.getPassword() == null || dto.getPassword().isBlank())
+            throw new AttributeException("Contraseña es Obligatorio");
         if(userRepository.existsByEmail(dto.getEmail()))
             throw new AttributeException("El correo ya existe.");
         if(userRepository.existsByDni(dto.getDni()))
@@ -81,14 +75,14 @@ public class UserService {
 
         user.setEmail(dto.getEmail());
         user.setUsername(dto.getEmail());
-        user.setPassword(passwordEncoder.encode(dto.getPassword()));
+
+        if(dto.getPassword() != null && !dto.getPassword().isBlank())
+            user.setPassword(passwordEncoder.encode(dto.getPassword()));
         user.setRoles(dto.getRoles());
+        user.setIdArea(dto.getIdArea());
 
-        if(dto.getIdArea()!=null){
-            user.setStatus(dto.getIdArea());
-        }
-
-        user.setStatus(dto.getStatus());
+        if(dto.getStatus() != null)
+            user.setStatus(dto.getStatus());
 
         return userRepository.save(user);
     }
