@@ -6,7 +6,6 @@ import com.gestionexpedientes.global.exceptions.ResourceNotFoundException;
 import com.gestionexpedientes.tipologia.dto.TipologiaDto;
 import com.gestionexpedientes.tipologia.entity.TipologiaEntity;
 import com.gestionexpedientes.tipologia.service.TipologiaService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -18,9 +17,13 @@ import java.util.List;
 @RestController
 @RequestMapping("/tipologia")
 public class TipologiaController {
-    @Autowired
-    TipologiaService tipologiaService;
+    private final TipologiaService tipologiaService;
 
+    public TipologiaController(TipologiaService tipologiaService) {
+        this.tipologiaService = tipologiaService;
+    }
+
+    @PreAuthorize("hasAnyRole('ADMIN')")
     @GetMapping
     public ResponseEntity<List<TipologiaEntity>> getAll() {
         return ResponseEntity.ok(tipologiaService.getAll());

@@ -6,7 +6,6 @@ import com.gestionexpedientes.global.exceptions.ResourceNotFoundException;
 import com.gestionexpedientes.subtipologia.dto.SubTipologiaDto;
 import com.gestionexpedientes.subtipologia.entity.SubTipologiaEntity;
 import com.gestionexpedientes.subtipologia.service.SubTipologiaService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -18,9 +17,13 @@ import java.util.List;
 @RestController
 @RequestMapping("/subtipologia")
 public class SubTipologiaController {
-    @Autowired
-    SubTipologiaService subtipologiaService;
+    private final SubTipologiaService subtipologiaService;
 
+    public SubTipologiaController(SubTipologiaService subtipologiaService) {
+        this.subtipologiaService = subtipologiaService;
+    }
+
+    @PreAuthorize("hasAnyRole('ADMIN')")
     @GetMapping
     public ResponseEntity<List<SubTipologiaEntity>> getAll() {
         return ResponseEntity.ok(subtipologiaService.getAll());
