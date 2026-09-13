@@ -1,6 +1,7 @@
 package com.gestionexpedientes.file.service;
 
 import com.azure.core.util.BinaryData;
+import com.azure.core.util.polling.LongRunningOperationStatus;
 import com.azure.storage.blob.BlobClient;
 import com.azure.storage.blob.BlobClientBuilder;
 import com.azure.storage.blob.models.BlobHttpHeaders;
@@ -24,6 +25,7 @@ import java.util.UUID;
 public class FileService {
 
     private static final long MAX_FILE_SIZE = 5 * 1024 * 1024;
+    private static final Duration COPY_TIMEOUT = Duration.ofSeconds(30);
 
     @Value("${azure.storage.account-name}")
     private String accountName;
@@ -57,10 +59,18 @@ public class FileService {
         return blobClient.getBlobUrl();
     }
 
-    /** Copia un blob (por URL) a otro contenedor, esperando a que la copia termine. */
     public String copyFileWithNewName(String sourceBlobUrl, String destinationContainer, String blobName) throws Exception {
         BlobClient destinationBlobClient = blobClient(destinationContainer, blobName);
-        destinationBlobClient.beginCopy(sourceBlobUrl, Duration.ofSeconds(1)).waitForCompletion(Duration.ofSeconds(30));
+        LongRunningOperationStatus status;
+        try {
+            status = destinationBlobClient.beginCopy(sourceBlobUrl, Duration.ofSeconds(1))
+                    .waitForCompletion(COPY_TIMEOUT)
+                    .getStatus();
+        } catch (RuntimeException e) {
+            throw new AttributeException("No se pudo copiar el diagrama BPMN del workflow.");
+        }
+        if (status != LongRunningOperationStatus.SUCCESSFULLY_COMPLETED)
+            throw new AttributeException("No se pudo copiar el diagrama BPMN del workflow.");
         return destinationBlobClient.getBlobUrl();
     }
 
