@@ -1,13 +1,12 @@
 package com.gestionexpedientes.security.config;
 
+import com.gestionexpedientes.security.filter.LoginRateLimitFilter;
 import com.gestionexpedientes.security.service.UserDetailsServiceImpl;
 import com.gestionexpedientes.security.jwt.JwtEntryPoint;
 import com.gestionexpedientes.security.jwt.JwtFilter;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -27,34 +26,38 @@ import java.util.List;
 @EnableGlobalMethodSecurity(prePostEnabled = true)
 public class MainSecurityConfig {
 
-    @Autowired
-    UserDetailsServiceImpl userDetailsServiceImpl;
+    private final UserDetailsServiceImpl userDetailsServiceImpl;
+    private final PasswordEncoder passwordEncoder;
+    private final JwtEntryPoint jwtEntryPoint;
+    private final JwtFilter jwtFilter;
+    private final LoginRateLimitFilter loginRateLimitFilter;
+    private final List<String> allowedOrigins;
 
-    @Autowired
-    PasswordEncoder passwordEncoder;
-
-    @Autowired
-    JwtEntryPoint jwtEntryPoint;
-
-    @Autowired
-    JwtFilter jwtFilter;
-
-    @Value("${cors.allowed-origins}")
-    List<String> allowedOrigins;
-
-    AuthenticationManager authenticationManager;
+    public MainSecurityConfig(UserDetailsServiceImpl userDetailsServiceImpl,
+                              PasswordEncoder passwordEncoder,
+                              JwtEntryPoint jwtEntryPoint,
+                              JwtFilter jwtFilter,
+                              LoginRateLimitFilter loginRateLimitFilter,
+                              @Value("${cors.allowed-origins}") List<String> allowedOrigins) {
+        this.userDetailsServiceImpl = userDetailsServiceImpl;
+        this.passwordEncoder = passwordEncoder;
+        this.jwtEntryPoint = jwtEntryPoint;
+        this.jwtFilter = jwtFilter;
+        this.loginRateLimitFilter = loginRateLimitFilter;
+        this.allowedOrigins = allowedOrigins;
+    }
 
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         AuthenticationManagerBuilder builder = http.getSharedObject(AuthenticationManagerBuilder.class);
         builder.userDetailsService(userDetailsServiceImpl).passwordEncoder(passwordEncoder);
-        authenticationManager = builder.build();
-        http.authenticationManager(authenticationManager);
+        http.authenticationManager(builder.build());
         http.csrf().disable();
         http.cors();
         http.authorizeRequests().antMatchers("/auth/login", "/auth/create-user").permitAll().anyRequest().authenticated();
         http.exceptionHandling().authenticationEntryPoint(jwtEntryPoint);
         http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
+        http.addFilterBefore(loginRateLimitFilter, UsernamePasswordAuthenticationFilter.class);
         http.addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class);
         return http.build();
     }
