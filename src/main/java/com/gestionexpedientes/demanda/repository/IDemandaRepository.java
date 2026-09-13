@@ -13,5 +13,7 @@ public interface IDemandaRepository extends MongoRepository<DemandaEntity, Integ
     Optional<DemandaEntity> findByCaratula(String caratula);
     List<DemandaEntity> findByEstado(int estado);
     List<DemandaEntity> findByIdUsuario(int idUsuario);
+    Optional<DemandaEntity> findFirstByRutaImagen(String rutaImagen);
+    Optional<DemandaEntity> findFirstByUrlBpmn(String urlBpmn);
     boolean existsByIdTipoDemandaAndIdTipologiaAndIdSubtipologia(Integer idTipoDemanda, Integer Tipologia, Integer Subtipologia);
 }
