@@ -60,7 +60,7 @@ public class UserController {
 
     @PreAuthorize("hasAuthority('ROLE_ADMIN')")
     @DeleteMapping("/{id}")
-    public ResponseEntity<MessageDto> delete(@PathVariable("id") int id) throws ResourceNotFoundException {
+    public ResponseEntity<MessageDto> delete(@PathVariable("id") int id) throws ResourceNotFoundException, AttributeException {
         UserEntity user = userService.delete(id);
         String message = "Usuario " + user.getUsername() + " ha sido eliminado";
         return ResponseEntity.ok(new MessageDto(HttpStatus.OK, message));

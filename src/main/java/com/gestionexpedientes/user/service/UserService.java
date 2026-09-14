@@ -17,6 +17,9 @@ import java.util.Optional;
 @Service
 public class UserService {
 
+    private static final int ID_ADMIN_DEMO = 1;
+    private static final String ADMIN_DEMO_PROTEGIDO = "El Administrador demo no se puede modificar ni eliminar.";
+
     private final IUserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
     private final CounterService counterService;
@@ -64,6 +67,7 @@ public class UserService {
     }
 
     public UserEntity update(int id, UserDto dto) throws ResourceNotFoundException, AttributeException {
+        verificarNoEsAdminDemo(id);
         UserEntity user = userRepository.findById(id)
                 .orElseThrow(()-> new ResourceNotFoundException("Usuario no encontrado."));
 
@@ -89,11 +93,17 @@ public class UserService {
         return userRepository.save(user);
     }
 
-    public UserEntity delete(int id) throws ResourceNotFoundException {
+    public UserEntity delete(int id) throws ResourceNotFoundException, AttributeException {
+        verificarNoEsAdminDemo(id);
         UserEntity user = userRepository.findById(id)
-                .orElseThrow(()-> new ResourceNotFoundException("Usuario no encontrado."));;
+                .orElseThrow(()-> new ResourceNotFoundException("Usuario no encontrado."));
         userRepository.delete(user);
         return user;
+    }
+
+    private void verificarNoEsAdminDemo(int id) throws AttributeException {
+        if (id == ID_ADMIN_DEMO)
+            throw new AttributeException(ADMIN_DEMO_PROTEGIDO);
     }
 
     private void verificarLibre(Optional<UserEntity> encontrado, int id, String mensaje) throws AttributeException {
