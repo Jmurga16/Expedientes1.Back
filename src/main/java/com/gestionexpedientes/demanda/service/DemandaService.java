@@ -15,7 +15,7 @@ import com.gestionexpedientes.historial_demanda.service.HistorialDemandaService;
 import com.gestionexpedientes.security.service.UserPrincipal;
 import com.gestionexpedientes.subtipologia.entity.SubTipologiaEntity;
 import com.gestionexpedientes.subtipologia.repository.ISubTipologiaRepository;
-import com.gestionexpedientes.tipodemanda.data.TipoDemandaData;
+import com.gestionexpedientes.tipodemanda.TipoDemanda;
 import com.gestionexpedientes.tipologia.entity.TipologiaEntity;
 import com.gestionexpedientes.tipologia.repository.ITipologiaRepository;
 import com.gestionexpedientes.user.entity.UserEntity;
@@ -203,16 +203,8 @@ public class DemandaService {
         if (subtipologia != null)
             dto.setSubtipologia(subtipologia.getNombre());
 
-        dto.setTipoDemanda(codigoTipoDemanda(demanda.getIdTipoDemanda()));
+        dto.setTipoDemanda(TipoDemanda.fromId(demanda.getIdTipoDemanda()).map(TipoDemanda::getCodigo).orElse(null));
         return dto;
-    }
-
-    private static String codigoTipoDemanda(int idTipoDemanda) {
-        return TipoDemandaData.getTipoDemandaList().stream()
-                .filter(td -> td.getId() == idTipoDemanda)
-                .map(TipoDemandaData.TipoDemanda::getCodigo)
-                .findFirst()
-                .orElse(null);
     }
 
     public DemandaEntity getOne(int id, UserPrincipal user) throws ResourceNotFoundException {
@@ -294,10 +286,8 @@ public class DemandaService {
     private String setCaratula(DemandaRequestDto dto) throws AttributeException {
         String codigoTipologia = String.format("%03d", dto.getIdTipologia());
 
-        String tipoDemanda = TipoDemandaData.getTipoDemandaList().stream()
-                .filter(td -> td.getId() == dto.getIdTipoDemanda())
-                .map(TipoDemandaData.TipoDemanda::getCodigo)
-                .findFirst()
+        String tipoDemanda = TipoDemanda.fromId(dto.getIdTipoDemanda())
+                .map(TipoDemanda::getCodigo)
                 .orElseThrow(() -> new AttributeException("El tipo de demanda no existe."));
 
         String anio = new SimpleDateFormat("yyyy").format(new Date());

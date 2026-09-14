@@ -7,7 +7,7 @@ import com.azure.storage.common.StorageSharedKeyCredential;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.gestionexpedientes.counter.service.CounterService;
-import com.gestionexpedientes.tipodemanda.data.TipoDemandaData;
+import com.gestionexpedientes.tipodemanda.TipoDemanda;
 import org.bson.Document;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -203,10 +203,8 @@ public class SeedRunner implements CommandLineRunner {
 
     private String caratula(Map<String, Object> workflow, Date fecha, Map<String, Long> secuencias) {
         String codigoTipologia = String.format("%03d", (Integer) workflow.get("idTipologia"));
-        String tipoDemanda = TipoDemandaData.getTipoDemandaList().stream()
-                .filter(td -> td.getId() == (Integer) workflow.get("idTipoDemanda"))
-                .map(TipoDemandaData.TipoDemanda::getCodigo)
-                .findFirst()
+        String tipoDemanda = TipoDemanda.fromId((Integer) workflow.get("idTipoDemanda"))
+                .map(TipoDemanda::getCodigo)
                 .orElseThrow(() -> new IllegalStateException("Tipo de demanda inexistente en workflow " + workflow.get("_id")));
         String anio = new SimpleDateFormat("yyyy").format(fecha);
 

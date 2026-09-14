@@ -5,9 +5,8 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.gestionexpedientes.global.exceptions.AttributeException;
 import com.gestionexpedientes.global.exceptions.ResourceNotFoundException;
-import com.gestionexpedientes.security.enums.RoleEnum;
 import com.gestionexpedientes.subtipologia.repository.ISubTipologiaRepository;
-import com.gestionexpedientes.tipodemanda.data.TipoDemandaData;
+import com.gestionexpedientes.tipodemanda.TipoDemanda;
 import com.gestionexpedientes.tipologia.repository.ITipologiaRepository;
 import com.gestionexpedientes.workflow.dto.WorkflowDto;
 import com.gestionexpedientes.workflow.dto.WorkflowListDto;
@@ -58,13 +57,7 @@ public class WorkflowService {
         dto.setNombre(workflow.getNombre());
         dto.setDescripcion(workflow.getDescripcion());
 
-        dto.setTipoDemanda(
-                TipoDemandaData.getTipoDemandaList().stream()
-                        .filter(td -> td.getId() == workflow.getIdTipoDemanda())
-                        .map(TipoDemandaData.TipoDemanda::getNombre)
-                        .findFirst()
-                        .orElse(null)
-        );
+        dto.setTipoDemanda(TipoDemanda.fromId(workflow.getIdTipoDemanda()).map(TipoDemanda::getNombre).orElse(null));
 
         dto.setTipologia(tipologiaRepository.findNombreById(workflow.getIdTipologia())
                 .map(this::extractNombre)
