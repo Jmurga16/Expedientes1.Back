@@ -1,11 +1,7 @@
 package com.gestionexpedientes.security.dto;
 
-
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotEmpty;
-import java.util.ArrayList;
-import java.util.List;
 
 public class CreateUserDto {
     @NotBlank(message = "Nombre es Obligatorio.")
@@ -16,31 +12,15 @@ public class CreateUserDto {
     private String dni;
     @NotBlank(message = "Domicilio es Obligatorio.")
     private String address;
-
-    private String username;
     @NotBlank(message = "Email es Obligatorio.")
     @Email(message = "invalid email")
     private String email;
     @NotBlank(message = "Contraseña es Obligatoria")
     private String password;
-    // @NotEmpty(message = "roles are mandatory")
-    List<String> roles = new ArrayList<>();
 
     public CreateUserDto() {
     }
 
-
-
-    public CreateUserDto(String name, String lastname, String dni, String address, String username, String email, String password, List<String> roles) {
-        this.name = name;
-        this.lastname =lastname;
-        this.dni=dni;
-        this.address=address;
-        this.username = username;
-        this.email = email;
-        this.password = password;
-        this.roles = roles;
-    }
     public String getName() {
         return name;
     }
@@ -72,13 +52,6 @@ public class CreateUserDto {
     public void setAddress(String address) {
         this.address = address;
     }
-    public String getUsername() {
-        return username;
-    }
-
-    public void setUsername(String username) {
-        this.username = username;
-    }
 
     public String getEmail() {
         return email;
@@ -94,13 +67,5 @@ public class CreateUserDto {
 
     public void setPassword(String password) {
         this.password = password;
-    }
-
-    public List<String> getRoles() {
-        return roles;
-    }
-
-    public void setRoles(List<String> roles) {
-        this.roles = roles;
     }
 }

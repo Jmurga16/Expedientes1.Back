@@ -1,5 +1,6 @@
 package com.gestionexpedientes.user.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.gestionexpedientes.global.entity.EntityId;
 import com.gestionexpedientes.security.enums.RoleEnum;
 import org.springframework.data.mongodb.core.mapping.Document;
@@ -117,7 +118,13 @@ public class UserEntity extends EntityId {
         this.idArea = idArea;
     }
 
-    public void setPassword(String password){ this.password = password;}
+    @JsonIgnore
+    public String getPassword() {
+        return password;
+    }
 
+    public void setPassword(String password) {
+        this.password = password;
+    }
 
 }

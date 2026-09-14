@@ -6,7 +6,7 @@ import com.gestionexpedientes.global.exceptions.AttributeException;
 import com.gestionexpedientes.security.dto.CreateUserDto;
 import com.gestionexpedientes.security.dto.JwtTokenDto;
 import com.gestionexpedientes.security.dto.LoginUserDto;
-import com.gestionexpedientes.security.entity.UserEntity;
+import com.gestionexpedientes.user.entity.UserEntity;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;

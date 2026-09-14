@@ -1,7 +1,7 @@
 package com.gestionexpedientes.security.service;
 
-import com.gestionexpedientes.security.entity.UserEntity;
 import com.gestionexpedientes.security.enums.RoleEnum;
+import com.gestionexpedientes.user.entity.UserEntity;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
