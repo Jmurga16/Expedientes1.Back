@@ -1,52 +1,142 @@
 [
   {
     "_id": 1,
-    "nombre": "Alta alumbrado",
-    "descripcion": "Colocación de alumbrado público led.",
+    "nombre": "Petición - Incorporar alumbrado",
+    "descripcion": "Instalación de alumbrado público LED en calles sin iluminación.",
     "idTipoDemanda": 1,
     "idTipologia": 1,
     "idSubtipologia": 6,
-    "bpmnBlob": "116_diagram.bpmn",
+    "bpmnBlob": "workflow-01.bpmn",
     "estado": 1
   },
   {
     "_id": 2,
     "nombre": "Queja - Terrenos y vivienda",
-    "descripcion": "Pago de impuesto inmobiliario de terreno y vivienda",
+    "descripcion": "Quejas por liquidación del impuesto inmobiliario de terrenos y viviendas.",
     "idTipoDemanda": 2,
     "idTipologia": 2,
     "idSubtipologia": 16,
-    "bpmnBlob": "2216_diagram.bpmn",
+    "bpmnBlob": "workflow-02.bpmn",
     "estado": 1
   },
   {
     "_id": 3,
-    "nombre": "Señal transito en ruta",
-    "descripcion": "Se solicita una señal de transito en ruta",
+    "nombre": "Reclamo - Señal de tránsito",
+    "descripcion": "Pedido de colocación o reposición de señalización vial.",
     "idTipoDemanda": 4,
     "idTipologia": 3,
     "idSubtipologia": 25,
-    "bpmnBlob": "4325_diagram.bpmn",
+    "bpmnBlob": "workflow-03.bpmn",
     "estado": 1
   },
   {
     "_id": 4,
-    "nombre": "Programación act",
-    "descripcion": "Reclamo para generacion de actividades juveniles Niños",
+    "nombre": "Sugerencia - Talleres y programas educativos",
+    "descripcion": "Propuestas de talleres y actividades para niños y jóvenes.",
     "idTipoDemanda": 3,
     "idTipologia": 5,
     "idSubtipologia": 33,
-    "bpmnBlob": "3533_diagram.bpmn",
+    "bpmnBlob": "workflow-04.bpmn",
     "estado": 1
   },
   {
     "_id": 5,
-    "nombre": "Peticion - Sesiones ordinarias y extraordinarias",
-    "descripcion": "Solicitud de tratamiento en sesion del Concejo",
+    "nombre": "Petición - Sesiones ordinarias y extraordinarias",
+    "descripcion": "Solicitud de tratamiento de un tema en sesión del Concejo.",
     "idTipoDemanda": 1,
     "idTipologia": 4,
     "idSubtipologia": 31,
-    "bpmnBlob": "1431_diagram.bpmn",
+    "bpmnBlob": "workflow-05.bpmn",
+    "estado": 1
+  },
+  {
+    "_id": 6,
+    "nombre": "Reclamo - Reparación de bache",
+    "descripcion": "Reparación de baches en calzadas municipales.",
+    "idTipoDemanda": 4,
+    "idTipologia": 1,
+    "idSubtipologia": 11,
+    "bpmnBlob": "workflow-06.bpmn",
+    "estado": 1
+  },
+  {
+    "_id": 7,
+    "nombre": "Reclamo - Residuos y escombros",
+    "descripcion": "Retiro de residuos voluminosos y escombros de la vía pública.",
+    "idTipoDemanda": 4,
+    "idTipologia": 1,
+    "idSubtipologia": 5,
+    "bpmnBlob": "workflow-07.bpmn",
+    "estado": 1
+  },
+  {
+    "_id": 8,
+    "nombre": "Reclamo - Poda de ramas",
+    "descripcion": "Poda de ramas que afectan cableado, veredas o visibilidad.",
+    "idTipoDemanda": 4,
+    "idTipologia": 1,
+    "idSubtipologia": 13,
+    "bpmnBlob": "workflow-08.bpmn",
+    "estado": 1
+  },
+  {
+    "_id": 9,
+    "nombre": "Reclamo - Reparación de vereda",
+    "descripcion": "Reparación de veredas dañadas en espacios públicos.",
+    "idTipoDemanda": 4,
+    "idTipologia": 1,
+    "idSubtipologia": 12,
+    "bpmnBlob": "workflow-09.bpmn",
+    "estado": 1
+  },
+  {
+    "_id": 10,
+    "nombre": "Petición - Habilitación comercial",
+    "descripcion": "Habilitación y renovación de comercios.",
+    "idTipoDemanda": 1,
+    "idTipologia": 2,
+    "idSubtipologia": 19,
+    "bpmnBlob": "workflow-10.bpmn",
+    "estado": 1
+  },
+  {
+    "_id": 11,
+    "nombre": "Queja - Animal suelto en vía pública",
+    "descripcion": "Denuncias por animales sueltos en la vía pública.",
+    "idTipoDemanda": 2,
+    "idTipologia": 3,
+    "idSubtipologia": 28,
+    "bpmnBlob": "workflow-11.bpmn",
+    "estado": 1
+  },
+  {
+    "_id": 12,
+    "nombre": "Petición - Reparación de pavimento",
+    "descripcion": "Repavimentación de tramos deteriorados.",
+    "idTipoDemanda": 1,
+    "idTipologia": 1,
+    "idSubtipologia": 10,
+    "bpmnBlob": "workflow-12.bpmn",
+    "estado": 1
+  },
+  {
+    "_id": 13,
+    "nombre": "Reclamo - Luminaria dañada",
+    "descripcion": "Reparación o reemplazo de luminarias del alumbrado público.",
+    "idTipoDemanda": 4,
+    "idTipologia": 1,
+    "idSubtipologia": 8,
+    "bpmnBlob": "workflow-13.bpmn",
+    "estado": 1
+  },
+  {
+    "_id": 14,
+    "nombre": "Petición - Becas deportivas y académicas",
+    "descripcion": "Solicitud de becas para estudiantes y deportistas locales.",
+    "idTipoDemanda": 1,
+    "idTipologia": 5,
+    "idSubtipologia": 36,
+    "bpmnBlob": "workflow-14.bpmn",
     "estado": 1
   }
 ]

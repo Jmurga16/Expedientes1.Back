@@ -1,0 +1,811 @@
+[
+  {
+    "idWorkflow": 6,
+    "idUsuario": 2,
+    "domicilio": "Calle Los Aromos 1250",
+    "informacionAdicional": "Bache profundo frente al número 1250, ya dañó dos autos.",
+    "minutosAtras": 60480,
+    "movimientos": [
+      {
+        "minutosAtras": 47821,
+        "idUsuario": 3,
+        "paso": "Inspección del bache",
+        "estado": 3,
+        "observaciones": "Se verificó en el lugar lo informado por el vecino."
+      },
+      {
+        "minutosAtras": 39843,
+        "idUsuario": 3,
+        "paso": "Programación de cuadrilla",
+        "estado": 3,
+        "observaciones": "Tarea asignada a la cuadrilla del área."
+      },
+      {
+        "minutosAtras": 29741,
+        "idUsuario": 3,
+        "paso": "Reparación de calzada",
+        "estado": 3,
+        "observaciones": "Se verificó en el lugar lo informado por el vecino."
+      },
+      {
+        "minutosAtras": 18194,
+        "idUsuario": 5,
+        "paso": "Limpieza del sector",
+        "estado": 3,
+        "observaciones": "Tarea asignada a la cuadrilla del área."
+      },
+      {
+        "minutosAtras": 8026,
+        "idUsuario": 5,
+        "paso": "Finalizado",
+        "estado": 4,
+        "observaciones": "Se resolvió lo solicitado y se cierra el expediente."
+      }
+    ]
+  },
+  {
+    "idWorkflow": 6,
+    "idUsuario": 8,
+    "domicilio": "Av. San Martín y Belgrano",
+    "informacionAdicional": "Pozo en la esquina que junta agua cuando llueve.",
+    "minutosAtras": 25615,
+    "movimientos": [
+      {
+        "minutosAtras": 17657,
+        "idUsuario": 3,
+        "paso": "Inspección del bache",
+        "estado": 3,
+        "observaciones": "Se verificó en el lugar lo informado por el vecino."
+      },
+      {
+        "minutosAtras": 11638,
+        "idUsuario": 3,
+        "paso": "Programación de cuadrilla",
+        "estado": 3,
+        "observaciones": "Tarea asignada a la cuadrilla del área."
+      },
+      {
+        "minutosAtras": 4200,
+        "idUsuario": 3,
+        "paso": "Programación de cuadrilla",
+        "estado": 6,
+        "observaciones": "Pendiente de disponibilidad de materiales."
+      }
+    ]
+  },
+  {
+    "idWorkflow": 6,
+    "idUsuario": 9,
+    "domicilio": "Ruta Provincial 5, km 3",
+    "informacionAdicional": "Varios baches sobre la banquina de la ruta.",
+    "minutosAtras": 35672,
+    "movimientos": [
+      {
+        "minutosAtras": 23127,
+        "idUsuario": 3,
+        "paso": "Inspección del bache",
+        "estado": 3,
+        "observaciones": "Se completa la etapa sin observaciones."
+      },
+      {
+        "minutosAtras": 7681,
+        "idUsuario": 3,
+        "paso": "Inspección del bache",
+        "estado": 5,
+        "observaciones": "Derivado a Vialidad Provincial. Se notifica al vecino."
+      }
+    ]
+  },
+  {
+    "idWorkflow": 6,
+    "idUsuario": 10,
+    "domicilio": "Calle Las Heras 480",
+    "informacionAdicional": "Bache que se agrandó después de la última lluvia.",
+    "minutosAtras": 4262,
+    "movimientos": []
+  },
+  {
+    "idWorkflow": 9,
+    "idUsuario": 2,
+    "domicilio": "Pasaje Mitre 77",
+    "informacionAdicional": "Vereda levantada por raíces, peligro para peatones.",
+    "minutosAtras": 78954,
+    "movimientos": [
+      {
+        "minutosAtras": 62403,
+        "idUsuario": 3,
+        "paso": "Inspección de vereda",
+        "estado": 3,
+        "observaciones": "Tarea asignada a la cuadrilla del área."
+      },
+      {
+        "minutosAtras": 48257,
+        "idUsuario": 14,
+        "paso": "Cotización de materiales",
+        "estado": 3,
+        "observaciones": "Documentación revisada, se avanza al siguiente paso."
+      },
+      {
+        "minutosAtras": 31802,
+        "idUsuario": 3,
+        "paso": "Ejecución de obra",
+        "estado": 3,
+        "observaciones": "Se completa la etapa sin observaciones."
+      },
+      {
+        "minutosAtras": 19992,
+        "idUsuario": 3,
+        "paso": "Certificación final",
+        "estado": 3,
+        "observaciones": "Se verificó en el lugar lo informado por el vecino."
+      },
+      {
+        "minutosAtras": 4181,
+        "idUsuario": 3,
+        "paso": "Finalizado",
+        "estado": 4,
+        "observaciones": "Trabajo concluido. Se notifica al vecino."
+      }
+    ]
+  },
+  {
+    "idWorkflow": 9,
+    "idUsuario": 11,
+    "domicilio": "Calle Sarmiento 915",
+    "informacionAdicional": "Baldosas rotas frente a la escuela.",
+    "minutosAtras": 28727,
+    "movimientos": [
+      {
+        "minutosAtras": 19800,
+        "idUsuario": 3,
+        "paso": "Inspección de vereda",
+        "estado": 3,
+        "observaciones": "Documentación revisada, se avanza al siguiente paso."
+      },
+      {
+        "minutosAtras": 10892,
+        "idUsuario": 14,
+        "paso": "Cotización de materiales",
+        "estado": 3,
+        "observaciones": "Se completa la etapa sin observaciones."
+      }
+    ]
+  },
+  {
+    "idWorkflow": 9,
+    "idUsuario": 12,
+    "domicilio": "Plaza Central, lado norte",
+    "informacionAdicional": "Vereda hundida junto a la parada de colectivos.",
+    "minutosAtras": 12693,
+    "movimientos": [
+      {
+        "minutosAtras": 7451,
+        "idUsuario": 3,
+        "paso": "Inspección de vereda",
+        "estado": 3,
+        "observaciones": "Se completa la etapa sin observaciones."
+      },
+      {
+        "minutosAtras": 4242,
+        "idUsuario": 3,
+        "paso": "Inspección de vereda",
+        "estado": 2,
+        "observaciones": "Suspendido por condiciones climáticas."
+      }
+    ]
+  },
+  {
+    "idWorkflow": 12,
+    "idUsuario": 13,
+    "domicilio": "Calle Moreno, entre 3 y 5",
+    "informacionAdicional": "Todo el tramo de pavimento está deteriorado.",
+    "minutosAtras": 86131,
+    "movimientos": [
+      {
+        "minutosAtras": 63870,
+        "idUsuario": 3,
+        "paso": "Relevamiento de calzada",
+        "estado": 3,
+        "observaciones": "Documentación revisada, se avanza al siguiente paso."
+      },
+      {
+        "minutosAtras": 46269,
+        "idUsuario": 1,
+        "paso": "Aprobación del gasto",
+        "estado": 3,
+        "observaciones": "Se completa la etapa sin observaciones."
+      },
+      {
+        "minutosAtras": 30705,
+        "idUsuario": 3,
+        "paso": "Ejecución de pavimento",
+        "estado": 3,
+        "observaciones": "Se verificó en el lugar lo informado por el vecino."
+      }
+    ]
+  },
+  {
+    "idWorkflow": 12,
+    "idUsuario": 8,
+    "domicilio": "Av. Libertad 2100",
+    "informacionAdicional": "Pavimento con grietas en toda la cuadra.",
+    "minutosAtras": 17115,
+    "movimientos": [
+      {
+        "minutosAtras": 10303,
+        "idUsuario": 3,
+        "paso": "Relevamiento de calzada",
+        "estado": 3,
+        "observaciones": "Se completa la etapa sin observaciones."
+      },
+      {
+        "minutosAtras": 4103,
+        "idUsuario": 3,
+        "paso": "Relevamiento de calzada",
+        "estado": 6,
+        "observaciones": "Pendiente de disponibilidad de materiales."
+      }
+    ]
+  },
+  {
+    "idWorkflow": 3,
+    "idUsuario": 9,
+    "domicilio": "Calle Rivadavia y Colón",
+    "informacionAdicional": "Falta cartel de PARE, hubo dos choques este mes.",
+    "minutosAtras": 47326,
+    "movimientos": [
+      {
+        "minutosAtras": 40709,
+        "idUsuario": 16,
+        "paso": "Inspección vial",
+        "estado": 3,
+        "observaciones": "Se verificó en el lugar lo informado por el vecino."
+      },
+      {
+        "minutosAtras": 33368,
+        "idUsuario": 3,
+        "paso": "Fabricación de señal",
+        "estado": 3,
+        "observaciones": "Se verificó en el lugar lo informado por el vecino."
+      },
+      {
+        "minutosAtras": 25472,
+        "idUsuario": 3,
+        "paso": "Colocación de señal",
+        "estado": 3,
+        "observaciones": "Tarea asignada a la cuadrilla del área."
+      },
+      {
+        "minutosAtras": 19114,
+        "idUsuario": 16,
+        "paso": "Control de señalización",
+        "estado": 3,
+        "observaciones": "Se completa la etapa sin observaciones."
+      },
+      {
+        "minutosAtras": 11598,
+        "idUsuario": 16,
+        "paso": "Finalizado",
+        "estado": 4,
+        "observaciones": "Se resolvió lo solicitado y se cierra el expediente."
+      }
+    ]
+  },
+  {
+    "idWorkflow": 3,
+    "idUsuario": 2,
+    "domicilio": "Acceso al Hospital Municipal",
+    "informacionAdicional": "Señal de velocidad máxima caída.",
+    "minutosAtras": 9776,
+    "movimientos": [
+      {
+        "minutosAtras": 5966,
+        "idUsuario": 16,
+        "paso": "Inspección vial",
+        "estado": 3,
+        "observaciones": "Documentación revisada, se avanza al siguiente paso."
+      },
+      {
+        "minutosAtras": 2458,
+        "idUsuario": 3,
+        "paso": "Fabricación de señal",
+        "estado": 3,
+        "observaciones": "Tarea asignada a la cuadrilla del área."
+      }
+    ]
+  },
+  {
+    "idWorkflow": 1,
+    "idUsuario": 10,
+    "domicilio": "Barrio Los Pinos, calle 12",
+    "informacionAdicional": "La calle no tiene ninguna luminaria.",
+    "minutosAtras": 68670,
+    "movimientos": [
+      {
+        "minutosAtras": 59825,
+        "idUsuario": 5,
+        "paso": "Relevamiento técnico",
+        "estado": 3,
+        "observaciones": "Tarea asignada a la cuadrilla del área."
+      },
+      {
+        "minutosAtras": 51902,
+        "idUsuario": 14,
+        "paso": "Aprobación de presupuesto",
+        "estado": 3,
+        "observaciones": "Documentación revisada, se avanza al siguiente paso."
+      },
+      {
+        "minutosAtras": 43349,
+        "idUsuario": 3,
+        "paso": "Instalación de luminarias",
+        "estado": 3,
+        "observaciones": "Se verificó en el lugar lo informado por el vecino."
+      },
+      {
+        "minutosAtras": 34538,
+        "idUsuario": 5,
+        "paso": "Verificación de funcionamiento",
+        "estado": 3,
+        "observaciones": "Tarea asignada a la cuadrilla del área."
+      },
+      {
+        "minutosAtras": 22648,
+        "idUsuario": 5,
+        "paso": "Finalizado",
+        "estado": 4,
+        "observaciones": "Trabajo concluido. Se notifica al vecino."
+      }
+    ]
+  },
+  {
+    "idWorkflow": 1,
+    "idUsuario": 11,
+    "domicilio": "Loteo El Mirador",
+    "informacionAdicional": "Pedido de alumbrado para el nuevo loteo.",
+    "minutosAtras": 42807,
+    "movimientos": [
+      {
+        "minutosAtras": 31751,
+        "idUsuario": 5,
+        "paso": "Relevamiento técnico",
+        "estado": 3,
+        "observaciones": "Documentación revisada, se avanza al siguiente paso."
+      },
+      {
+        "minutosAtras": 19917,
+        "idUsuario": 5,
+        "paso": "Relevamiento técnico",
+        "estado": 5,
+        "observaciones": "Sin red eléctrica en la zona. Se notifica al vecino."
+      }
+    ]
+  },
+  {
+    "idWorkflow": 1,
+    "idUsuario": 12,
+    "domicilio": "Calle Güemes 1400 al 1600",
+    "informacionAdicional": "Cuadra oscura, pedimos luces LED.",
+    "minutosAtras": 20123,
+    "movimientos": [
+      {
+        "minutosAtras": 13258,
+        "idUsuario": 5,
+        "paso": "Relevamiento técnico",
+        "estado": 3,
+        "observaciones": "Se verificó en el lugar lo informado por el vecino."
+      },
+      {
+        "minutosAtras": 7644,
+        "idUsuario": 14,
+        "paso": "Aprobación de presupuesto",
+        "estado": 3,
+        "observaciones": "Se toma intervención y se coordina con el equipo."
+      },
+      {
+        "minutosAtras": 2633,
+        "idUsuario": 3,
+        "paso": "Instalación de luminarias",
+        "estado": 3,
+        "observaciones": "Documentación revisada, se avanza al siguiente paso."
+      }
+    ]
+  },
+  {
+    "idWorkflow": 13,
+    "idUsuario": 13,
+    "domicilio": "Calle Alvear 310",
+    "informacionAdicional": "Luminaria titilando toda la noche.",
+    "minutosAtras": 7134,
+    "movimientos": [
+      {
+        "minutosAtras": 1696,
+        "idUsuario": 5,
+        "paso": "Diagnóstico",
+        "estado": 3,
+        "observaciones": "Se completa la etapa sin observaciones."
+      }
+    ]
+  },
+  {
+    "idWorkflow": 13,
+    "idUsuario": 2,
+    "domicilio": "Plaza San Martín",
+    "informacionAdicional": "Tres faroles apagados en la plaza.",
+    "minutosAtras": 31253,
+    "movimientos": [
+      {
+        "minutosAtras": 23414,
+        "idUsuario": 5,
+        "paso": "Diagnóstico",
+        "estado": 3,
+        "observaciones": "Se completa la etapa sin observaciones."
+      },
+      {
+        "minutosAtras": 16091,
+        "idUsuario": 5,
+        "paso": "Reemplazo de luminaria",
+        "estado": 3,
+        "observaciones": "Se verificó en el lugar lo informado por el vecino."
+      },
+      {
+        "minutosAtras": 11889,
+        "idUsuario": 5,
+        "paso": "Prueba de funcionamiento",
+        "estado": 3,
+        "observaciones": "Se verificó en el lugar lo informado por el vecino."
+      },
+      {
+        "minutosAtras": 7415,
+        "idUsuario": 5,
+        "paso": "Finalizado",
+        "estado": 4,
+        "observaciones": "Trabajo concluido. Se notifica al vecino."
+      }
+    ]
+  },
+  {
+    "idWorkflow": 7,
+    "idUsuario": 8,
+    "domicilio": "Calle Dorrego 650",
+    "informacionAdicional": "Escombros abandonados en la vereda hace una semana.",
+    "minutosAtras": 22744,
+    "movimientos": [
+      {
+        "minutosAtras": 19698,
+        "idUsuario": 5,
+        "paso": "Verificación del reclamo",
+        "estado": 3,
+        "observaciones": "Tarea asignada a la cuadrilla del área."
+      },
+      {
+        "minutosAtras": 16013,
+        "idUsuario": 5,
+        "paso": "Asignación de camión",
+        "estado": 3,
+        "observaciones": "Tarea asignada a la cuadrilla del área."
+      },
+      {
+        "minutosAtras": 12950,
+        "idUsuario": 5,
+        "paso": "Retiro de residuos",
+        "estado": 3,
+        "observaciones": "Se completa la etapa sin observaciones."
+      },
+      {
+        "minutosAtras": 9894,
+        "idUsuario": 19,
+        "paso": "Labrado de acta",
+        "estado": 3,
+        "observaciones": "Se verificó en el lugar lo informado por el vecino."
+      },
+      {
+        "minutosAtras": 5207,
+        "idUsuario": 19,
+        "paso": "Finalizado",
+        "estado": 4,
+        "observaciones": "Trabajo concluido. Se notifica al vecino."
+      }
+    ]
+  },
+  {
+    "idWorkflow": 7,
+    "idUsuario": 9,
+    "domicilio": "Esquina Italia y Chile",
+    "informacionAdicional": "Microbasural en el terreno baldío.",
+    "minutosAtras": 5526,
+    "movimientos": [
+      {
+        "minutosAtras": 4211,
+        "idUsuario": 5,
+        "paso": "Verificación del reclamo",
+        "estado": 3,
+        "observaciones": "Se completa la etapa sin observaciones."
+      },
+      {
+        "minutosAtras": 2064,
+        "idUsuario": 5,
+        "paso": "Verificación del reclamo",
+        "estado": 6,
+        "observaciones": "Pendiente de confirmación de otra área."
+      }
+    ]
+  },
+  {
+    "idWorkflow": 8,
+    "idUsuario": 10,
+    "domicilio": "Calle Tucumán 220",
+    "informacionAdicional": "Ramas tocando los cables de luz.",
+    "minutosAtras": 38870,
+    "movimientos": [
+      {
+        "minutosAtras": 30826,
+        "idUsuario": 5,
+        "paso": "Inspección del árbol",
+        "estado": 3,
+        "observaciones": "Se toma intervención y se coordina con el equipo."
+      },
+      {
+        "minutosAtras": 22492,
+        "idUsuario": 16,
+        "paso": "Corte de tránsito",
+        "estado": 3,
+        "observaciones": "Documentación revisada, se avanza al siguiente paso."
+      },
+      {
+        "minutosAtras": 15383,
+        "idUsuario": 5,
+        "paso": "Poda programada",
+        "estado": 3,
+        "observaciones": "Se verificó en el lugar lo informado por el vecino."
+      },
+      {
+        "minutosAtras": 10207,
+        "idUsuario": 5,
+        "paso": "Retiro de ramas",
+        "estado": 3,
+        "observaciones": "Se verificó en el lugar lo informado por el vecino."
+      },
+      {
+        "minutosAtras": 3584,
+        "idUsuario": 5,
+        "paso": "Finalizado",
+        "estado": 4,
+        "observaciones": "Trabajo concluido. Se notifica al vecino."
+      }
+    ]
+  },
+  {
+    "idWorkflow": 8,
+    "idUsuario": 11,
+    "domicilio": "Av. Costanera 900",
+    "informacionAdicional": "Árbol inclinado sobre la calzada.",
+    "minutosAtras": 2511,
+    "movimientos": []
+  },
+  {
+    "idWorkflow": 10,
+    "idUsuario": 12,
+    "domicilio": "Calle Comercio 145",
+    "informacionAdicional": "Habilitación de almacén de barrio.",
+    "minutosAtras": 54384,
+    "movimientos": [
+      {
+        "minutosAtras": 44227,
+        "idUsuario": 17,
+        "paso": "Revisión de documentación",
+        "estado": 3,
+        "observaciones": "Documentación revisada, se avanza al siguiente paso."
+      },
+      {
+        "minutosAtras": 38107,
+        "idUsuario": 18,
+        "paso": "Inspección bromatológica",
+        "estado": 3,
+        "observaciones": "Se toma intervención y se coordina con el equipo."
+      },
+      {
+        "minutosAtras": 26735,
+        "idUsuario": 14,
+        "paso": "Liquidación de tasas",
+        "estado": 3,
+        "observaciones": "Se toma intervención y se coordina con el equipo."
+      },
+      {
+        "minutosAtras": 16733,
+        "idUsuario": 17,
+        "paso": "Emisión de habilitación",
+        "estado": 3,
+        "observaciones": "Se completa la etapa sin observaciones."
+      },
+      {
+        "minutosAtras": 10588,
+        "idUsuario": 17,
+        "paso": "Finalizado",
+        "estado": 4,
+        "observaciones": "Se resolvió lo solicitado y se cierra el expediente."
+      }
+    ]
+  },
+  {
+    "idWorkflow": 10,
+    "idUsuario": 13,
+    "domicilio": "Av. San Martín 1780",
+    "informacionAdicional": "Renovación de habilitación de panadería.",
+    "minutosAtras": 15427,
+    "movimientos": [
+      {
+        "minutosAtras": 8079,
+        "idUsuario": 17,
+        "paso": "Revisión de documentación",
+        "estado": 3,
+        "observaciones": "Se completa la etapa sin observaciones."
+      },
+      {
+        "minutosAtras": 1571,
+        "idUsuario": 17,
+        "paso": "Revisión de documentación",
+        "estado": 5,
+        "observaciones": "Documentación incompleta. Se notifica al vecino."
+      }
+    ]
+  },
+  {
+    "idWorkflow": 10,
+    "idUsuario": 2,
+    "domicilio": "Calle Belgrano 540",
+    "informacionAdicional": "Habilitación de local de venta de ropa.",
+    "minutosAtras": 8439,
+    "movimientos": [
+      {
+        "minutosAtras": 5930,
+        "idUsuario": 17,
+        "paso": "Revisión de documentación",
+        "estado": 3,
+        "observaciones": "Tarea asignada a la cuadrilla del área."
+      },
+      {
+        "minutosAtras": 2146,
+        "idUsuario": 18,
+        "paso": "Inspección bromatológica",
+        "estado": 3,
+        "observaciones": "Se verificó en el lugar lo informado por el vecino."
+      }
+    ]
+  },
+  {
+    "idWorkflow": 2,
+    "idUsuario": 8,
+    "domicilio": "Lote 14, Manzana C",
+    "informacionAdicional": "La liquidación del inmobiliario tiene un monto duplicado.",
+    "minutosAtras": 50288,
+    "movimientos": [
+      {
+        "minutosAtras": 40881,
+        "idUsuario": 1,
+        "paso": "Recepción y análisis",
+        "estado": 3,
+        "observaciones": "Se completa la etapa sin observaciones."
+      },
+      {
+        "minutosAtras": 30443,
+        "idUsuario": 14,
+        "paso": "Revisión de liquidación",
+        "estado": 3,
+        "observaciones": "Se verificó en el lugar lo informado por el vecino."
+      },
+      {
+        "minutosAtras": 19585,
+        "idUsuario": 1,
+        "paso": "Respuesta al contribuyente",
+        "estado": 3,
+        "observaciones": "Tarea asignada a la cuadrilla del área."
+      },
+      {
+        "minutosAtras": 10645,
+        "idUsuario": 1,
+        "paso": "Finalizado",
+        "estado": 4,
+        "observaciones": "Se resolvió lo solicitado y se cierra el expediente."
+      }
+    ]
+  },
+  {
+    "idWorkflow": 11,
+    "idUsuario": 9,
+    "domicilio": "Barrio Centro, calle 9",
+    "informacionAdicional": "Perros sueltos que atacan a los chicos que van a la escuela.",
+    "minutosAtras": 11318,
+    "movimientos": [
+      {
+        "minutosAtras": 8080,
+        "idUsuario": 18,
+        "paso": "Verificación del caso",
+        "estado": 3,
+        "observaciones": "Se verificó en el lugar lo informado por el vecino."
+      },
+      {
+        "minutosAtras": 2716,
+        "idUsuario": 19,
+        "paso": "Notificación al propietario",
+        "estado": 3,
+        "observaciones": "Se completa la etapa sin observaciones."
+      }
+    ]
+  },
+  {
+    "idWorkflow": 14,
+    "idUsuario": 10,
+    "domicilio": "Calle Urquiza 88",
+    "informacionAdicional": "Solicitud de beca deportiva para atletismo.",
+    "minutosAtras": 64497,
+    "movimientos": [
+      {
+        "minutosAtras": 51338,
+        "idUsuario": 15,
+        "paso": "Evaluación de antecedentes",
+        "estado": 3,
+        "observaciones": "Se completa la etapa sin observaciones."
+      },
+      {
+        "minutosAtras": 42907,
+        "idUsuario": 18,
+        "paso": "Informe socioambiental",
+        "estado": 3,
+        "observaciones": "Tarea asignada a la cuadrilla del área."
+      },
+      {
+        "minutosAtras": 34927,
+        "idUsuario": 14,
+        "paso": "Asignación de fondos",
+        "estado": 3,
+        "observaciones": "Documentación revisada, se avanza al siguiente paso."
+      },
+      {
+        "minutosAtras": 23981,
+        "idUsuario": 15,
+        "paso": "Notificación del resultado",
+        "estado": 3,
+        "observaciones": "Tarea asignada a la cuadrilla del área."
+      },
+      {
+        "minutosAtras": 10305,
+        "idUsuario": 15,
+        "paso": "Finalizado",
+        "estado": 4,
+        "observaciones": "Trabajo concluido. Se notifica al vecino."
+      }
+    ]
+  },
+  {
+    "idWorkflow": 4,
+    "idUsuario": 11,
+    "domicilio": "Centro Cultural Municipal",
+    "informacionAdicional": "Propuesta de taller de robótica para adolescentes.",
+    "minutosAtras": 27271,
+    "movimientos": [
+      {
+        "minutosAtras": 17824,
+        "idUsuario": 15,
+        "paso": "Evaluación de la propuesta",
+        "estado": 3,
+        "observaciones": "Se toma intervención y se coordina con el equipo."
+      },
+      {
+        "minutosAtras": 6967,
+        "idUsuario": 14,
+        "paso": "Asignación de presupuesto",
+        "estado": 3,
+        "observaciones": "Documentación revisada, se avanza al siguiente paso."
+      }
+    ]
+  },
+  {
+    "idWorkflow": 5,
+    "idUsuario": 12,
+    "domicilio": "Calle Independencia 300",
+    "informacionAdicional": "Pedido de tratamiento de ordenanza sobre ruidos molestos.",
+    "minutosAtras": 1171,
+    "movimientos": []
+  }
+]

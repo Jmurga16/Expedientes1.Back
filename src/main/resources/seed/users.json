@@ -96,5 +96,173 @@
     "idArea": null,
     "status": 1,
     "password": "Demo2026$"
+  },
+  {
+    "_id": 8,
+    "name": "Lucía",
+    "lastname": "Ejemplo",
+    "dni": "99000008",
+    "address": "Calle Ficticia 800",
+    "email": "lucia.ejemplo@example.com",
+    "roles": [
+      "ROLE_USER"
+    ],
+    "idArea": null,
+    "status": 1,
+    "password": "Demo2026$"
+  },
+  {
+    "_id": 9,
+    "name": "Martín",
+    "lastname": "Prueba",
+    "dni": "99000009",
+    "address": "Calle Ficticia 900",
+    "email": "martin.prueba@example.com",
+    "roles": [
+      "ROLE_USER"
+    ],
+    "idArea": null,
+    "status": 1,
+    "password": "Demo2026$"
+  },
+  {
+    "_id": 10,
+    "name": "Sofía",
+    "lastname": "Muestra",
+    "dni": "99000010",
+    "address": "Calle Ficticia 1000",
+    "email": "sofia.muestra@example.com",
+    "roles": [
+      "ROLE_USER"
+    ],
+    "idArea": null,
+    "status": 1,
+    "password": "Demo2026$"
+  },
+  {
+    "_id": 11,
+    "name": "Diego",
+    "lastname": "Ficticio",
+    "dni": "99000011",
+    "address": "Calle Ficticia 1100",
+    "email": "diego.ficticio@example.com",
+    "roles": [
+      "ROLE_USER"
+    ],
+    "idArea": null,
+    "status": 1,
+    "password": "Demo2026$"
+  },
+  {
+    "_id": 12,
+    "name": "Valentina",
+    "lastname": "Modelo",
+    "dni": "99000012",
+    "address": "Calle Ficticia 1200",
+    "email": "valentina.modelo@example.com",
+    "roles": [
+      "ROLE_USER"
+    ],
+    "idArea": null,
+    "status": 1,
+    "password": "Demo2026$"
+  },
+  {
+    "_id": 13,
+    "name": "Tomás",
+    "lastname": "Simulado",
+    "dni": "99000013",
+    "address": "Calle Ficticia 1300",
+    "email": "tomas.simulado@example.com",
+    "roles": [
+      "ROLE_USER"
+    ],
+    "idArea": null,
+    "status": 1,
+    "password": "Demo2026$"
+  },
+  {
+    "_id": 14,
+    "name": "Referente",
+    "lastname": "Hacienda",
+    "dni": "99000014",
+    "address": "Calle Ficticia 1400",
+    "email": "referente.hacienda@example.com",
+    "roles": [
+      "ROLE_AREA"
+    ],
+    "idArea": 3,
+    "status": 1,
+    "password": "Demo2026$"
+  },
+  {
+    "_id": 15,
+    "name": "Referente",
+    "lastname": "Cultura y Educacion",
+    "dni": "99000015",
+    "address": "Calle Ficticia 1500",
+    "email": "referente.cultura@example.com",
+    "roles": [
+      "ROLE_AREA"
+    ],
+    "idArea": 6,
+    "status": 1,
+    "password": "Demo2026$"
+  },
+  {
+    "_id": 16,
+    "name": "Referente",
+    "lastname": "Seguridad",
+    "dni": "99000016",
+    "address": "Calle Ficticia 1600",
+    "email": "referente.seguridad@example.com",
+    "roles": [
+      "ROLE_AREA"
+    ],
+    "idArea": 7,
+    "status": 1,
+    "password": "Demo2026$"
+  },
+  {
+    "_id": 17,
+    "name": "Referente",
+    "lastname": "Produccion",
+    "dni": "99000017",
+    "address": "Calle Ficticia 1700",
+    "email": "referente.produccion@example.com",
+    "roles": [
+      "ROLE_AREA"
+    ],
+    "idArea": 8,
+    "status": 1,
+    "password": "Demo2026$"
+  },
+  {
+    "_id": 18,
+    "name": "Referente",
+    "lastname": "Salud y Desarrollo",
+    "dni": "99000018",
+    "address": "Calle Ficticia 1800",
+    "email": "referente.salud@example.com",
+    "roles": [
+      "ROLE_AREA"
+    ],
+    "idArea": 9,
+    "status": 1,
+    "password": "Demo2026$"
+  },
+  {
+    "_id": 19,
+    "name": "Referente",
+    "lastname": "Juzgado de Faltas",
+    "dni": "99000019",
+    "address": "Calle Ficticia 1900",
+    "email": "referente.juzgado@example.com",
+    "roles": [
+      "ROLE_AREA"
+    ],
+    "idArea": 10,
+    "status": 1,
+    "password": "Demo2026$"
   }
 ]
