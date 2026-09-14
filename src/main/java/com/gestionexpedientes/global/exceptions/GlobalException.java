@@ -60,7 +60,8 @@ public class GlobalException {
         logger.error("[{}] error no controlado", errorId, e);
         return ResponseEntity.internalServerError()
                 .body(new MessageDto(HttpStatus.INTERNAL_SERVER_ERROR,
-                        "Ocurrió un error inesperado. Código de referencia: " + errorId));
+                        "No se pudo completar la operación por un error del servidor. Intente nuevamente en unos minutos; "
+                                + "si el problema persiste, informe el código " + errorId + " al administrador."));
     }
 
     @ExceptionHandler(MethodArgumentNotValidException.class)
