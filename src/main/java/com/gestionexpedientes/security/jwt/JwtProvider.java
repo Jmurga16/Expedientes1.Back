@@ -40,7 +40,6 @@ public class JwtProvider {
                 .setExpiration(new Date(new Date().getTime() + expiration * 1000))
                 .claim("email", userPrincipal.getEmail())
                 .claim("roles", getRoles(userPrincipal))
-                .claim("area", "A")
                 .compact();
     }
 
