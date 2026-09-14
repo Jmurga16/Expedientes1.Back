@@ -9,11 +9,7 @@ import java.util.Optional;
 
 @Repository
 public interface IDemandaRepository extends MongoRepository<DemandaEntity, Integer> {
-    boolean existsByCaratula(String caratula);
-    Optional<DemandaEntity> findByCaratula(String caratula);
     List<DemandaEntity> findByEstado(int estado);
-    List<DemandaEntity> findByIdUsuario(int idUsuario);
     Optional<DemandaEntity> findFirstByRutaImagen(String rutaImagen);
     Optional<DemandaEntity> findFirstByUrlBpmn(String urlBpmn);
-    boolean existsByIdTipoDemandaAndIdTipologiaAndIdSubtipologia(Integer idTipoDemanda, Integer Tipologia, Integer Subtipologia);
 }

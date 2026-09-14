@@ -83,10 +83,6 @@ public class FileService {
         return destinationBlobClient.getBlobUrl();
     }
 
-    public String readFile(String containerName, String blobName) throws Exception {
-        return download(blobClient(containerName, blobName));
-    }
-
     /** Contenedor al que pertenece la URL, validando que sea de la cuenta configurada. */
     public String containerOf(String blobUrl) throws AttributeException {
         return parse(blobUrl)[0];
