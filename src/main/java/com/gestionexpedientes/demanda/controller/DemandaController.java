@@ -5,9 +5,9 @@ import com.gestionexpedientes.demanda.dto.DemandaListDto;
 import com.gestionexpedientes.demanda.entity.DemandaEntity;
 import com.gestionexpedientes.demanda.service.DemandaService;
 import com.gestionexpedientes.global.dto.MessageDto;
+import com.gestionexpedientes.global.dto.PageDto;
 import com.gestionexpedientes.global.exceptions.ResourceNotFoundException;
 import com.gestionexpedientes.security.service.CurrentUser;
-import com.gestionexpedientes.security.service.UserPrincipal;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -28,14 +28,15 @@ public class DemandaController {
     }
 
     @GetMapping
-    public ResponseEntity<List<DemandaListDto>> getAll(@RequestParam(required = false) String search) {
-        UserPrincipal user = CurrentUser.get();
+    public ResponseEntity<PageDto<DemandaListDto>> getAll(@RequestParam(required = false) String search,
+                                                          @RequestParam(defaultValue = "1") int pageIndex,
+                                                          @RequestParam(defaultValue = "10") int pageSize) {
+        return ResponseEntity.ok(demandaService.getDatatable(search, pageIndex, pageSize, CurrentUser.get()));
+    }
 
-        List<DemandaListDto> data = user.isAdmin()
-                ? demandaService.getDatatable(search)
-                : demandaService.getDatatableForUser(search, user);
-
-        return ResponseEntity.ok(data);
+    @GetMapping("/resumen")
+    public ResponseEntity<Map<Integer, Long>> getResumen() {
+        return ResponseEntity.ok(demandaService.getResumen(CurrentUser.get()));
     }
 
     @PreAuthorize("hasRole('ADMIN')")
