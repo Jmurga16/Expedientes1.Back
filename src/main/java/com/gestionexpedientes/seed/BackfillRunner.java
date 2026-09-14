@@ -56,7 +56,7 @@ public class BackfillRunner implements CommandLineRunner {
             }
         }
 
-        mongoTemplate.indexOps("demanda").ensureIndex(new Index().on("idsArea", Sort.Direction.ASC));
+        mongoTemplate.indexOps("demanda").createIndex(new Index().on("idsArea", Sort.Direction.ASC));
         logger.info("Backfill finalizado ({} sin resolver).", fallidos);
 
         int salida = fallidos == 0 ? 0 : 1;

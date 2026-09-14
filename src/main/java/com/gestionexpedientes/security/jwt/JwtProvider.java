@@ -12,7 +12,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.stereotype.Component;
 
-import java.security.Key;
+import javax.crypto.SecretKey;
 import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -35,21 +35,21 @@ public class JwtProvider {
         UserPrincipal userPrincipal = (UserPrincipal) authentication.getPrincipal();
         return Jwts.builder()
                 .signWith(getKey(secret))
-                .setSubject(userPrincipal.getUsername())
-                .setIssuedAt(new Date())
-                .setExpiration(new Date(new Date().getTime() + expiration * 1000))
+                .subject(userPrincipal.getUsername())
+                .issuedAt(new Date())
+                .expiration(new Date(new Date().getTime() + expiration * 1000L))
                 .claim("email", userPrincipal.getEmail())
                 .claim("roles", getRoles(userPrincipal))
                 .compact();
     }
 
     public String getUsernameFromToken(String token) {
-        return Jwts.parserBuilder().setSigningKey(getKey(secret)).build().parseClaimsJws(token).getBody().getSubject();
+        return Jwts.parser().verifyWith(getKey(secret)).build().parseSignedClaims(token).getPayload().getSubject();
     }
 
     public boolean validateToken(String token) {
         try {
-            Jwts.parserBuilder().setSigningKey(getKey(secret)).build().parseClaimsJws(token).getBody();
+            Jwts.parser().verifyWith(getKey(secret)).build().parseSignedClaims(token);
             return true;
         } catch (ExpiredJwtException e) {
             logger.error("expired token");
@@ -72,7 +72,7 @@ public class JwtProvider {
                 .stream().map(GrantedAuthority::getAuthority).collect(Collectors.toList());
     }
 
-    private Key getKey(String secret){
+    private SecretKey getKey(String secret){
         byte [] secretBytes = Decoders.BASE64URL.decode(secret);
         return Keys.hmacShaKeyFor(secretBytes);
     }

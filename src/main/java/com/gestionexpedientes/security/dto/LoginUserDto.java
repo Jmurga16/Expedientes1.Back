@@ -1,12 +1,12 @@
 package com.gestionexpedientes.security.dto;
 
-import javax.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotBlank;
 
 public class LoginUserDto {
     @NotBlank(message = "username is mandatory")
     private String username;
 
-    @NotBlank(message = "username is mandatory")
+    @NotBlank(message = "password is mandatory")
     private String password;
 
     public LoginUserDto() {

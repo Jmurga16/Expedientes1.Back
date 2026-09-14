@@ -21,7 +21,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
-import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.test.context.bean.override.mockito.MockitoBean;
 import org.springframework.context.annotation.Import;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -45,17 +45,17 @@ class DemandaControllerTest {
 
     @Autowired private MockMvc mockMvc;
 
-    @MockBean private IDemandaRepository demandaRepository;
-    @MockBean private ITipologiaRepository tipologiaRepository;
-    @MockBean private ISubTipologiaRepository subtipologiaRepository;
-    @MockBean private IUserRepository userRepository;
-    @MockBean private IWorkflowRepository workflowRepository;
-    @MockBean private FileService fileService;
-    @MockBean private HistorialDemandaService historialDemandaService;
-    @MockBean private CounterService counterService;
-    @MockBean private MongoTemplate mongoTemplate;
-    @MockBean private UserDetailsServiceImpl userDetailsService;
-    @MockBean private JwtProvider jwtProvider;
+    @MockitoBean private IDemandaRepository demandaRepository;
+    @MockitoBean private ITipologiaRepository tipologiaRepository;
+    @MockitoBean private ISubTipologiaRepository subtipologiaRepository;
+    @MockitoBean private IUserRepository userRepository;
+    @MockitoBean private IWorkflowRepository workflowRepository;
+    @MockitoBean private FileService fileService;
+    @MockitoBean private HistorialDemandaService historialDemandaService;
+    @MockitoBean private CounterService counterService;
+    @MockitoBean private MongoTemplate mongoTemplate;
+    @MockitoBean private UserDetailsServiceImpl userDetailsService;
+    @MockitoBean private JwtProvider jwtProvider;
 
     @AfterEach
     void limpiarContexto() {

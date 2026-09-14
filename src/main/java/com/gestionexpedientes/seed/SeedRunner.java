@@ -255,22 +255,22 @@ public class SeedRunner implements CommandLineRunner {
         unique("tipologia", "nombre");
         unique("subtipologia", "nombre");
         unique("workflow", "nombre");
-        mongoTemplate.indexOps("workflow").ensureIndex(new Index()
+        mongoTemplate.indexOps("workflow").createIndex(new Index()
                 .on("idTipoDemanda", Sort.Direction.ASC).on("idTipologia", Sort.Direction.ASC)
                 .on("idSubtipologia", Sort.Direction.ASC).unique());
         unique("users", "email");
         unique("users", "dni");
         unique("demanda", "caratula");
-        mongoTemplate.indexOps("demanda").ensureIndex(new Index().on("idUsuario", Sort.Direction.ASC));
-        mongoTemplate.indexOps("demanda").ensureIndex(new Index().on("estado", Sort.Direction.ASC));
-        mongoTemplate.indexOps("demanda").ensureIndex(new Index().on("fechaCreacion", Sort.Direction.DESC));
-        mongoTemplate.indexOps("demanda").ensureIndex(new Index().on("idsArea", Sort.Direction.ASC));
-        mongoTemplate.indexOps("historial_demanda").ensureIndex(new Index().on("idDemanda", Sort.Direction.ASC));
+        mongoTemplate.indexOps("demanda").createIndex(new Index().on("idUsuario", Sort.Direction.ASC));
+        mongoTemplate.indexOps("demanda").createIndex(new Index().on("estado", Sort.Direction.ASC));
+        mongoTemplate.indexOps("demanda").createIndex(new Index().on("fechaCreacion", Sort.Direction.DESC));
+        mongoTemplate.indexOps("demanda").createIndex(new Index().on("idsArea", Sort.Direction.ASC));
+        mongoTemplate.indexOps("historial_demanda").createIndex(new Index().on("idDemanda", Sort.Direction.ASC));
         logger.info("  indices creados");
     }
 
     private void unique(String collection, String field) {
-        mongoTemplate.indexOps(collection).ensureIndex(new Index().on(field, Sort.Direction.ASC).unique());
+        mongoTemplate.indexOps(collection).createIndex(new Index().on(field, Sort.Direction.ASC).unique());
     }
 
     private String texto(String resource) throws Exception {

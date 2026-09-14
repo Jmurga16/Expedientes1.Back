@@ -2,7 +2,7 @@ package com.gestionexpedientes.area.dto;
 
 import com.gestionexpedientes.global.dto.CatalogDto;
 
-import javax.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotBlank;
 
 public class AreaDto implements CatalogDto {
 

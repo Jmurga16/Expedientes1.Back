@@ -14,7 +14,7 @@ import org.mockito.ArgumentCaptor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
-import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.test.context.bean.override.mockito.MockitoBean;
 import org.springframework.context.annotation.Import;
 import org.springframework.http.MediaType;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -43,12 +43,12 @@ class AuthControllerTest {
 
     @Autowired private MockMvc mockMvc;
 
-    @MockBean private IUserRepository userRepository;
-    @MockBean private PasswordEncoder passwordEncoder;
-    @MockBean private JwtProvider jwtProvider;
-    @MockBean private AuthenticationManager authenticationManager;
-    @MockBean private CounterService counterService;
-    @MockBean private UserDetailsServiceImpl userDetailsService;
+    @MockitoBean private IUserRepository userRepository;
+    @MockitoBean private PasswordEncoder passwordEncoder;
+    @MockitoBean private JwtProvider jwtProvider;
+    @MockitoBean private AuthenticationManager authenticationManager;
+    @MockitoBean private CounterService counterService;
+    @MockitoBean private UserDetailsServiceImpl userDetailsService;
 
     @Test
     @DisplayName("El registro publico crea siempre ROLE_USER aunque el body mande roles")

@@ -2,7 +2,7 @@ package com.gestionexpedientes.tipologia.dto;
 
 import com.gestionexpedientes.global.dto.CatalogDto;
 
-import javax.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotBlank;
 
 public class TipologiaDto implements CatalogDto {
 
