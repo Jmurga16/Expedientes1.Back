@@ -1,10 +1,10 @@
 package com.gestionexpedientes.workflow.service;
 
+import com.gestionexpedientes.counter.service.CounterService;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.gestionexpedientes.global.exceptions.AttributeException;
 import com.gestionexpedientes.global.exceptions.ResourceNotFoundException;
-import com.gestionexpedientes.global.utils.Operations;
 import com.gestionexpedientes.security.enums.RoleEnum;
 import com.gestionexpedientes.subtipologia.repository.ISubTipologiaRepository;
 import com.gestionexpedientes.tipodemanda.data.TipoDemandaData;
@@ -24,15 +24,18 @@ public class WorkflowService {
     private final ITipologiaRepository tipologiaRepository;
     private final ISubTipologiaRepository subtipologiaRepository;
     private final ObjectMapper objectMapper;
+    private final CounterService counterService;
 
     public WorkflowService(IWorkflowRepository workflowRepository,
                            ITipologiaRepository tipologiaRepository,
                            ISubTipologiaRepository subtipologiaRepository,
-                           ObjectMapper objectMapper) {
+                           ObjectMapper objectMapper,
+                           CounterService counterService) {
         this.workflowRepository = workflowRepository;
         this.tipologiaRepository = tipologiaRepository;
         this.subtipologiaRepository = subtipologiaRepository;
         this.objectMapper = objectMapper;
+        this.counterService = counterService;
     }
 
     private String extractNombre(String jsonString) {
@@ -74,7 +77,7 @@ public class WorkflowService {
     }
 
     private WorkflowEntity mapWorkflowFromDto(WorkflowDto dto) {
-        int id = Operations.autoIncrement(workflowRepository.findAll());
+        int id = counterService.nextId("workflow");
 
         return new WorkflowEntity(id, dto.getNombre(), dto.getDescripcion(), dto.getIdTipoDemanda(), dto.getIdTipologia(), dto.getIdSubtipologia(), dto.getBpmn(), dto.getEstado());
     }

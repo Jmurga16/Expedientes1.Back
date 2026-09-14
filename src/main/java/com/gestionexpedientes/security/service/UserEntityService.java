@@ -1,7 +1,7 @@
 package com.gestionexpedientes.security.service;
 
+import com.gestionexpedientes.counter.service.CounterService;
 import com.gestionexpedientes.global.exceptions.AttributeException;
-import com.gestionexpedientes.global.utils.Operations;
 import com.gestionexpedientes.security.dto.CreateUserDto;
 import com.gestionexpedientes.security.dto.JwtTokenDto;
 import com.gestionexpedientes.security.dto.LoginUserDto;
@@ -27,15 +27,18 @@ public class UserEntityService {
     private final PasswordEncoder passwordEncoder;
     private final JwtProvider jwtProvider;
     private final AuthenticationManager authenticationManager;
+    private final CounterService counterService;
 
     public UserEntityService(UserEntityRepository userEntityRepository,
                              PasswordEncoder passwordEncoder,
                              JwtProvider jwtProvider,
-                             AuthenticationManager authenticationManager) {
+                             AuthenticationManager authenticationManager,
+                             CounterService counterService) {
         this.userEntityRepository = userEntityRepository;
         this.passwordEncoder = passwordEncoder;
         this.jwtProvider = jwtProvider;
         this.authenticationManager = authenticationManager;
+        this.counterService = counterService;
     }
 
     public UserEntity createUser(CreateUserDto dto) throws AttributeException {
@@ -61,7 +64,7 @@ public class UserEntityService {
 
     // private methods
     private UserEntity mapUserFromDto(CreateUserDto dto) {
-        int id = Operations.autoIncrement(userEntityRepository.findAll());
+        int id = counterService.nextId("users");
         String password = passwordEncoder.encode(dto.getPassword());
         List<RoleEnum> roles =
                 dto.getRoles().stream().map(rol -> RoleEnum.valueOf(rol)).collect(Collectors.toList());

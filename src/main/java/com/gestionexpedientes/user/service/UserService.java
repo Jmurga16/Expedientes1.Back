@@ -1,13 +1,13 @@
 package com.gestionexpedientes.user.service;
 
 
+import com.gestionexpedientes.counter.service.CounterService;
 import com.gestionexpedientes.security.enums.RoleEnum;
 import com.gestionexpedientes.user.dto.UserDto;
 import com.gestionexpedientes.user.entity.UserEntity;
 import com.gestionexpedientes.user.repository.IUserRepository;
 import com.gestionexpedientes.global.exceptions.AttributeException;
 import com.gestionexpedientes.global.exceptions.ResourceNotFoundException;
-import com.gestionexpedientes.global.utils.Operations;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -19,10 +19,12 @@ public class UserService {
 
     private final IUserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
+    private final CounterService counterService;
 
-    public UserService(IUserRepository userRepository, PasswordEncoder passwordEncoder) {
+    public UserService(IUserRepository userRepository, PasswordEncoder passwordEncoder, CounterService counterService) {
         this.userRepository = userRepository;
         this.passwordEncoder = passwordEncoder;
+        this.counterService = counterService;
     }
 
     public List<UserEntity> getAll() {
@@ -97,7 +99,7 @@ public class UserService {
     }
 
     private UserEntity mapUserFromDto(UserDto dto) {
-        int id = Operations.autoIncrement(userRepository.findAll());
+        int id = counterService.nextId("users");
         String password = passwordEncoder.encode(dto.getPassword());
         return new UserEntity(id, dto.getName(), dto.getLastname(), dto.getDni(), dto.getAddress(), dto.getEmail(), dto.getEmail(), password, dto.getRoles(), dto.getIdArea(),dto.getStatus());
     }

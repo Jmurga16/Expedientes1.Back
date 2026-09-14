@@ -1,8 +1,8 @@
 package com.gestionexpedientes.subtipologia.service;
 
+import com.gestionexpedientes.counter.service.CounterService;
 import com.gestionexpedientes.global.exceptions.AttributeException;
 import com.gestionexpedientes.global.exceptions.ResourceNotFoundException;
-import com.gestionexpedientes.global.utils.Operations;
 import com.gestionexpedientes.subtipologia.dto.SubTipologiaDto;
 import com.gestionexpedientes.subtipologia.entity.SubTipologiaEntity;
 import com.gestionexpedientes.subtipologia.repository.ISubTipologiaRepository;
@@ -13,9 +13,11 @@ import java.util.List;
 @Service
 public class SubTipologiaService {
     private final ISubTipologiaRepository subtipologiaRepository;
+    private final CounterService counterService;
 
-    public SubTipologiaService(ISubTipologiaRepository subtipologiaRepository) {
+    public SubTipologiaService(ISubTipologiaRepository subtipologiaRepository, CounterService counterService) {
         this.subtipologiaRepository = subtipologiaRepository;
+        this.counterService = counterService;
     }
 
     public List<SubTipologiaEntity> getAll() {
@@ -73,7 +75,7 @@ public class SubTipologiaService {
     }
 
     private SubTipologiaEntity mapTipologiaFromDto(SubTipologiaDto dto) {
-        int id = Operations.autoIncrement(subtipologiaRepository.findAll());
+        int id = counterService.nextId("subtipologia");
 
         return new SubTipologiaEntity(id, dto.getNombre(), dto.getIdTipologia(), dto.getEstado());
     }

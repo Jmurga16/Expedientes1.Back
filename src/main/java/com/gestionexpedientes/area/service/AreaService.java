@@ -1,11 +1,11 @@
 package com.gestionexpedientes.area.service;
 
+import com.gestionexpedientes.counter.service.CounterService;
 import com.gestionexpedientes.area.dto.AreaDto;
 import com.gestionexpedientes.area.entity.AreaEntity;
 import com.gestionexpedientes.area.repository.IAreaRepository;
 import com.gestionexpedientes.global.exceptions.AttributeException;
 import com.gestionexpedientes.global.exceptions.ResourceNotFoundException;
-import com.gestionexpedientes.global.utils.Operations;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -13,9 +13,11 @@ import java.util.List;
 @Service
 public class AreaService {
     private final IAreaRepository areaRepository;
+    private final CounterService counterService;
 
-    public AreaService(IAreaRepository areaRepository) {
+    public AreaService(IAreaRepository areaRepository, CounterService counterService) {
         this.areaRepository = areaRepository;
+        this.counterService = counterService;
     }
 
     public List<AreaEntity> getAll() {
@@ -67,7 +69,7 @@ public class AreaService {
     }
 
     private AreaEntity mapTipologiaFromDto(AreaDto dto) {
-        int id = Operations.autoIncrement(areaRepository.findAll());
+        int id = counterService.nextId("area");
 
         return new AreaEntity(id, dto.getNombre(), dto.getEstado());
     }
