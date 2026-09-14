@@ -86,30 +86,16 @@ public class DemandaService {
     public PageDto<DemandaListDto> getDatatable(String search, int pageIndex, int pageSize, UserPrincipal user) {
         int page = Math.max(1, pageIndex);
         int size = Math.min(Math.max(1, pageSize), MAX_PAGE_SIZE);
-        Criteria criteria = new Criteria().andOperator(alcance(user), busqueda(search));
 
-        List<DemandaEntity> demandas;
-        long total;
-
-        if (filtraPorFlujo(user)) {
-            List<DemandaEntity> accesibles = accesibles(criteria, user);
-            total = accesibles.size();
-            demandas = accesibles.stream().skip((long) (page - 1) * size).limit(size).collect(Collectors.toList());
-        } else {
-            Query query = Query.query(criteria);
-            total = mongoTemplate.count(query, DemandaEntity.class);
-            demandas = mongoTemplate.find(query.with(ORDEN_BANDEJA).skip((long) (page - 1) * size).limit(size), DemandaEntity.class);
-        }
+        Query query = Query.query(new Criteria().andOperator(alcance(user), busqueda(search)));
+        long total = mongoTemplate.count(query, DemandaEntity.class);
+        List<DemandaEntity> demandas =
+                mongoTemplate.find(query.with(ORDEN_BANDEJA).skip((long) (page - 1) * size).limit(size), DemandaEntity.class);
 
         return new PageDto<>(toListDto(demandas), page, size, total);
     }
 
     public Map<Integer, Long> getResumen(UserPrincipal user) {
-        if (filtraPorFlujo(user)) {
-            return accesibles(alcance(user), user).stream()
-                    .collect(Collectors.groupingBy(DemandaEntity::getEstado, Collectors.counting()));
-        }
-
         Aggregation aggregation = Aggregation.newAggregation(
                 Aggregation.match(alcance(user)),
                 Aggregation.group("estado").count().as("total"));
@@ -118,15 +104,15 @@ public class DemandaService {
                 .collect(Collectors.toMap(doc -> doc.getInteger("_id"), doc -> ((Number) doc.get("total")).longValue()));
     }
 
-    private boolean filtraPorFlujo(UserPrincipal user) {
-        return !user.isAdmin() && user.isAreaStaff();
-    }
-
     private Criteria alcance(UserPrincipal user) {
         Criteria criteria = Criteria.where("estado").ne(ESTADO_ELIMINADA);
-        if (!user.isAdmin() && !user.isAreaStaff())
-            criteria = criteria.and("idUsuario").is(user.getId());
-        return criteria;
+        if (user.isAdmin())
+            return criteria;
+        if (user.isAreaStaff())
+            return criteria.orOperator(
+                    Criteria.where("idsArea").is(user.getIdArea()),
+                    Criteria.where("idUsuario").is(user.getId()));
+        return criteria.and("idUsuario").is(user.getId());
     }
 
     private Criteria busqueda(String search) {
@@ -152,12 +138,6 @@ public class DemandaService {
             opciones.add(Criteria.where("idUsuario").in(idsUsuario));
 
         return new Criteria().orOperator(opciones.toArray(new Criteria[0]));
-    }
-
-    private List<DemandaEntity> accesibles(Criteria criteria, UserPrincipal user) {
-        return mongoTemplate.find(Query.query(criteria).with(ORDEN_BANDEJA), DemandaEntity.class).stream()
-                .filter(demanda -> canAccessQuietly(demanda, user))
-                .collect(Collectors.toList());
     }
 
     private List<DemandaListDto> toListDto(List<DemandaEntity> demandas) {
@@ -257,14 +237,6 @@ public class DemandaService {
         return demandaRepository.save(demanda);
     }
 
-    private boolean canAccessQuietly(DemandaEntity demanda, UserPrincipal user) {
-        try {
-            return demandaAccessService.canAccess(demanda, user);
-        } catch (RuntimeException e) {
-            return false;
-        }
-    }
-
     private DemandaEntity mapTipologiaFromDto(DemandaRequestDto dto, UserPrincipal user) throws Exception {
         String urlBPMN = workflowRepository.findBpmnByIdTipoDemandaAndIdTipologiaAndIdSubtipologia(
                         dto.getIdTipoDemanda(), dto.getIdTipologia(), dto.getIdSubtipologia()
@@ -279,8 +251,9 @@ public class DemandaService {
         String container = "demanda-bpmn";
 
         String bpmnDemanda = fileService.copyFileWithNewName(urlBPMN, container, newNameBpmn);
+        List<Integer> idsArea = BpmnAreas.parse(fileService.readBlobUrl(urlBPMN));
 
-        return new DemandaEntity(id, user.getId(), caratula, dto.getIdTipoDemanda(), dto.getIdTipologia(), dto.getIdSubtipologia(), dto.getDomicilio(), dto.getRutaImagen(), dto.getInformacionAdicional(), PASO_INICIAL, bpmnDemanda, fechaCreacion, ESTADO_RECEPTADA);
+        return new DemandaEntity(id, user.getId(), caratula, dto.getIdTipoDemanda(), dto.getIdTipologia(), dto.getIdSubtipologia(), dto.getDomicilio(), dto.getRutaImagen(), dto.getInformacionAdicional(), PASO_INICIAL, bpmnDemanda, idsArea, fechaCreacion, ESTADO_RECEPTADA);
     }
 
     private String setCaratula(DemandaRequestDto dto) throws AttributeException {

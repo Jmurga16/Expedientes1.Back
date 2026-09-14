@@ -4,6 +4,7 @@ import com.gestionexpedientes.global.entity.EntityId;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.util.Date;
+import java.util.List;
 
 @Document(collection = "demanda")
 public class DemandaEntity extends EntityId {
@@ -18,10 +19,11 @@ public class DemandaEntity extends EntityId {
     private String informacionAdicional;
     private String paso;
     private String urlBpmn;
+    private List<Integer> idsArea;
     private int estado;
 
     public DemandaEntity(int id, int idUsuario, String caratula, int idTipoDemanda, int idTipologia, int idSubtipologia, String domicilio, String rutaImagen,
-                         String informacionAdicional, String paso, String urlBpmn, Date fechaCreacion, int estado) {
+                         String informacionAdicional, String paso, String urlBpmn, List<Integer> idsArea, Date fechaCreacion, int estado) {
         this.id = id;
         this.idUsuario = idUsuario;
         this.caratula = caratula;
@@ -33,6 +35,7 @@ public class DemandaEntity extends EntityId {
         this.informacionAdicional = informacionAdicional;
         this.paso = paso;
         this.urlBpmn = urlBpmn;
+        this.idsArea = idsArea;
         this.fechaCreacion = fechaCreacion;
         this.estado = estado;
     }
@@ -125,6 +128,14 @@ public class DemandaEntity extends EntityId {
 
     public void setUrlBpmn(String urlBpmn) {
         this.urlBpmn = urlBpmn;
+    }
+
+    public List<Integer> getIdsArea() {
+        return idsArea;
+    }
+
+    public void setIdsArea(List<Integer> idsArea) {
+        this.idsArea = idsArea;
     }
 
     public Date getFechaCreacion() {

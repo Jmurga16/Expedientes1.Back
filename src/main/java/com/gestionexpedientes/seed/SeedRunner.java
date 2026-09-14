@@ -7,6 +7,7 @@ import com.azure.storage.common.StorageSharedKeyCredential;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.gestionexpedientes.counter.service.CounterService;
+import com.gestionexpedientes.demanda.service.BpmnAreas;
 import com.gestionexpedientes.tipodemanda.TipoDemanda;
 import org.bson.Document;
 import org.slf4j.Logger;
@@ -26,6 +27,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 
 import java.io.InputStream;
+import java.nio.charset.StandardCharsets;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -190,6 +192,7 @@ public class SeedRunner implements CommandLineRunner {
             demanda.put("informacionAdicional", row.get("informacionAdicional"));
             demanda.put("paso", paso);
             demanda.put("urlBpmn", urlBpmn);
+            demanda.put("idsArea", BpmnAreas.parse(texto("seed/bpmn/" + workflow.get("bpmnBlob"))));
             demanda.put("estado", estado);
             demandas.add(demanda);
         }
@@ -261,12 +264,19 @@ public class SeedRunner implements CommandLineRunner {
         mongoTemplate.indexOps("demanda").ensureIndex(new Index().on("idUsuario", Sort.Direction.ASC));
         mongoTemplate.indexOps("demanda").ensureIndex(new Index().on("estado", Sort.Direction.ASC));
         mongoTemplate.indexOps("demanda").ensureIndex(new Index().on("fechaCreacion", Sort.Direction.DESC));
+        mongoTemplate.indexOps("demanda").ensureIndex(new Index().on("idsArea", Sort.Direction.ASC));
         mongoTemplate.indexOps("historial_demanda").ensureIndex(new Index().on("idDemanda", Sort.Direction.ASC));
         logger.info("  indices creados");
     }
 
     private void unique(String collection, String field) {
         mongoTemplate.indexOps(collection).ensureIndex(new Index().on(field, Sort.Direction.ASC).unique());
+    }
+
+    private String texto(String resource) throws Exception {
+        try (InputStream in = new ClassPathResource(resource).getInputStream()) {
+            return new String(in.readAllBytes(), StandardCharsets.UTF_8);
+        }
     }
 
     private List<Map<String, Object>> load(String name) throws Exception {

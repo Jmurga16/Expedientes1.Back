@@ -6,9 +6,12 @@ public class DemandaRequestDto {
 
     private Integer idUsuario;
     private String caratula;
-    private int idTipoDemanda;
-    private int idTipologia;
-    private int idSubtipologia;
+    @NotNull(message = "Tipo de demanda es obligatorio")
+    private Integer idTipoDemanda;
+    @NotNull(message = "Tipologia es obligatorio")
+    private Integer idTipologia;
+    @NotNull(message = "Subtipologia es obligatorio")
+    private Integer idSubtipologia;
     private String domicilio;
     private String rutaImagen;
     private String informacionAdicional;
@@ -37,27 +40,27 @@ public class DemandaRequestDto {
         this.caratula = caratula;
     }
 
-    public int getIdTipoDemanda() {
+    public Integer getIdTipoDemanda() {
         return idTipoDemanda;
     }
 
-    public void setIdTipoDemanda(int idTipoDemanda) {
+    public void setIdTipoDemanda(Integer idTipoDemanda) {
         this.idTipoDemanda = idTipoDemanda;
     }
 
-    public int getIdTipologia() {
+    public Integer getIdTipologia() {
         return idTipologia;
     }
 
-    public void setIdTipologia(int idTipologia) {
+    public void setIdTipologia(Integer idTipologia) {
         this.idTipologia = idTipologia;
     }
 
-    public int getIdSubtipologia() {
+    public Integer getIdSubtipologia() {
         return idSubtipologia;
     }
 
-    public void setIdSubtipologia(int idSubtipologia) {
+    public void setIdSubtipologia(Integer idSubtipologia) {
         this.idSubtipologia = idSubtipologia;
     }
 
