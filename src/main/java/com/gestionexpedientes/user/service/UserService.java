@@ -12,7 +12,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.stream.Collectors;
+import java.util.Optional;
 
 @Service
 public class UserService {
@@ -67,10 +67,8 @@ public class UserService {
         UserEntity user = userRepository.findById(id)
                 .orElseThrow(()-> new ResourceNotFoundException("Usuario no encontrado."));
 
-        if(userRepository.existsByEmail(dto.getEmail()) && userRepository.findByEmail(dto.getEmail()).get().getId() != id)
-            throw new AttributeException("El correo está en Uso");
-        if(userRepository.existsByDni(dto.getDni()) && userRepository.findByDni(dto.getDni()).get().getId() != id)
-            throw new AttributeException("El DNI está en Uso");
+        verificarLibre(userRepository.findByEmail(dto.getEmail()), id, "El correo está en Uso");
+        verificarLibre(userRepository.findByDni(dto.getDni()), id, "El DNI está en Uso");
 
         user.setName(dto.getName());
         user.setLastname(dto.getLastname());
@@ -96,6 +94,11 @@ public class UserService {
                 .orElseThrow(()-> new ResourceNotFoundException("Usuario no encontrado."));;
         userRepository.delete(user);
         return user;
+    }
+
+    private void verificarLibre(Optional<UserEntity> encontrado, int id, String mensaje) throws AttributeException {
+        if (encontrado.filter(otro -> otro.getId() != id).isPresent())
+            throw new AttributeException(mensaje);
     }
 
     private UserEntity mapUserFromDto(UserDto dto) {
