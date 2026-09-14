@@ -1,9 +1,10 @@
 package com.gestionexpedientes.area.dto;
 
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotNull;
+import com.gestionexpedientes.global.dto.CatalogDto;
 
-public class AreaDto {
+import javax.validation.constraints.NotBlank;
+
+public class AreaDto implements CatalogDto {
 
     @NotBlank(message = "Nombre es Obligatorio")
     private String nombre;

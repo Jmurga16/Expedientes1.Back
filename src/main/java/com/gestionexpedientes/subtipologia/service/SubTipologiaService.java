@@ -1,8 +1,7 @@
 package com.gestionexpedientes.subtipologia.service;
 
 import com.gestionexpedientes.counter.service.CounterService;
-import com.gestionexpedientes.global.exceptions.AttributeException;
-import com.gestionexpedientes.global.exceptions.ResourceNotFoundException;
+import com.gestionexpedientes.global.service.AbstractCatalogService;
 import com.gestionexpedientes.subtipologia.dto.SubTipologiaDto;
 import com.gestionexpedientes.subtipologia.entity.SubTipologiaEntity;
 import com.gestionexpedientes.subtipologia.repository.ISubTipologiaRepository;
@@ -11,72 +10,26 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 
 @Service
-public class SubTipologiaService {
+public class SubTipologiaService extends AbstractCatalogService<SubTipologiaEntity, SubTipologiaDto> {
+
     private final ISubTipologiaRepository subtipologiaRepository;
-    private final CounterService counterService;
 
     public SubTipologiaService(ISubTipologiaRepository subtipologiaRepository, CounterService counterService) {
+        super(subtipologiaRepository, counterService, "subtipologia");
         this.subtipologiaRepository = subtipologiaRepository;
-        this.counterService = counterService;
     }
 
-    public List<SubTipologiaEntity> getAll() {
-        return subtipologiaRepository.findAll();
-    }
-
-    public List<SubTipologiaEntity> getActives()  {
-
-        return subtipologiaRepository.findByEstado(1);
-
-    }
-
-    public List<SubTipologiaEntity> getByIdTipologia(int idTipologia)  {
-
+    public List<SubTipologiaEntity> getByIdTipologia(int idTipologia) {
         return subtipologiaRepository.findByIdTipologia(idTipologia);
     }
 
-    public SubTipologiaEntity getOne(int id) throws ResourceNotFoundException {
-
-        SubTipologiaEntity tipologia = subtipologiaRepository.findById(id)
-                .orElseThrow(()-> new ResourceNotFoundException("Registro no encontrado."));
-
-        return tipologia;
-    }
-
-    public SubTipologiaEntity save(SubTipologiaDto dto) throws AttributeException {
-        if(subtipologiaRepository.existsByNombre(dto.getNombre()))
-            throw new AttributeException("El registro ya existe.");
-
-        SubTipologiaEntity tipologia = mapTipologiaFromDto(dto);
-
-        return subtipologiaRepository.save(tipologia);
-    }
-
-    public SubTipologiaEntity update(int id, SubTipologiaDto dto) throws ResourceNotFoundException, AttributeException {
-        SubTipologiaEntity tipologia = subtipologiaRepository.findById(id)
-                .orElseThrow(()-> new ResourceNotFoundException("Registro no encontrado."));
-
-        if(subtipologiaRepository.existsByNombre(dto.getNombre()) && subtipologiaRepository.findByNombre(dto.getNombre()).get().getId() != id)
-            throw new AttributeException("El registro ya existe");
-
-        tipologia.setNombre(dto.getNombre());
-        tipologia.setIdTipologia(dto.getIdTipologia());
-        tipologia.setEstado(dto.getEstado());
-
-        return subtipologiaRepository.save(tipologia);
-    }
-
-    public SubTipologiaEntity delete(int id) throws ResourceNotFoundException {
-        SubTipologiaEntity tipologia = subtipologiaRepository.findById(id)
-                .orElseThrow(()-> new ResourceNotFoundException("Registro no encontrado."));;
-
-        tipologia.setEstado(0);
-        return subtipologiaRepository.save(tipologia);
-    }
-
-    private SubTipologiaEntity mapTipologiaFromDto(SubTipologiaDto dto) {
-        int id = counterService.nextId("subtipologia");
-
+    @Override
+    protected SubTipologiaEntity nuevo(int id, SubTipologiaDto dto) {
         return new SubTipologiaEntity(id, dto.getNombre(), dto.getIdTipologia(), dto.getEstado());
+    }
+
+    @Override
+    protected void actualizar(SubTipologiaEntity entity, SubTipologiaDto dto) {
+        entity.setIdTipologia(dto.getIdTipologia());
     }
 }

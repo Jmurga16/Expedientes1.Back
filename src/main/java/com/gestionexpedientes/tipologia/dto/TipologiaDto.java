@@ -1,8 +1,10 @@
 package com.gestionexpedientes.tipologia.dto;
 
+import com.gestionexpedientes.global.dto.CatalogDto;
+
 import javax.validation.constraints.NotBlank;
 
-public class TipologiaDto {
+public class TipologiaDto implements CatalogDto {
 
     @NotBlank(message = "Nombre es Obligatorio")
     private String nombre;

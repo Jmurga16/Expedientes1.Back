@@ -1,17 +1,19 @@
 package com.gestionexpedientes.subtipologia.dto;
 
+import com.gestionexpedientes.global.dto.CatalogDto;
+
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 
-public class SubTipologiaDto {
+public class SubTipologiaDto implements CatalogDto {
 
     @NotBlank(message = "Nombre es Obligatorio")
     private String nombre;
     @NotNull(message = "Tipologia es Obligatorio")
-    private int idTipologia;
+    private Integer idTipologia;
     private int estado;
 
-    public SubTipologiaDto(String nombre, int idTipologia, int estado) {
+    public SubTipologiaDto(String nombre, Integer idTipologia, int estado) {
         this.nombre = nombre;
         this.idTipologia = idTipologia;
         this.estado = estado;
@@ -26,11 +28,11 @@ public class SubTipologiaDto {
         this.nombre = nombre;
     }
 
-    public int getIdTipologia() {
+    public Integer getIdTipologia() {
         return idTipologia;
     }
 
-    public void setIdTipologia(int idTipologia) {
+    public void setIdTipologia(Integer idTipologia) {
         this.idTipologia = idTipologia;
     }
 

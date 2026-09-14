@@ -1,10 +1,10 @@
 package com.gestionexpedientes.workflow.service;
 
-import com.gestionexpedientes.counter.service.CounterService;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.gestionexpedientes.counter.service.CounterService;
 import com.gestionexpedientes.global.exceptions.AttributeException;
-import com.gestionexpedientes.global.exceptions.ResourceNotFoundException;
+import com.gestionexpedientes.global.service.AbstractCatalogService;
 import com.gestionexpedientes.subtipologia.repository.ISubTipologiaRepository;
 import com.gestionexpedientes.tipodemanda.TipoDemanda;
 import com.gestionexpedientes.tipologia.repository.ITipologiaRepository;
@@ -18,37 +18,55 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @Service
-public class WorkflowService {
+public class WorkflowService extends AbstractCatalogService<WorkflowEntity, WorkflowDto> {
+
     private final IWorkflowRepository workflowRepository;
     private final ITipologiaRepository tipologiaRepository;
     private final ISubTipologiaRepository subtipologiaRepository;
     private final ObjectMapper objectMapper;
-    private final CounterService counterService;
 
     public WorkflowService(IWorkflowRepository workflowRepository,
                            ITipologiaRepository tipologiaRepository,
                            ISubTipologiaRepository subtipologiaRepository,
                            ObjectMapper objectMapper,
                            CounterService counterService) {
+        super(workflowRepository, counterService, "workflow");
         this.workflowRepository = workflowRepository;
         this.tipologiaRepository = tipologiaRepository;
         this.subtipologiaRepository = subtipologiaRepository;
         this.objectMapper = objectMapper;
-        this.counterService = counterService;
-    }
-
-    private String extractNombre(String jsonString) {
-        try {
-            JsonNode node = objectMapper.readTree(jsonString);
-            return node.get("nombre").asText();
-        } catch (Exception e) {
-            return null;
-        }
     }
 
     public List<WorkflowListDto> getAllWithNames() {
-        List<WorkflowEntity> workflows = workflowRepository.findAll();
-        return workflows.stream().map(this::mapToResponseDto).collect(Collectors.toList());
+        return workflowRepository.findAll().stream().map(this::mapToResponseDto).collect(Collectors.toList());
+    }
+
+    public boolean exists(int idTipoDemanda, int idTipologia, int idSubtipologia) {
+        return workflowRepository.existsByIdTipoDemandaAndIdTipologiaAndIdSubtipologia(
+                idTipoDemanda, idTipologia, idSubtipologia);
+    }
+
+    @Override
+    public WorkflowEntity save(WorkflowDto dto) throws AttributeException {
+        if (exists(dto.getIdTipoDemanda(), dto.getIdTipologia(), dto.getIdSubtipologia()))
+            throw new AttributeException("Ya existe un flujo con la misma combinación de Tipo de Demanda, Tipologia y Subtipologia.");
+
+        return super.save(dto);
+    }
+
+    @Override
+    protected WorkflowEntity nuevo(int id, WorkflowDto dto) {
+        return new WorkflowEntity(id, dto.getNombre(), dto.getDescripcion(), dto.getIdTipoDemanda(),
+                dto.getIdTipologia(), dto.getIdSubtipologia(), dto.getBpmn(), dto.getEstado());
+    }
+
+    @Override
+    protected void actualizar(WorkflowEntity entity, WorkflowDto dto) {
+        entity.setDescripcion(dto.getDescripcion());
+        entity.setIdTipoDemanda(dto.getIdTipoDemanda());
+        entity.setIdTipologia(dto.getIdTipologia());
+        entity.setIdSubtipologia(dto.getIdSubtipologia());
+        entity.setBpmn(dto.getBpmn());
     }
 
     private WorkflowListDto mapToResponseDto(WorkflowEntity workflow) {
@@ -69,74 +87,12 @@ public class WorkflowService {
         return dto;
     }
 
-    private WorkflowEntity mapWorkflowFromDto(WorkflowDto dto) {
-        int id = counterService.nextId("workflow");
-
-        return new WorkflowEntity(id, dto.getNombre(), dto.getDescripcion(), dto.getIdTipoDemanda(), dto.getIdTipologia(), dto.getIdSubtipologia(), dto.getBpmn(), dto.getEstado());
-    }
-
-    public List<WorkflowEntity> getAll() {
-        return workflowRepository.findAll();
-    }
-
-    public WorkflowEntity getOne(int id) throws ResourceNotFoundException {
-
-        WorkflowEntity workflow = workflowRepository.findById(id)
-                .orElseThrow(() -> new ResourceNotFoundException("Registro no encontrado."));
-
-        return workflow;
-    }
-
-    public List<WorkflowEntity> getActives() {
-
-        List<WorkflowEntity> actives = workflowRepository.findByEstado(1);
-
-        return actives;
-    }
-
-    public boolean exists(int idTipoDemanda, int idTipologia, int idSubtipologia) {
-        return workflowRepository.existsByIdTipoDemandaAndIdTipologiaAndIdSubtipologia(
-                idTipoDemanda, idTipologia, idSubtipologia);
-    }
-
-    public WorkflowEntity save(WorkflowDto dto) throws AttributeException {
-        if (workflowRepository.existsByNombre(dto.getNombre()))
-            throw new AttributeException("El registro ya existe.");
-
-        if (workflowRepository.existsByIdTipoDemandaAndIdTipologiaAndIdSubtipologia(dto.getIdTipoDemanda(), dto.getIdTipologia(), dto.getIdSubtipologia())) {
-            throw new AttributeException("Ya existe un flujo con la misma combinación de Tipo de Demanda, Tipologia y Subtipologia.");
+    private String extractNombre(String jsonString) {
+        try {
+            JsonNode node = objectMapper.readTree(jsonString);
+            return node.get("nombre").asText();
+        } catch (Exception e) {
+            return null;
         }
-
-        WorkflowEntity workflow = mapWorkflowFromDto(dto);
-
-        return workflowRepository.save(workflow);
     }
-
-    public WorkflowEntity update(int id, WorkflowDto dto) throws ResourceNotFoundException, AttributeException {
-        WorkflowEntity workflow = workflowRepository.findById(id)
-                .orElseThrow(() -> new ResourceNotFoundException("Registro no encontrado."));
-
-        if (workflowRepository.existsByNombre(dto.getNombre()) && workflowRepository.findByNombre(dto.getNombre()).get().getId() != id)
-            throw new AttributeException("El registro ya existe");
-
-        workflow.setNombre(dto.getNombre());
-        workflow.setDescripcion(dto.getDescripcion());
-        workflow.setIdTipoDemanda(dto.getIdTipoDemanda());
-        workflow.setIdTipologia(dto.getIdTipologia());
-        workflow.setIdSubtipologia(dto.getIdSubtipologia());
-        workflow.setBpmn(dto.getBpmn());
-        workflow.setEstado(dto.getEstado());
-
-        return workflowRepository.save(workflow);
-    }
-
-    public WorkflowEntity delete(int id) throws ResourceNotFoundException {
-        WorkflowEntity workflow = workflowRepository.findById(id)
-                .orElseThrow(() -> new ResourceNotFoundException("Registro no encontrado."));
-
-        workflow.setEstado(0);
-        return workflowRepository.save(workflow);
-    }
-
-
 }
