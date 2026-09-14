@@ -30,7 +30,7 @@ import java.util.UUID;
 @Service
 public class FileService {
 
-    private static final long MAX_FILE_SIZE = 5 * 1024 * 1024;
+    private static final long MAX_FILE_SIZE = 2 * 1024 * 1024;
     private static final Duration COPY_TIMEOUT = Duration.ofSeconds(30);
     private static final Duration SAS_TTL = Duration.ofMinutes(10);
     private static final Set<String> READABLE_CONTAINERS = Set.of("demanda-imagen", "demanda-bpmn", "workflow-bpmn");
@@ -46,7 +46,7 @@ public class FileService {
         if (file.isEmpty())
             throw new AttributeException("El archivo esta vacio.");
         if (file.getSize() > MAX_FILE_SIZE)
-            throw new AttributeException("El archivo supera el tamano maximo de 5 MB.");
+            throw new AttributeException("El archivo supera el tamaño máximo de 2 MB.");
 
         String extension = StringUtils.getFilenameExtension(StringUtils.cleanPath(String.valueOf(file.getOriginalFilename())));
         extension = extension == null ? "" : extension.toLowerCase(Locale.ROOT);

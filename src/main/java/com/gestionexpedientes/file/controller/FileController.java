@@ -5,6 +5,7 @@ import com.gestionexpedientes.demanda.repository.IDemandaRepository;
 import com.gestionexpedientes.demanda.service.DemandaAccessService;
 import com.gestionexpedientes.file.FileContainer;
 import com.gestionexpedientes.file.service.FileService;
+import com.gestionexpedientes.file.service.UploadRateLimiter;
 import com.gestionexpedientes.global.exceptions.AttributeException;
 import com.gestionexpedientes.security.service.CurrentUser;
 import com.gestionexpedientes.security.service.UserPrincipal;
@@ -24,13 +25,16 @@ public class FileController {
     private final FileService fileService;
     private final IDemandaRepository demandaRepository;
     private final DemandaAccessService demandaAccessService;
+    private final UploadRateLimiter uploadRateLimiter;
 
     public FileController(FileService fileService,
                           IDemandaRepository demandaRepository,
-                          DemandaAccessService demandaAccessService) {
+                          DemandaAccessService demandaAccessService,
+                          UploadRateLimiter uploadRateLimiter) {
         this.fileService = fileService;
         this.demandaRepository = demandaRepository;
         this.demandaAccessService = demandaAccessService;
+        this.uploadRateLimiter = uploadRateLimiter;
     }
 
     @PostMapping("{container}")
@@ -39,8 +43,11 @@ public class FileController {
         FileContainer container = FileContainer.fromName(containerName)
                 .orElseThrow(() -> new AttributeException("Contenedor no permitido."));
 
-        if (container.isAdminOnly() && !CurrentUser.get().isAdmin())
+        UserPrincipal user = CurrentUser.get();
+        if (container.isAdminOnly() && !user.isAdmin())
             throw new AccessDeniedException("Solo un administrador puede subir a " + containerName);
+
+        uploadRateLimiter.register(user.getId());
 
         String fileUrl = fileService.uploadFile(container, file);
         return ResponseEntity.ok(Map.of("fileUrl", fileUrl, "viewUrl", fileService.sasUrl(fileUrl)));

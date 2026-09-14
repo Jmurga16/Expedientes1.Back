@@ -4,6 +4,7 @@ import com.gestionexpedientes.global.dto.MessageDto;
 import com.gestionexpedientes.global.utils.Operations;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.AccessDeniedException;
@@ -11,6 +12,7 @@ import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
+import org.springframework.web.multipart.MaxUploadSizeExceededException;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -37,6 +39,19 @@ public class GlobalException {
     public ResponseEntity<MessageDto> workflowNotConfiguredException(WorkflowNotConfiguredException e) {
         return ResponseEntity.badRequest()
                 .body(new MessageDto(HttpStatus.BAD_REQUEST, e.getMessage(), WorkflowNotConfiguredException.CODE));
+    }
+
+    @ExceptionHandler(TooManyRequestsException.class)
+    public ResponseEntity<MessageDto> tooManyRequestsException(TooManyRequestsException e) {
+        return ResponseEntity.status(HttpStatus.TOO_MANY_REQUESTS)
+                .header(HttpHeaders.RETRY_AFTER, String.valueOf(e.getRetryAfterSeconds()))
+                .body(new MessageDto(HttpStatus.TOO_MANY_REQUESTS, e.getMessage()));
+    }
+
+    @ExceptionHandler(MaxUploadSizeExceededException.class)
+    public ResponseEntity<MessageDto> maxUploadSizeExceededException(MaxUploadSizeExceededException e) {
+        return ResponseEntity.status(HttpStatus.PAYLOAD_TOO_LARGE)
+                .body(new MessageDto(HttpStatus.PAYLOAD_TOO_LARGE, "El archivo supera el tamaño máximo de 2 MB."));
     }
 
     @ExceptionHandler(Exception.class)
