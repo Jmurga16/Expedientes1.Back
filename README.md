@@ -126,7 +126,7 @@ Los dos rate limits viven en memoria: alcanzan para una instancia y se pierden a
 
 ### Datos de prueba
 
-Catálogo, cuatro workflows con sus BPMN, usuarios de cada rol y expedientes con historial:
+Catálogo completo, aproximadamente una decena de workflows con sus BPMN, usuarios de los cuatro roles y varias decenas de expedientes con historial:
 
 ```bash
 ./mvnw spring-boot:run -Dspring-boot.run.profiles=seed
