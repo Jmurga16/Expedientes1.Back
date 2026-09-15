@@ -1,0 +1,66 @@
+{
+  "properties": [
+    {
+      "name": "jwt.secret",
+      "type": "java.lang.String",
+      "description": "Secreto HS256 en Base64URL, de 32 bytes o mas."
+    },
+    {
+      "name": "jwt.expiration",
+      "type": "java.lang.Integer",
+      "description": "Vigencia del token en segundos.",
+      "defaultValue": 36000
+    },
+    {
+      "name": "cors.allowed-origins",
+      "type": "java.util.List<java.lang.String>",
+      "description": "Origenes del front habilitados, separados por coma."
+    },
+    {
+      "name": "security.login.max-attempts",
+      "type": "java.lang.Integer",
+      "description": "Fallos de login por IP antes de bloquear.",
+      "defaultValue": 5
+    },
+    {
+      "name": "security.login.window-seconds",
+      "type": "java.lang.Long",
+      "description": "Ventana en segundos en la que se cuentan los fallos de login.",
+      "defaultValue": 300
+    },
+    {
+      "name": "security.login.block-seconds",
+      "type": "java.lang.Long",
+      "description": "Duracion en segundos del bloqueo por IP, que responde 429.",
+      "defaultValue": 900
+    },
+    {
+      "name": "security.upload.max-per-window",
+      "type": "java.lang.Integer",
+      "description": "Subidas de archivo permitidas por usuario en cada ventana.",
+      "defaultValue": 10
+    },
+    {
+      "name": "security.upload.window-seconds",
+      "type": "java.lang.Long",
+      "description": "Ventana en segundos en la que se cuentan las subidas.",
+      "defaultValue": 600
+    },
+    {
+      "name": "azure.storage.account-name",
+      "type": "java.lang.String",
+      "description": "Cuenta de Azure Blob Storage."
+    },
+    {
+      "name": "azure.storage.account-key",
+      "type": "java.lang.String",
+      "description": "Access key de la cuenta de Azure Blob Storage."
+    },
+    {
+      "name": "seed.reset",
+      "type": "java.lang.Boolean",
+      "description": "Con el perfil seed, recarga las colecciones que ya tienen datos en vez de omitirlas.",
+      "defaultValue": false
+    }
+  ]
+}
