@@ -46,6 +46,7 @@ import java.util.stream.Collectors;
  * - Usuarios demo con contrasenas definidas en seed/users.json (datos ficticios).
  * - Los BPMN de los workflows se suben a workflow-bpmn y la copia de cada expediente a demanda-bpmn.
  * - Las fechas de los expedientes son relativas al momento del seed, asi la demo siempre parece reciente.
+ * - No borra blobs: despues de un reset hay que limpiar a mano los huerfanos de Blob Storage.
  */
 @Component
 @Profile("seed")
@@ -92,6 +93,11 @@ public class SeedRunner implements CommandLineRunner {
 
         createIndexes();
         logger.info("Seed finalizado.");
+        if (reset) {
+            logger.warn("SEED_RESET aplicado: los blobs anteriores a este seed quedaron huerfanos en Azure Blob Storage.");
+            logger.warn("Limpieza: correr _auditoria/limpiar-blobs.ps1 (lista) y despues con -Borrar.");
+            logger.warn("Si el script no existe: borrar en workflow-bpmn, demanda-bpmn y demanda-imagen todo blob con fecha anterior a workflow-01.bpmn.");
+        }
         System.exit(SpringApplication.exit(context, () -> 0));
     }
 
