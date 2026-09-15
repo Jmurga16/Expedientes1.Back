@@ -31,6 +31,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyString;
+import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
@@ -100,6 +101,38 @@ class DemandaServiceTest {
                 .hasMessage("El tipo de demanda no existe.");
     }
 
+    @Test
+    @DisplayName("Un expediente finalizado no cambia de paso ni de estado")
+    void expedienteFinalizadoNoAvanza() {
+        when(demandaRepository.findById(9)).thenReturn(Optional.of(finalizada()));
+
+        DemandaRequestDto dto = demanda(1, 7, 20);
+        dto.setPaso("Inspeccion");
+        dto.setEstado(3);
+
+        assertThatThrownBy(() -> demandaService.update(9, dto, admin()))
+                .hasMessage("El expediente está finalizado, ya no admite cambios de paso ni de estado.");
+        verify(demandaRepository, never()).save(any(DemandaEntity.class));
+    }
+
+    @Test
+    @DisplayName("Un expediente finalizado sigue admitiendo cambios de datos")
+    void expedienteFinalizadoAdmiteDatos() throws Exception {
+        when(demandaRepository.findById(9)).thenReturn(Optional.of(finalizada()));
+        when(demandaRepository.save(any(DemandaEntity.class))).thenAnswer(invocation -> invocation.getArgument(0));
+
+        DemandaRequestDto dto = demanda(1, 7, 20);
+        dto.setPaso("Finalizado");
+        dto.setEstado(7);
+        dto.setDomicilio("Calle Nueva 456");
+
+        DemandaEntity actualizada = demandaService.update(9, dto, admin());
+
+        assertThat(actualizada.getDomicilio()).isEqualTo("Calle Nueva 456");
+        assertThat(actualizada.getPaso()).isEqualTo("Finalizado");
+        assertThat(actualizada.getEstado()).isEqualTo(7);
+    }
+
     private DemandaEntity guardar(DemandaRequestDto dto, long secuencia) throws Exception {
         when(workflowRepository.findBpmnByIdTipoDemandaAndIdTipologiaAndIdSubtipologia(
                 dto.getIdTipoDemanda(), dto.getIdTipologia(), dto.getIdSubtipologia()))
@@ -130,5 +163,16 @@ class DemandaServiceTest {
     private static UserPrincipal usuario() {
         return new UserPrincipal(3, null, "vecino@demo.test", "vecino@demo.test", "x",
                 List.of(new SimpleGrantedAuthority("ROLE_USER")));
+    }
+
+    private static DemandaEntity finalizada() {
+        return new DemandaEntity(9, 3, "007-PT-2026-00042", 1, 7, 20, "Calle Falsa 123", null,
+                "Sin novedades", "Finalizado", "https://cuenta.blob.core.windows.net/demanda-bpmn/demanda9.bpmn",
+                List.of(4, 5), new Date(), 7);
+    }
+
+    private static UserPrincipal admin() {
+        return new UserPrincipal(1, null, "admin@demo.test", "admin@demo.test", "x",
+                List.of(new SimpleGrantedAuthority("ROLE_ADMIN")));
     }
 }

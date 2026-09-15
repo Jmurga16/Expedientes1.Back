@@ -4,6 +4,7 @@ import com.gestionexpedientes.counter.service.CounterService;
 import com.gestionexpedientes.demanda.entity.DemandaEntity;
 import com.gestionexpedientes.demanda.repository.IDemandaRepository;
 import com.gestionexpedientes.demanda.service.DemandaAccessService;
+import com.gestionexpedientes.demanda.service.DemandaExcelService;
 import com.gestionexpedientes.demanda.service.DemandaService;
 import com.gestionexpedientes.file.service.FileService;
 import com.gestionexpedientes.global.exceptions.GlobalException;
@@ -40,7 +41,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 @WebMvcTest(controllers = DemandaController.class)
 @AutoConfigureMockMvc(addFilters = false)
-@Import({DemandaService.class, DemandaAccessService.class, GlobalException.class})
+@Import({DemandaService.class, DemandaAccessService.class, DemandaExcelService.class, GlobalException.class})
 class DemandaControllerTest {
 
     @Autowired private MockMvc mockMvc;

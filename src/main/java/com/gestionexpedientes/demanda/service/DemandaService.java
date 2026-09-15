@@ -35,6 +35,7 @@ import java.util.HashMap;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 import java.util.function.Function;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
@@ -43,12 +44,17 @@ import java.util.stream.Collectors;
 public class DemandaService {
 
     private static final String PASO_INICIAL = "Inicio";
+    private static final String PASO_FINAL = "Finalizado";
     private static final int ESTADO_ELIMINADA = 0;
     private static final int ESTADO_RECEPTADA = 1;
+    private static final int ESTADO_FINALIZADO = 7;
     private static final int MAX_PAGE_SIZE = 100;
+    private static final int MAX_EXPORT_SIZE = 5000;
     private static final Sort ORDEN_BANDEJA = Sort.by(Sort.Direction.DESC, "fechaCreacion").and(Sort.by(Sort.Direction.DESC, "_id"));
     private static final String WORKFLOW_NO_CONFIGURADO =
             "No hay un flujo de trabajo definido para esa combinación de Tipo de Demanda, Tipología y Subtipología.";
+    private static final String DEMANDA_FINALIZADA =
+            "El expediente está finalizado, ya no admite cambios de paso ni de estado.";
 
     private final IDemandaRepository demandaRepository;
     private final ITipologiaRepository tipologiaRepository;
@@ -93,6 +99,11 @@ public class DemandaService {
                 mongoTemplate.find(query.with(ORDEN_BANDEJA).skip((long) (page - 1) * size).limit(size), DemandaEntity.class);
 
         return new PageDto<>(toListDto(demandas), page, size, total);
+    }
+
+    public List<DemandaListDto> getExport(String search, UserPrincipal user) {
+        Query query = Query.query(new Criteria().andOperator(alcance(user), busqueda(search)));
+        return toListDto(mongoTemplate.find(query.with(ORDEN_BANDEJA).limit(MAX_EXPORT_SIZE), DemandaEntity.class));
     }
 
     public Map<Integer, Long> getResumen(UserPrincipal user) {
@@ -210,7 +221,7 @@ public class DemandaService {
         return demanda;
     }
 
-    public DemandaEntity update(int id, DemandaRequestDto dto, UserPrincipal user) throws ResourceNotFoundException {
+    public DemandaEntity update(int id, DemandaRequestDto dto, UserPrincipal user) throws ResourceNotFoundException, AttributeException {
         DemandaEntity demanda = getOne(id, user);
 
         demanda.setIdTipoDemanda(dto.getIdTipoDemanda());
@@ -220,14 +231,27 @@ public class DemandaService {
         demanda.setRutaImagen(dto.getRutaImagen());
         demanda.setInformacionAdicional(dto.getInformacionAdicional());
 
-        if (demandaAccessService.canAdvance(demanda, user)) {
-            demanda.setPaso(dto.getPaso());
-            demanda.setEstado(dto.getEstado());
-        }
+        if (demandaAccessService.canAdvance(demanda, user))
+            avanzar(demanda, dto);
 
         DemandaEntity saved = demandaRepository.save(demanda);
         historialDemandaService.registrar(saved, user.getId(), dto.getObservaciones());
         return saved;
+    }
+
+    private void avanzar(DemandaEntity demanda, DemandaRequestDto dto) throws AttributeException {
+        if (Objects.equals(demanda.getPaso(), dto.getPaso()) && demanda.getEstado() == dto.getEstado())
+            return;
+
+        if (estaFinalizada(demanda))
+            throw new AttributeException(DEMANDA_FINALIZADA);
+
+        demanda.setPaso(dto.getPaso());
+        demanda.setEstado(dto.getEstado());
+    }
+
+    private static boolean estaFinalizada(DemandaEntity demanda) {
+        return PASO_FINAL.equals(demanda.getPaso()) && demanda.getEstado() == ESTADO_FINALIZADO;
     }
 
     public DemandaEntity delete(int id, UserPrincipal user) throws ResourceNotFoundException {
